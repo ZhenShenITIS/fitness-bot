@@ -21,7 +21,7 @@ public class TelegramConfig {
     String adminsId;
 
     public Long[] getAdmins() {
-        Long[] admins = new Long[adminsId.split(" ").length];
+        Long[] admins = new Long[adminsId.split(",").length];
         for (int i = 0; i < admins.length; i++) {
             admins[i] = Long.parseLong(adminsId.split(",")[i]);
         }
