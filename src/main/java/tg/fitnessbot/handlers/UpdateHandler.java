@@ -10,8 +10,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
+import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
+
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -23,6 +26,9 @@ public class UpdateHandler extends SpringWebhookBot {
     String botToken;
     @Autowired
     SignUpService signUpService;
+
+    @Autowired
+    TelegramConfig telegramConfig;
 
     public UpdateHandler(SetWebhook setWebhook) {
         super(setWebhook);
@@ -67,6 +73,23 @@ public class UpdateHandler extends SpringWebhookBot {
                         }
                     }
 
+                } else if (update.getMessage().getText().equals("/add_food")) {
+                    if (telegramConfig.getAdmins().length > 0 && Arrays.stream(telegramConfig.getAdmins()).filter(l -> l == update.getMessage().getChat().getId()).toArray().length > 0) {
+                        //добавляем еду
+                        SendMessage message = SendMessage
+                                .builder()
+                                .chatId(update.getMessage().getChatId())
+                                .text("Данный функционал пока не реализован")
+                                .build();
+                        return message;
+                    } else {
+                        SendMessage message = SendMessage
+                                .builder()
+                                .chatId(update.getMessage().getChatId())
+                                .text("Вы не являетесь админом!")
+                                .build();
+                        return message;
+                    }
                 }
             }
         }
