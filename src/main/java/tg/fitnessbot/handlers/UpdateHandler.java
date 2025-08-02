@@ -74,7 +74,7 @@ public class UpdateHandler extends SpringWebhookBot {
                     }
 
                 } else if (update.getMessage().getText().equals("/add_food")) {
-                    if (telegramConfig.getAdmins().length > 0 && Arrays.stream(telegramConfig.getAdmins()).filter(l -> l == update.getMessage().getChat().getId()).toArray().length > 0) {
+                    if (telegramConfig.getAdmins().length > 0 && Arrays.stream(telegramConfig.getAdmins()).filter(l -> l.equals(update.getMessage().getChat().getId())).toArray().length > 0) {
                         //добавляем еду
                         SendMessage message = SendMessage
                                 .builder()
