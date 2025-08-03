@@ -50,14 +50,11 @@ public class AddFoodCommand implements Command{
                                 .carbohydrates(Double.parseDouble(food[4]))
                                 .build();
                     } catch (NumberFormatException e) {
-                        return SendMessage
-                                .builder()
-                                .chatId(message.getChatId())
-                                .text("Ошибка преобразования еды в объект в строке №" + i + "!\n")
-                                .build();
+                        textToSend = textToSend + "Ошибка преобразования еды в объект, для добавления в базу данных в строке №" + (i + 1) + "!\n";
+                        continue;
                     }
                     if (foodService.addFood(foodForm)) {
-                        textToSend = textToSend + "Успешно добавлена в базу данных еда в строке №" + i + "\n";
+                        textToSend = textToSend + "Успешно добавлена в базу данных еда в строке №" + (i + 1) + "\n";
                     } else {
                         textToSend = textToSend + "Еда с именем " + lines[i].split(" ")[0] + " уже существует в базе данных\n";
                     }
