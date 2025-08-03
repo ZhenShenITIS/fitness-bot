@@ -63,7 +63,9 @@ public class FoodServiceImpl implements FoodService {
                 protein += (foodForm.getProtein() / 100) * foods.get(key);
                 fat += (foodForm.getFat() / 100) * foods.get(key);
                 carbohydrates += (foodForm.getCarbohydrates() / 100) * foods.get(key);
-            } throw new NullPointerException();
+            } else {
+                throw new NullPointerException();
+            }
         }
         return FoodForm
                 .builder()
