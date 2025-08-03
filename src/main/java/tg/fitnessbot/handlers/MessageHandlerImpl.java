@@ -25,7 +25,7 @@ public class MessageHandlerImpl implements MessageHandler {
         if (message.hasText()) {
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].toLowerCase();
-                commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
+                return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
             } else {
                 // TODO Реализовать логику работы сообщения, не содержащего команды
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
