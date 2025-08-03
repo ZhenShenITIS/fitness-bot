@@ -14,10 +14,7 @@ import tg.fitnessbot.handlers.UpdateHandler;
 @AllArgsConstructor
 public class SpringConfig {
     private final TelegramConfig telegramConfig;
-    @Autowired
-    StartCommand startCommand;
-    @Autowired
-    AddFoodCommand addFoodCommand;
+
     @Bean
     public SetWebhook setWebhookInstance() {
         return SetWebhook.builder().url(telegramConfig.getWebhookPath()).build();
@@ -32,8 +29,15 @@ public class SpringConfig {
         return bot;
     }
 
+    @Autowired
+    StartCommand startCommand;
+    @Autowired
+    AddFoodCommand addFoodCommand;
     @Bean
     public CommandContainer commandContainer() {
+        // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
+        // Очень не нравится жесткая привязка к порядку передаваемых команд, то есть
+        // CommandContainer(startCommand, addFoodCommand) != CommandContainer(addFoodCommand, startCommand)
         return new CommandContainer(startCommand, addFoodCommand);
     }
 }
