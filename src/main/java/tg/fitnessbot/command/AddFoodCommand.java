@@ -40,8 +40,9 @@ public class AddFoodCommand implements Command{
                 for (int i = 0; i < lines.length; i++) {
                     String[] food = lines[i].split(" ");
                     int len = food.length;
-                    String foodName = "";
+
                     FoodForm foodForm;
+                    String foodName = "";
                     for (int j = 0; j < len - 4; j++) {
                         foodName = foodName + food[j] + " ";
                     }

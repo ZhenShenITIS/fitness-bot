@@ -58,10 +58,15 @@ public class MessageHandlerImpl implements MessageHandler {
         HashMap<String, Double> foods = new HashMap<>();
         for (int i = 0; i < lines.length; i++) {
             String[] lineParts = lines[i].split(" ");
-            if (lineParts.length == 2
-                    && (lineParts[1].charAt(0) <= '9' && lineParts[1].charAt(0) >= '1')) {
+            if (lineParts.length >= 2
+                    && (lineParts[lineParts.length-1].charAt(0) <= '9' && lineParts[lineParts.length-1].charAt(0) >= '1')) {
                 try {
-                    foods.put(lineParts[0], Double.parseDouble(lineParts[1]));
+                    String foodName = "";
+                    for (int j = 0; j < lineParts.length - 1; j++) {
+                        foodName = foodName + lineParts[j] + " ";
+                    }
+                    foodName = foodName.trim();
+                    foods.put(foodName, Double.parseDouble(lineParts[1]));
                 } catch (NumberFormatException e) {
                     textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
                 }
