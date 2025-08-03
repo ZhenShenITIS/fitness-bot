@@ -21,7 +21,7 @@ import java.util.HashMap;
 @Component
 public class MessageHandlerImpl implements MessageHandler {
 
-    private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
+    private final DecimalFormat decimalFormat = new DecimalFormat( "#,#" );
 
     @Autowired
     CommandContainer commandContainer;
