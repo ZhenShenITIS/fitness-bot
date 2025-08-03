@@ -42,7 +42,7 @@ public class MessageHandlerImpl implements MessageHandler {
                         && (msgParts[msgParts.length-1].charAt(0) <= '9' && msgParts[msgParts.length-1].charAt(0) >= '1')){
                 return calculateFood(message);
 
-            } else {
+            } else if (message.getChat().isUserChat()){
                 // TODO Реализовать логику работы сообщения, не содержащего команды
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
 
