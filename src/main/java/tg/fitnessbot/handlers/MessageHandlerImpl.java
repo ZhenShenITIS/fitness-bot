@@ -65,7 +65,16 @@ public class MessageHandlerImpl implements MessageHandler {
                 textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
             }
         }
-        FoodForm foodForm = foodService.calculateFood(foods);
+        FoodForm foodForm = null;
+        try {
+            foodForm = foodService.calculateFood(foods);
+        } catch (NullPointerException e) {
+            return SendMessage
+                    .builder()
+                    .chatId(message.getChatId())
+                    .text("Не удалось найти какой-то из введённых продуктов в базе, попробуйте ещё раз")
+                    .build();
+        }
         textToSend = textToSend+"Общая каллорийность введённых продуктов: " + foodForm.getKcal() + "\n"
                 +"Общее количество белка: " + foodForm.getProtein() + "\n"
                 +"Общее количество жиров: " + foodForm.getFat() + "\n"

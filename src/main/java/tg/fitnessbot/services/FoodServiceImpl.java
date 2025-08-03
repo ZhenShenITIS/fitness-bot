@@ -41,6 +41,7 @@ public class FoodServiceImpl implements FoodService {
                     .name(food.getName())
                     .kcal(food.getKcal())
                     .protein(food.getProtein())
+                    .fat(food.getFat())
                     .carbohydrates(food.getCarbohydrates())
                     .build();
         }
@@ -57,10 +58,12 @@ public class FoodServiceImpl implements FoodService {
         double carbohydrates = 0;
         for (String key : foods.keySet()) {
             FoodForm foodForm = getFoodByName(key);
-            kcal += (foodForm.getKcal()/100) * foods.get(key);
-            protein += (foodForm.getProtein()/100) * foods.get(key);
-            fat += (foodForm.getFat()/100) * foods.get(key);
-            carbohydrates += (foodForm.getCarbohydrates()/100) * foods.get(key);
+            if (foodForm != null) {
+                kcal += (foodForm.getKcal() / 100) * foods.get(key);
+                protein += (foodForm.getProtein() / 100) * foods.get(key);
+                fat += (foodForm.getFat() / 100) * foods.get(key);
+                carbohydrates += (foodForm.getCarbohydrates() / 100) * foods.get(key);
+            } throw new NullPointerException();
         }
         return FoodForm
                 .builder()
