@@ -32,22 +32,28 @@ public class AddFoodCommand implements Command{
             String textToSend = "";
 
             if (lines.length > 0
-                    && (lines[0].split(" ").length == 5)
-                    && (lines[0].split(" ")[1].charAt(0) <= '9' && lines[0].split(" ")[1].charAt(0) >= '0')
-                    && (lines[0].split(" ")[2].charAt(0) <= '9' && lines[0].split(" ")[2].charAt(0) >= '0')
-                    && (lines[0].split(" ")[3].charAt(0) <= '9' && lines[0].split(" ")[3].charAt(0) >= '0')
-                    && (lines[0].split(" ")[4].charAt(0) <= '9' && lines[0].split(" ")[4].charAt(0) >= '0')) {
+                    && (lines[0].split(" ").length >= 5)
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 4].charAt(0) <= '9' && lines[0].split(" ")[1].charAt(0) >= '0')
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 3].charAt(0) <= '9' && lines[0].split(" ")[2].charAt(0) >= '0')
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 2].charAt(0) <= '9' && lines[0].split(" ")[3].charAt(0) >= '0')
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 1].charAt(0) <= '9' && lines[0].split(" ")[4].charAt(0) >= '0')) {
                 for (int i = 0; i < lines.length; i++) {
                     String[] food = lines[i].split(" ");
+                    int len = food.length;
+                    String foodName = "";
                     FoodForm foodForm;
+                    for (int j = 0; j < len - 4; j++) {
+                        foodName = foodName + food[j] + " ";
+                    }
+                    foodName = foodName.trim();
                     try {
                          foodForm = FoodForm
                                 .builder()
-                                .name(food[0])
-                                .kcal(Double.parseDouble(food[1]))
-                                .protein(Double.parseDouble(food[2]))
-                                .fat(Double.parseDouble(food[3]))
-                                .carbohydrates(Double.parseDouble(food[4]))
+                                .name(foodName)
+                                .kcal(Double.parseDouble(food[len - 4]))
+                                .protein(Double.parseDouble(food[len - 3]))
+                                .fat(Double.parseDouble(food[len - 2]))
+                                .carbohydrates(Double.parseDouble(food[len - 1]))
                                 .build();
                     } catch (NumberFormatException e) {
                         textToSend = textToSend + "Ошибка преобразования еды в объект, для добавления в базу данных в строке №" + (i + 1) + "!\n";
