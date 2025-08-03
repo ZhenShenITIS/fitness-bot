@@ -14,11 +14,14 @@ import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.FoodServiceImpl;
 import tg.fitnessbot.services.SignUpService;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 
 @Component
 public class MessageHandlerImpl implements MessageHandler {
+
+    private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
 
     @Autowired
     CommandContainer commandContainer;
@@ -75,10 +78,10 @@ public class MessageHandlerImpl implements MessageHandler {
                     .text("Не удалось найти какой-то из введённых продуктов в базе, попробуйте ещё раз")
                     .build();
         }
-        textToSend = textToSend+"Общая каллорийность введённых продуктов: " + foodForm.getKcal() + "\n"
-                +"Общее количество белка: " + foodForm.getProtein() + "\n"
-                +"Общее количество жиров: " + foodForm.getFat() + "\n"
-                +"Общее количество углеводов: " + foodForm.getCarbohydrates() + "\n";
+        textToSend = textToSend+"Общая каллорийность введённых продуктов: " + decimalFormat.format(foodForm.getKcal()) + "\n"
+                +"Общее количество белка: " + decimalFormat.format(foodForm.getProtein()) + "\n"
+                +"Общее количество жиров: " + decimalFormat.format(foodForm.getFat()) + "\n"
+                +"Общее количество углеводов: " + decimalFormat.format(foodForm.getCarbohydrates()) + "\n";
 
         return SendMessage
                 .builder()
