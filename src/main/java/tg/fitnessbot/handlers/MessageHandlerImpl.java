@@ -66,7 +66,7 @@ public class MessageHandlerImpl implements MessageHandler {
                         foodName = foodName + lineParts[j] + " ";
                     }
                     foodName = foodName.trim();
-                    foods.put(foodName, Double.parseDouble(lineParts[1]));
+                    foods.put(foodName, Double.parseDouble(lineParts[lineParts.length - 1]));
                 } catch (NumberFormatException e) {
                     textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
                 }
