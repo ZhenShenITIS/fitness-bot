@@ -9,6 +9,8 @@ import tg.fitnessbot.config.TelegramConfig;
 
 import java.util.Arrays;
 
+import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
+
 @Component
 public class AddFoodCommand implements Command{
     @Autowired
@@ -19,6 +21,9 @@ public class AddFoodCommand implements Command{
         // TODO Сделать более красивую проверку админа
         if (telegramConfig.getAdmins().length > 0 && Arrays.stream(telegramConfig.getAdmins()).filter(l -> l.equals(message.getChat().getId())).toArray().length > 0) {
             // TODO Реализовать функционал добавления еды в базу
+            String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length() + 1);
+            System.out.println(cmdText);
+
             SendMessage messageToSend = SendMessage
                     .builder()
                     .chatId(message.getChatId())
