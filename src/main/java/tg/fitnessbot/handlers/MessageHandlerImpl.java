@@ -34,7 +34,7 @@ public class MessageHandlerImpl implements MessageHandler {
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].toLowerCase();
                 return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
-            } else if (msgParts.length > 2
+            } else if (msgParts.length >= 2
                         && (msgParts[1].charAt(0) <= '9' && msgParts[1].charAt(0) >= '1')){
                 return calculateFood(message);
 
