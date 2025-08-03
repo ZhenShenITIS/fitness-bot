@@ -9,10 +9,13 @@ import tg.fitnessbot.command.AddFoodCommand;
 import tg.fitnessbot.command.CommandContainer;
 import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.dto.UserForm;
+import tg.fitnessbot.services.FoodServiceImpl;
 import tg.fitnessbot.services.SignUpService;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 @Component
 public class MessageHandlerImpl implements MessageHandler {
@@ -20,9 +23,9 @@ public class MessageHandlerImpl implements MessageHandler {
     @Autowired
     CommandContainer commandContainer;
 
-    // TODO Узнать, является ли хорошей практикой автоваерить к объекту другой объект, который наследует тот же интерфейс
     @Autowired
-    FoodCalculateHandler foodCalculateHandler;
+    FoodServiceImpl foodService;
+
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
@@ -33,7 +36,7 @@ public class MessageHandlerImpl implements MessageHandler {
                 return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
             } else if (msgParts.length > 2
                         && (msgParts[1].charAt(0) <= '9' && msgParts[1].charAt(0) >= '1')){
-                return foodCalculateHandler.answerMessage(message);
+                return calculateFood(message);
 
             } else {
                 // TODO Реализовать логику работы сообщения, не содержащего команды
@@ -42,5 +45,36 @@ public class MessageHandlerImpl implements MessageHandler {
             }
         }
         return null;
+    }
+
+    public BotApiMethod<?> calculateFood (Message message) {
+        String textToSend = "";
+        String msgText = message.getText();
+        String[] lines = msgText.split("\n");
+        HashMap<String, Double> foods = new HashMap<>();
+        for (int i = 0; i < lines.length; i++) {
+            String[] lineParts = lines[i].split(" ");
+            if (lineParts.length == 2
+                    && (lineParts[1].charAt(0) <= '9' && lineParts[1].charAt(0) >= '1')) {
+                try {
+                    foods.put(lineParts[0], Double.parseDouble(lineParts[1]));
+                } catch (NumberFormatException e) {
+                    textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
+                }
+            } else {
+                textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
+            }
+        }
+        FoodForm foodForm = foodService.calculateFood(foods);
+        textToSend = textToSend+"Общая каллорийность введённых продуктов: " + foodForm.getKcal() + "\n"
+                +"Общее количество белка: " + foodForm.getProtein() + "\n"
+                +"Общее количество жиров: " + foodForm.getFat() + "\n"
+                +"Общее количество углеводов: " + foodForm.getCarbohydrates() + "\n";
+
+        return SendMessage
+                .builder()
+                .chatId(message.getChatId())
+                .text(textToSend)
+                .build();
     }
 }
