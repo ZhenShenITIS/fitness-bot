@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import tg.fitnessbot.command.CommandContainer;
 import tg.fitnessbot.handlers.UpdateHandler;
 
 @Configuration
@@ -23,5 +24,10 @@ public class SpringConfig {
         bot.setBotUsername(telegramConfig.getBotName());
         bot.setBotToken(telegramConfig.getBotToken());
         return bot;
+    }
+
+    @Bean
+    public CommandContainer commandContainer() {
+        return new CommandContainer();
     }
 }
