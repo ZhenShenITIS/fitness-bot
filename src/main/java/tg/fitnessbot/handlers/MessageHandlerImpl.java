@@ -37,8 +37,9 @@ public class MessageHandlerImpl implements MessageHandler {
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].toLowerCase();
                 return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
+                // TODO Поправить распознавание команды на подсчет каллорий
             } else if (msgParts.length >= 2
-                        && (msgParts[1].charAt(0) <= '9' && msgParts[1].charAt(0) >= '1')){
+                        && (msgParts[msgParts.length-1].charAt(0) <= '9' && msgParts[msgParts.length-1].charAt(0) >= '1')){
                 return calculateFood(message);
 
             } else {

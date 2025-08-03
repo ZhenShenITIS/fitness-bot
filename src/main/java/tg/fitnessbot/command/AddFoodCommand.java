@@ -62,7 +62,7 @@ public class AddFoodCommand implements Command{
                     if (foodService.addFood(foodForm)) {
                         textToSend = textToSend + "Успешно добавлена в базу данных еда в строке №" + (i + 1) + "\n";
                     } else {
-                        textToSend = textToSend + "Еда с именем " + lines[i].split(" ")[0] + " уже существует в базе данных\n";
+                        textToSend = textToSend + "Еда с именем " + foodName + " уже существует в базе данных\n";
                     }
 
                 }
