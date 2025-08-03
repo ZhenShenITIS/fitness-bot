@@ -20,15 +20,25 @@ public class MessageHandlerImpl implements MessageHandler {
     @Autowired
     CommandContainer commandContainer;
 
+    // TODO Узнать, является ли хорошей практикой автоваерить к объекту другой объект, который наследует тот же интерфейс
+    @Autowired
+    FoodCalculateHandler foodCalculateHandler;
+
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
         if (message.hasText()) {
+            String[] msgParts = message.getText().split(" ");
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].toLowerCase();
                 return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
+            } else if (msgParts.length > 2
+                        && (msgParts[1].charAt(0) <= '9' && msgParts[1].charAt(0) >= '1')){
+                return foodCalculateHandler.answerMessage(message);
+
             } else {
                 // TODO Реализовать логику работы сообщения, не содержащего команды
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
+
             }
         }
         return null;

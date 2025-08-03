@@ -6,6 +6,9 @@ import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.models.Food;
 import tg.fitnessbot.repositories.FoodRepository;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Component
 public class FoodServiceImpl implements FoodService {
     @Autowired
@@ -27,5 +30,44 @@ public class FoodServiceImpl implements FoodService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public FoodForm getFoodByName(String name) {
+        Food food = foodRepository.findByName(name);
+        if (food != null) {
+            return FoodForm
+                    .builder()
+                    .name(food.getName())
+                    .kcal(food.getKcal())
+                    .protein(food.getProtein())
+                    .carbohydrates(food.getCarbohydrates())
+                    .build();
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public FoodForm calculateFood (HashMap<String, Double> foods) {
+        double kcal = 0;
+        double protein = 0;
+        double fat = 0;
+        double carbohydrates = 0;
+        for (String key : foods.keySet()) {
+            FoodForm foodForm = getFoodByName(key);
+            kcal += (foodForm.getKcal()/100) * foods.get(key);
+            protein += (foodForm.getProtein()/100) * foods.get(key);
+            fat += (foodForm.getFat()/100) * foods.get(key);
+            carbohydrates += (foodForm.getCarbohydrates()/100) * foods.get(key);
+        }
+        return FoodForm
+                .builder()
+                .kcal(kcal)
+                .protein(protein)
+                .fat(fat)
+                .carbohydrates(carbohydrates)
+                .build();
     }
 }
