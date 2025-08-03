@@ -24,7 +24,7 @@ public class MessageHandlerImpl implements MessageHandler {
     public BotApiMethod<?> answerMessage(Message message) {
         if (message.hasText()) {
             if (message.getText().startsWith("/")) {
-                String commandIdentifier = message.getText().split(" ")[0].toLowerCase();
+                String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].toLowerCase();
                 return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
             } else {
                 // TODO Реализовать логику работы сообщения, не содержащего команды
