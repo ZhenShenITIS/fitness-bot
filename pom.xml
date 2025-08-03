@@ -60,6 +60,13 @@
             <artifactId>telegrambots-spring-boot-starter</artifactId>
             <version>6.9.7.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.3.1-jre</version>
+        </dependency>
     </dependencies>
 
     <build>
