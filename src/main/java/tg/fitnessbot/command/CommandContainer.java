@@ -10,19 +10,14 @@ import static tg.fitnessbot.constants.CommandName.START;
 @Component
 public class CommandContainer {
     private final ImmutableMap<String, Command> commands;
+    private final Command unknownCommand;
 
-    @Autowired
-    StartCommand startCommand;
-    @Autowired
-    AddFoodCommand addFoodCommand;
-    @Autowired
-    Command unknownCommand;
-
-    public CommandContainer() {
+    public CommandContainer(StartCommand startCommand, AddFoodCommand addFoodCommand) {
         commands = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), startCommand)
                 .put(ADD_FOOD.getCommandName(), addFoodCommand)
                 .build();
+        unknownCommand = new UnknownCommand();
     }
 
     public Command retrieveCommand(String commandIdentifier) {
