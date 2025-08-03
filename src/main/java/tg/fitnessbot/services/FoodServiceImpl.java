@@ -17,7 +17,7 @@ public class FoodServiceImpl implements FoodService {
         if (exFood == null) {
             Food food = Food
                     .builder()
-                    .name(form.getName())
+                    .name(form.getName().toLowerCase())
                     .kcal(form.getKcal())
                     .protein(form.getProtein())
                     .carbohydrates(form.getCarbohydrates())
