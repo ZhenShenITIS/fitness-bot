@@ -21,13 +21,12 @@ public class AddFoodCommand implements Command{
         // TODO Сделать более красивую проверку админа
         if (telegramConfig.getAdmins().length > 0 && Arrays.stream(telegramConfig.getAdmins()).filter(l -> l.equals(message.getChat().getId())).toArray().length > 0) {
             // TODO Реализовать функционал добавления еды в базу
-            String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length() + 1);
-            System.out.println(cmdText);
+            String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length());
 
             SendMessage messageToSend = SendMessage
                     .builder()
                     .chatId(message.getChatId())
-                    .text("Данный функционал пока не реализован")
+                    .text("Текст вашей команды: " + cmdText)
                     .build();
             return messageToSend;
         } else {
