@@ -37,7 +37,7 @@ public class UpdateWeightCallback implements Callback {
     public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, Long userMessageId) {
         int messageId = callbackQuery.getMessage().getMessageId();
         long chatId = callbackQuery.getMessage().getChatId();
-        Long userCallbackId = callbackQuery.getFrom().getId();
+        long userCallbackId = callbackQuery.getFrom().getId();
         if (userMessageId.equals(userCallbackId)) {
             EditMessageText editMessageText = EditMessageText
                     .builder()

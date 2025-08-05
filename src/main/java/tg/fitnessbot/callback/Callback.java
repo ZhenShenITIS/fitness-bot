@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 public interface Callback {
-    BotApiMethod<?> processCallback (CallbackQuery callbackQuery, Long userId);
+    BotApiMethod<?> processCallback (CallbackQuery callbackQuery);
 
     BotApiMethod<?> answerMessage(Message message);
 }

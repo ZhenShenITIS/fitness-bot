@@ -55,7 +55,7 @@ public class UpdateHandler extends SpringWebhookBot {
     private BotApiMethod<?> handleUpdate (Update update) {
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            return callbackQueryHandler.processCallbackQuery(callbackQuery, update.getMessage().getFrom().getId());
+            return callbackQueryHandler.processCallbackQuery(callbackQuery);
         } else {
             Message message = update.getMessage();
             if (message != null) {

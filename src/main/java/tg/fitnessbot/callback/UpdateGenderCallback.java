@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class UpdateGenderCallback implements Callback {
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, Long userId) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
         return null;
     }
 

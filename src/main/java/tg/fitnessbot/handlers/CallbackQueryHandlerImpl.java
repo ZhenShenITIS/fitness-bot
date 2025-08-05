@@ -14,8 +14,8 @@ public class CallbackQueryHandlerImpl implements CallbackQueryHandler {
     }
 
     @Override
-    public BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery, Long userId) {
+    public BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery) {
         String callbackIdentifier = callbackQuery.getData();
-        return callbackContainer.retrieveCallback(callbackIdentifier).processCallback(callbackQuery, userId);
+        return callbackContainer.retrieveCallback(callbackIdentifier).processCallback(callbackQuery);
     }
 }
