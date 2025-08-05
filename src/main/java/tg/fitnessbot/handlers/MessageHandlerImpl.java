@@ -1,14 +1,18 @@
 package tg.fitnessbot.handlers;
 
+import lombok.Data;
+import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import tg.fitnessbot.callback.CallbackContainer;
 import tg.fitnessbot.command.AddFoodCommand;
 import tg.fitnessbot.command.CommandContainer;
 import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.FoodServiceImpl;
@@ -18,31 +22,45 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Data
 @Component
 public class MessageHandlerImpl implements MessageHandler {
 
     private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
 
+    private final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
+
     @Autowired
     CommandContainer commandContainer;
 
     @Autowired
+    CallbackContainer callbackContainer;
+
+    @Autowired
     FoodServiceImpl foodService;
+
+    @Autowired
+    TelegramConfig telegramConfig;
 
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
         if (message.hasText()) {
+            CallbackName state = userStateMap.getOrDefault(message.getFrom().getId(), CallbackName.NONE);
             String[] msgParts = message.getText().split(" ");
             if (message.getText().startsWith("/")) {
-                String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].toLowerCase();
+                String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].split(telegramConfig.getBotToken())[0].toLowerCase();
                 return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
                 // TODO Поправить распознавание команды на подсчет каллорий
             } else if (msgParts.length >= 2
                         && (msgParts[msgParts.length-1].charAt(0) <= '9' && msgParts[msgParts.length-1].charAt(0) >= '1')){
                 return calculateFood(message);
 
+            } else if (!state.equals(CallbackName.NONE)) {
+                return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
             } else if (message.getChat().isUserChat()){
                 // TODO Реализовать логику работы сообщения, не содержащего команды
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
