@@ -77,14 +77,14 @@ public class MessageHandlerImpl implements MessageHandler {
 //            }
         }
         HashMap<FoodForm, Double> foodForms = foodService.getFoodByName(foods);
-        textToSend = textToSend + "Удалось распознать следующие продукты: ";
+        textToSend = textToSend + "Удалось распознать следующие продукты: \n";
         for (FoodForm key : foodForms.keySet()) {
             textToSend = textToSend + key.getName() + "\n";
         }
 
         FoodForm foodForm = foodService.calculateFood(foodForms);
 
-        textToSend = textToSend+"Общая каллорийность введённых продуктов: " + decimalFormat.format(foodForm.getKcal()) + "\n"
+        textToSend = textToSend+"\nОбщая каллорийность введённых продуктов: " + decimalFormat.format(foodForm.getKcal()) + "\n"
                 +"Общее количество белка: " + decimalFormat.format(foodForm.getProtein()) + "\n"
                 +"Общее количество жиров: " + decimalFormat.format(foodForm.getFat()) + "\n"
                 +"Общее количество углеводов: " + decimalFormat.format(foodForm.getCarbohydrates()) + "\n";
