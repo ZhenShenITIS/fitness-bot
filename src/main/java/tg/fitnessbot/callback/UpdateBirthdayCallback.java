@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class UpdateBirthdayCallback implements Callback {
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, Long userId) {
 //        callbackQuery.getFrom().getId()
         return null;
     }

@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class NoneCallback implements Callback {
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, Long userId) {
         return null;
     }
 

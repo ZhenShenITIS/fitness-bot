@@ -23,7 +23,7 @@ public class UpdateHeightCallback implements Callback {
     TelegramConfig telegramConfig;
 
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, Long userId) {
         return null;
     }
 

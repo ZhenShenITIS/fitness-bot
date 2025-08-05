@@ -34,16 +34,22 @@ public class UpdateWeightCallback implements Callback {
     }
 
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, Long userMessageId) {
         int messageId = callbackQuery.getMessage().getMessageId();
         long chatId = callbackQuery.getMessage().getChatId();
-        EditMessageText editMessageText = EditMessageText
-                .builder()
-                .messageId(messageId)
-                .chatId(chatId)
-                .text("Введите ваш вес:")
-                .build();
-        telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_WEIGHT);
-        return editMessageText;
+        long userCallbackId = callbackQuery.getFrom().getId();
+        if (userMessageId.equals(userCallbackId)) {
+            EditMessageText editMessageText = EditMessageText
+                    .builder()
+                    .messageId(messageId)
+                    .chatId(chatId)
+                    .text("Введите ваш вес:")
+                    .build();
+            telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_WEIGHT);
+            return editMessageText;
+        } else {
+            return null;
+        }
+
     }
 }
