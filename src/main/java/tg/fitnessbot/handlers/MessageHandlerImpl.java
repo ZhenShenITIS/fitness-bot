@@ -31,7 +31,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
 
-    private final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
+
 
     @Autowired
     CommandContainer commandContainer;
@@ -49,7 +49,7 @@ public class MessageHandlerImpl implements MessageHandler {
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
         if (message.hasText()) {
-            CallbackName state = userStateMap.getOrDefault(message.getFrom().getId(), CallbackName.NONE);
+            CallbackName state = telegramConfig.getUserStateMap().getOrDefault(message.getFrom().getId(), CallbackName.NONE);
             String[] msgParts = message.getText().split(" ");
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].split(telegramConfig.getBotToken())[0].toLowerCase();

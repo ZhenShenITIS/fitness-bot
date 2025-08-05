@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import tg.fitnessbot.constants.CallbackName;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
@@ -19,6 +23,8 @@ public class TelegramConfig {
     String botToken;
     @Value("${TELEGRAM_BOT_ADMINS_ID}")
     String adminsId;
+
+    final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
 
     public Long[] getAdmins() {
         Long[] admins = new Long[adminsId.split(",").length];

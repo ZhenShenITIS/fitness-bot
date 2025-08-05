@@ -8,18 +8,19 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.dto.UserForm;
-import tg.fitnessbot.handlers.MessageHandlerImpl;
 import tg.fitnessbot.services.UserService;
 
 @Component
 public class UpdateHeightCallback implements Callback {
-    @Autowired
-    MessageHandlerImpl messageHandler;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TelegramConfig telegramConfig;
 
     @Override
     public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
@@ -31,7 +32,7 @@ public class UpdateHeightCallback implements Callback {
                 .chatId(chatId)
                 .text("Введите ваш вес:")
                 .build();
-        messageHandler.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_WEIGHT);
+        telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_WEIGHT);
         return editMessageText;
     }
 
@@ -44,7 +45,7 @@ public class UpdateHeightCallback implements Callback {
             return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введён вес!").build();
         }
         userService.updateUser(user);
-        messageHandler.getUserStateMap().put(user.getId(), CallbackName.NONE);
+        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
         return SendMessage.builder().chatId(message.getChatId()).text("Ваш вес успешно обновлен!").build();
     }
 }
