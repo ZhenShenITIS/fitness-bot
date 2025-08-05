@@ -61,23 +61,23 @@ public class StartCommand implements Command{
                                         InlineKeyboardButton
                                                 .builder()
                                                 .text("Рост")
-                                                .callbackData(CallbackName.UPDATE_HEIGHT.getCallbackName())
+                                                .callbackData(CallbackName.UPDATE_HEIGHT.getCallbackName()+":"+user.getId())
                                                 .build(),
                                         InlineKeyboardButton
                                                 .builder()
                                                 .text("Вес")
-                                                .callbackData(CallbackName.UPDATE_WEIGHT.getCallbackName())
+                                                .callbackData(CallbackName.UPDATE_WEIGHT.getCallbackName()+":"+user.getId())
                                                 .build()))
                                 .keyboardRow(List.of(
                                         InlineKeyboardButton
                                                 .builder()
                                                 .text("ДР")
-                                                .callbackData(CallbackName.UPDATE_BIRTHDAY.getCallbackName())
+                                                .callbackData(CallbackName.UPDATE_BIRTHDAY.getCallbackName()+":"+user.getId())
                                                 .build(),
                                         InlineKeyboardButton
                                                 .builder()
                                                 .text("Пол")
-                                                .callbackData(CallbackName.UPDATE_GENDER.getCallbackName())
+                                                .callbackData(CallbackName.UPDATE_GENDER.getCallbackName()+":"+user.getId())
                                                 .build()))
                                 .build())
                         .build();
