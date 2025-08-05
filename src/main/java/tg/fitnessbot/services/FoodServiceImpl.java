@@ -6,6 +6,7 @@ import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.models.Food;
 import tg.fitnessbot.repositories.FoodRepository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,22 +52,38 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodForm calculateFood (HashMap<String, Double> foods) {
+    public HashMap<FoodForm, Double> getFoodByName (HashMap<String, Double> foods) {
+//        double kcal = 0;
+//        double protein = 0;
+//        double fat = 0;
+//        double carbohydrates = 0;
+        HashMap<FoodForm, Double> list = new HashMap<>();
+        for (String key : foods.keySet()) {
+            FoodForm foodForm = getFoodByName(key);
+            if (foodForm != null) {
+                list.put(foodForm, foods.get(key));
+//                kcal += (foodForm.getKcal() / 100) * foods.get(key);
+//                protein += (foodForm.getProtein() / 100) * foods.get(key);
+//                fat += (foodForm.getFat() / 100) * foods.get(key);
+//                carbohydrates += (foodForm.getCarbohydrates() / 100) * foods.get(key);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public FoodForm calculateFood(HashMap<FoodForm, Double> foods) {
         double kcal = 0;
         double protein = 0;
         double fat = 0;
         double carbohydrates = 0;
-        for (String key : foods.keySet()) {
-            FoodForm foodForm = getFoodByName(key);
-            if (foodForm != null) {
-                kcal += (foodForm.getKcal() / 100) * foods.get(key);
-                protein += (foodForm.getProtein() / 100) * foods.get(key);
-                fat += (foodForm.getFat() / 100) * foods.get(key);
-                carbohydrates += (foodForm.getCarbohydrates() / 100) * foods.get(key);
-            } else {
-                throw new NullPointerException();
-            }
+        for (FoodForm key : foods.keySet()) {
+            kcal += (key.getKcal() / 100) * foods.get(key);
+            protein += (key.getProtein() / 100) * foods.get(key);
+            fat += (key.getFat() / 100) * foods.get(key);
+            carbohydrates += (key.getCarbohydrates() / 100) * foods.get(key);
         }
+
         return FoodForm
                 .builder()
                 .kcal(kcal)

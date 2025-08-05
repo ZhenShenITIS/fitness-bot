@@ -17,6 +17,7 @@ import tg.fitnessbot.services.SignUpService;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class MessageHandlerImpl implements MessageHandler {
@@ -65,25 +66,24 @@ public class MessageHandlerImpl implements MessageHandler {
                     for (int j = 0; j < lineParts.length - 1; j++) {
                         foodName = foodName + lineParts[j] + " ";
                     }
-                    foodName = foodName.trim();
+                    foodName = foodName.trim().toLowerCase();
                     foods.put(foodName, Double.parseDouble(lineParts[lineParts.length - 1]));
                 } catch (NumberFormatException e) {
-                    textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
+                    //textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
                 }
-            } else {
-                textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
             }
+//            else {
+//                textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
+//            }
         }
-        FoodForm foodForm = null;
-        try {
-            foodForm = foodService.calculateFood(foods);
-        } catch (NullPointerException e) {
-            return SendMessage
-                    .builder()
-                    .chatId(message.getChatId())
-                    .text("Не удалось найти какой-то из введённых продуктов в базе, попробуйте ещё раз")
-                    .build();
+        HashMap<FoodForm, Double> foodForms = foodService.getFoodByName(foods);
+        textToSend = textToSend + "Удалось распознать следующие продукты: ";
+        for (FoodForm key : foodForms.keySet()) {
+            textToSend = textToSend + key.getName() + "\n";
         }
+
+        FoodForm foodForm = foodService.calculateFood(foodForms);
+
         textToSend = textToSend+"Общая каллорийность введённых продуктов: " + decimalFormat.format(foodForm.getKcal()) + "\n"
                 +"Общее количество белка: " + decimalFormat.format(foodForm.getProtein()) + "\n"
                 +"Общее количество жиров: " + decimalFormat.format(foodForm.getFat()) + "\n"
