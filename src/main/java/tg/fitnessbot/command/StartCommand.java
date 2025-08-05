@@ -26,7 +26,6 @@ public class StartCommand implements Command{
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
-        if (message.getChat().isUserChat()) {
             UserForm user = new UserForm();
             user.setFirstName(message.getFrom().getFirstName());
             user.setLastName(message.getFrom().getLastName());
@@ -84,8 +83,6 @@ public class StartCommand implements Command{
                         .build();
                 return messageToSend;
             }
-        }
-        return null;
     }
 
 
