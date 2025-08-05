@@ -53,19 +53,11 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public HashMap<FoodForm, Double> getFoodByName (HashMap<String, Double> foods) {
-//        double kcal = 0;
-//        double protein = 0;
-//        double fat = 0;
-//        double carbohydrates = 0;
         HashMap<FoodForm, Double> list = new HashMap<>();
         for (String key : foods.keySet()) {
             FoodForm foodForm = getFoodByName(key);
             if (foodForm != null) {
                 list.put(foodForm, foods.get(key));
-//                kcal += (foodForm.getKcal() / 100) * foods.get(key);
-//                protein += (foodForm.getProtein() / 100) * foods.get(key);
-//                fat += (foodForm.getFat() / 100) * foods.get(key);
-//                carbohydrates += (foodForm.getCarbohydrates() / 100) * foods.get(key);
             }
         }
         return list;

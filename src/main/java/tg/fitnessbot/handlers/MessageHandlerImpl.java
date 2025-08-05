@@ -61,20 +61,15 @@ public class MessageHandlerImpl implements MessageHandler {
             String[] lineParts = lines[i].split(" ");
             if (lineParts.length >= 2
                     && (lineParts[lineParts.length-1].charAt(0) <= '9' && lineParts[lineParts.length-1].charAt(0) >= '1')) {
-                try {
-                    String foodName = "";
-                    for (int j = 0; j < lineParts.length - 1; j++) {
-                        foodName = foodName + lineParts[j] + " ";
-                    }
-                    foodName = foodName.trim().toLowerCase();
-                    foods.put(foodName, Double.parseDouble(lineParts[lineParts.length - 1]));
-                } catch (NumberFormatException e) {
-                    //textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
+                String foodName = "";
+                for (int j = 0; j < lineParts.length - 1; j++) {
+                    foodName = foodName + lineParts[j] + " ";
                 }
+                foodName = foodName.trim().toLowerCase();
+                try {
+                    foods.put(foodName, Double.parseDouble(lineParts[lineParts.length - 1]));
+                } catch (NumberFormatException ignored){}
             }
-//            else {
-//                textToSend = textToSend + "Неправильный ввод строки №" + (i + 1) + "!\n";
-//            }
         }
         HashMap<FoodForm, Double> foodForms = foodService.getFoodByName(foods);
         if (!foodForms.isEmpty()) {
