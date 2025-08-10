@@ -6,7 +6,7 @@ public abstract class AbstractCommand implements Command{
     CommandName commandName;
 
     @Override
-    public String getCommandName() {
-        return commandName.getCommandName();
+    public CommandName getCommand() {
+        return commandName;
     }
 }

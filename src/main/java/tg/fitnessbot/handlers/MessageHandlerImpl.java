@@ -60,6 +60,7 @@ public class MessageHandlerImpl implements MessageHandler {
                 return calculateFood(message);
 
             } else if (!state.equals(CallbackName.NONE)) {
+                SendMessage[] messages = new SendMessage[2];
                 return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
             } else if (message.getChat().isUserChat()){
                 // TODO Реализовать логику работы сообщения, не содержащего команды

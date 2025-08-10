@@ -15,7 +15,7 @@ public class CommandContainer {
     public CommandContainer(Command[] commandArray) {
         commands = ImmutableMap.<String, Command>builder().build();
         for (Command command : commandArray) {
-            commands.put(command.getCommandName(), command);
+            commands.put(command.getCommand().getCommandName(), command);
         }
         unknownCommand = new UnknownCommand();
     }

@@ -33,7 +33,11 @@ public class UpdateHeightCallback extends AbstractCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return SendMessage.builder().chatId(message.getChatId()).text("Ваш рост успешно обновлен!").build();
+        return SendMessage
+                .builder()
+                .chatId(message.getChatId())
+                .text("Ваш рост успешно обновлен!")
+                .build();
     }
 
     @Override

@@ -5,6 +5,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.constants.CommandName;
 
 public interface Command {
-    String getCommandName ();
+    CommandName getCommand ();
     BotApiMethod<?> handleCommand(Message message);
 }
