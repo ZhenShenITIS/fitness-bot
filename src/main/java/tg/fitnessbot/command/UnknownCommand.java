@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.constants.CommandName;
 
 
-public class UnknownCommand extends AbstractCommand implements Command{
+public class UnknownCommand implements Command{
     CommandName commandName;
 
     @Override
@@ -17,6 +17,10 @@ public class UnknownCommand extends AbstractCommand implements Command{
                 .chatId(message.getChatId())
                 .text("Прости, я не знаю такой команды :(")
                 .build();
+    }
+    @Override
+    public CommandName getCommand() {
+        return commandName;
     }
 
 }

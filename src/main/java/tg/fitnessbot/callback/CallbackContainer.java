@@ -16,7 +16,7 @@ public class CallbackContainer {
     public CallbackContainer(Callback[] callbackArray) {
         callbacks = ImmutableMap.<String, Callback>builder().build();
         for (Callback callback : callbackArray) {
-            callbacks.put(callback.getCallbackName(), callback);
+            callbacks.put(callback.getCallback().getCallbackName(), callback);
         }
     }
 

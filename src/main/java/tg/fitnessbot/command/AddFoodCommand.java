@@ -15,7 +15,8 @@ import java.util.Arrays;
 import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
 
 @Component
-public class AddFoodCommand extends AbstractCommand implements Command{
+public class AddFoodCommand implements Command{
+
     CommandName commandName = ADD_FOOD;
     @Autowired
     TelegramConfig telegramConfig;
@@ -91,5 +92,10 @@ public class AddFoodCommand extends AbstractCommand implements Command{
                     .build();
             return messageToSend;
         }
+    }
+
+    @Override
+    public CommandName getCommand() {
+        return commandName;
     }
 }

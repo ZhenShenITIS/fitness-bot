@@ -19,7 +19,7 @@ import java.util.List;
 import static tg.fitnessbot.constants.CommandName.START;
 
 @Component
-public class StartCommand extends AbstractCommand implements Command{
+public class StartCommand implements Command{
     CommandName commandName = START;
 
     @Autowired
@@ -27,6 +27,11 @@ public class StartCommand extends AbstractCommand implements Command{
 
     @Autowired
     UserService userService;
+
+    @Override
+    public CommandName getCommand() {
+        return commandName;
+    }
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
