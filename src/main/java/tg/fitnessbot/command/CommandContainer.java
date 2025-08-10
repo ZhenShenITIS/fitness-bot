@@ -11,14 +11,15 @@ import static tg.fitnessbot.constants.CommandName.START;
 
 @Component
 public class CommandContainer {
-    private final HashMap<String, Command> commands;
+    private final ImmutableMap<String, Command> commands;
     private final Command unknownCommand;
 
     public CommandContainer(Command[] commandArray) {
-        commands = new HashMap<String, Command>();
+        HashMap<String, Command> map = new HashMap<String, Command>();
         for (Command command : commandArray) {
-            commands.put(command.getCommand().getCommandName(), command);
+            map.put(command.getCommand().getCommandName(), command);
         }
+        commands = ImmutableMap.copyOf(map);
         unknownCommand = new UnknownCommand();
     }
 

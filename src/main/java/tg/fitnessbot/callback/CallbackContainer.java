@@ -13,13 +13,14 @@ import static tg.fitnessbot.constants.CallbackName.*;
 
 @Component
 public class CallbackContainer {
-    private final HashMap<String, Callback> callbacks;
+    private final ImmutableMap<String, Callback> callbacks;
 
     public CallbackContainer(Callback[] callbackArray) {
-        callbacks = new HashMap<>();
+        HashMap<String, Callback> map = new HashMap<>();
         for (Callback callback : callbackArray) {
-            callbacks.put(callback.getCallback().getCallbackName(), callback);
+            map.put(callback.getCallback().getCallbackName(), callback);
         }
+        callbacks = ImmutableMap.copyOf(map);
     }
 
     public Callback retrieveCallback(String callbackIdentifier) {
