@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import tg.fitnessbot.constants.CallbackName;
+import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
 import tg.fitnessbot.services.UserService;
@@ -15,8 +16,11 @@ import tg.fitnessbot.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static tg.fitnessbot.constants.CommandName.START;
+
 @Component
-public class StartCommand implements Command{
+public class StartCommand extends AbstractCommand implements Command{
+    CommandName commandName = START;
 
     @Autowired
     SignUpService signUpService;
@@ -84,6 +88,7 @@ public class StartCommand implements Command{
                 return messageToSend;
             }
     }
+
 
 
 

@@ -12,11 +12,11 @@ public class CommandContainer {
     private final ImmutableMap<String, Command> commands;
     private final Command unknownCommand;
 
-    public CommandContainer(StartCommand startCommand, AddFoodCommand addFoodCommand) {
-        commands = ImmutableMap.<String, Command>builder()
-                .put(START.getCommandName(), startCommand)
-                .put(ADD_FOOD.getCommandName(), addFoodCommand)
-                .build();
+    public CommandContainer(Command[] commandArray) {
+        commands = ImmutableMap.<String, Command>builder().build();
+        for (Command command : commandArray) {
+            commands.put(command.getCommandName(), command);
+        }
         unknownCommand = new UnknownCommand();
     }
 

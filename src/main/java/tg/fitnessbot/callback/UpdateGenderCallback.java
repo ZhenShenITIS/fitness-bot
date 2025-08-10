@@ -14,7 +14,9 @@ import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 
 @Component
-public class UpdateGenderCallback implements Callback {
+public class UpdateGenderCallback extends AbstractCallback implements Callback {
+    CallbackName callbackName = CallbackName.UPDATE_GENDER;
+
     @Autowired
     UserService userService;
 

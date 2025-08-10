@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.services.FoodServiceImpl;
 
@@ -14,7 +15,8 @@ import java.util.Arrays;
 import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
 
 @Component
-public class AddFoodCommand implements Command{
+public class AddFoodCommand extends AbstractCommand implements Command{
+    CommandName commandName = ADD_FOOD;
     @Autowired
     TelegramConfig telegramConfig;
 

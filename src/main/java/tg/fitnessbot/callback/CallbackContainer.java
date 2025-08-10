@@ -13,18 +13,11 @@ import static tg.fitnessbot.constants.CallbackName.*;
 public class CallbackContainer {
     private final ImmutableMap<String, Callback> callbacks;
 
-    public CallbackContainer(UpdateBirthdayCallback updateBirthdayCallback,
-                             UpdateGenderCallback updateGenderCallback,
-                             UpdateHeightCallback updateHeightCallback,
-                             UpdateWeightCallback updateWeightCallback,
-                             NoneCallback noneCallback) {
-        callbacks = ImmutableMap.<String, Callback>builder()
-                .put(UPDATE_BIRTHDAY.getCallbackName(), updateBirthdayCallback)
-                .put(UPDATE_GENDER.getCallbackName(), updateGenderCallback)
-                .put(UPDATE_HEIGHT.getCallbackName(), updateHeightCallback)
-                .put(UPDATE_WEIGHT.getCallbackName(), updateWeightCallback)
-                .put(NONE.getCallbackName(), noneCallback)
-                .build();
+    public CallbackContainer(Callback[] callbackArray) {
+        callbacks = ImmutableMap.<String, Callback>builder().build();
+        for (Callback callback : callbackArray) {
+            callbacks.put(callback.getCallbackName(), callback);
+        }
     }
 
     public Callback retrieveCallback(String callbackIdentifier) {

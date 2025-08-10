@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import tg.fitnessbot.callback.*;
 import tg.fitnessbot.command.AddFoodCommand;
+import tg.fitnessbot.command.Command;
 import tg.fitnessbot.command.CommandContainer;
 import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.handlers.UpdateHandler;
@@ -37,10 +38,7 @@ public class SpringConfig {
     @Bean
     public CommandContainer commandContainer() {
         // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
-        // Очень не нравится жесткая привязка к порядку передаваемых команд, то есть
-        // CommandContainer(startCommand, addFoodCommand) != CommandContainer(addFoodCommand, startCommand)
-        // Возможно стоит хранить константы названия команд внутри самих классов команд и получать их гетером
-        return new CommandContainer(startCommand, addFoodCommand);
+        return new CommandContainer(new Command[]{startCommand, addFoodCommand});
     }
 
 
@@ -57,6 +55,6 @@ public class SpringConfig {
 
     @Bean
     public CallbackContainer callbackContainer() {
-        return new CallbackContainer(updateBirthdayCallback, updateGenderCallback, updateHeightCallback, updateWeightCallback, noneCallback);
+        return new CallbackContainer(new Callback[]{updateBirthdayCallback, updateGenderCallback, updateHeightCallback, updateWeightCallback, noneCallback});
     }
 }
