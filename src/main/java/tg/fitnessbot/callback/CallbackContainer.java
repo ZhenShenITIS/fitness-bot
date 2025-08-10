@@ -7,14 +7,16 @@ import tg.fitnessbot.command.Command;
 import tg.fitnessbot.command.UnknownCommand;
 import tg.fitnessbot.constants.CallbackName;
 
+import java.util.HashMap;
+
 import static tg.fitnessbot.constants.CallbackName.*;
 
 @Component
 public class CallbackContainer {
-    private final ImmutableMap<String, Callback> callbacks;
+    private final HashMap<String, Callback> callbacks;
 
     public CallbackContainer(Callback[] callbackArray) {
-        callbacks = ImmutableMap.<String, Callback>builder().build();
+        callbacks = new HashMap<>();
         for (Callback callback : callbackArray) {
             callbacks.put(callback.getCallback().getCallbackName(), callback);
         }
