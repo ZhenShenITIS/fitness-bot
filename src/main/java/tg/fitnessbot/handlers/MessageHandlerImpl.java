@@ -31,8 +31,6 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
 
-
-
     @Autowired
     CommandContainer commandContainer;
 

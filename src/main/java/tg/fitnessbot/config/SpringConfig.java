@@ -30,31 +30,4 @@ public class SpringConfig {
         bot.setBotToken(telegramConfig.getBotToken());
         return bot;
     }
-
-    @Autowired
-    StartCommand startCommand;
-    @Autowired
-    AddFoodCommand addFoodCommand;
-    @Bean
-    public CommandContainer commandContainer() {
-        // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
-        return new CommandContainer(new Command[]{startCommand, addFoodCommand});
-    }
-
-
-    @Autowired
-    UpdateBirthdayCallback updateBirthdayCallback;
-    @Autowired
-    UpdateGenderCallback updateGenderCallback;
-    @Autowired
-    UpdateHeightCallback updateHeightCallback;
-    @Autowired
-    UpdateWeightCallback updateWeightCallback;
-    @Autowired
-    NoneCallback noneCallback;
-
-    @Bean
-    public CallbackContainer callbackContainer() {
-        return new CallbackContainer(new Callback[]{updateBirthdayCallback, updateGenderCallback, updateHeightCallback, updateWeightCallback, noneCallback});
-    }
 }
