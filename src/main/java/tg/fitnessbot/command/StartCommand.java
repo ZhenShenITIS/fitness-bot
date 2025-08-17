@@ -12,6 +12,7 @@ import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +53,12 @@ public class StartCommand implements Command{
                 user = userService.getUserByID(message.getFrom().getId());
                 String height = user.getHeight() == null ? "не указан" : user.getHeight().toString();
                 String weight = user.getWeight() == null ? "не указан" : user.getWeight().toString();
-                String birthday = user.getBirthday() == null ? "не указан" : user.getBirthday().toString();
-                String gender = user.getGender() == null ? "не указан" : user.getGender().toString();
+                String birthday = user.getBirthday() == null ? "не указана" : String.valueOf(DateUtil.getAge(user.getBirthday()));
+                String gender = user.getGender() == null ? "не указан" : user.getGender().getGenderName();
                 String textToSend = "Привет! Вот твои данные: \n" +
                         "Рост: " + height + "\n" +
                         "Вес: " + weight + "\n" +
-                        "Дата рождения: " + birthday + "\n" +
+                        "Возраст: " + birthday + "\n" +
                         "Пол: " + gender + "\n\n" +
                         "Хочешь их изменить?";
                 SendMessage messageToSend = SendMessage

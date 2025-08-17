@@ -1,1 +1,3 @@
-# fitness-bot
+# Fitness Bot
+
+## How to launch?
