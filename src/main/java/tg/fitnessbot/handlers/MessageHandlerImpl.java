@@ -7,12 +7,15 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.callback.CallbackContainer;
 import tg.fitnessbot.command.AddFoodCommand;
 import tg.fitnessbot.command.CommandContainer;
 import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
+import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.FoodServiceImpl;
@@ -43,6 +46,9 @@ public class MessageHandlerImpl implements MessageHandler {
     @Autowired
     TelegramConfig telegramConfig;
 
+    @Autowired
+    SpringWebhookBot springWebhookBot;
+
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
@@ -58,8 +64,14 @@ public class MessageHandlerImpl implements MessageHandler {
                 return calculateFood(message);
 
             } else if (!state.equals(CallbackName.NONE)) {
-                SendMessage[] messages = new SendMessage[2];
-                return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
+                SendMessage msg1 = (SendMessage) callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
+                SendMessage msg2 = (SendMessage) commandContainer.retrieveCommand(CommandName.START.getCommandName()).handleCommand(message);
+                try {
+                    springWebhookBot.execute(msg1);
+                    springWebhookBot.execute(msg2);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
             } else if (message.getChat().isUserChat()){
                 // TODO Реализовать логику работы сообщения, не содержащего команды
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
