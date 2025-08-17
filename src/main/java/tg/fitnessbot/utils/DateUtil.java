@@ -15,14 +15,14 @@ public class DateUtil {
         int cDay = LocalDate.now().getDayOfMonth();
 
         if (cMonth > bMonth) {
-            return bYear - cYear;
+            return cYear - bYear;
         } else if (cMonth < bMonth) {
-            return bYear - cYear - 1;
+            return cYear - bYear - 1;
         } else {
             if (cDay < bDay) {
-                return bYear - cYear - 1;
+                return cYear - bYear - 1;
             } else {
-                return bYear - cYear;
+                return cYear - bYear;
             }
         }
     }
