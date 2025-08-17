@@ -14,7 +14,7 @@ import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 
 @Component
-public class UpdateGenderCallback implements Callback {
+public class UpdateGenderCallback extends AbstractCallback implements Callback {
     CallbackName callbackName = CallbackName.UPDATE_GENDER;
 
     @Autowired
@@ -23,10 +23,6 @@ public class UpdateGenderCallback implements Callback {
     @Autowired
     TelegramConfig telegramConfig;
 
-    @Override
-    public CallbackName getCallback(){
-        return callbackName;
-    }
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {

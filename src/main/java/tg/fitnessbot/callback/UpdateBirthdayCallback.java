@@ -16,18 +16,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 @Component
-public class UpdateBirthdayCallback implements Callback {
+public class UpdateBirthdayCallback extends AbstractCallback implements Callback {
     CallbackName callbackName = CallbackName.UPDATE_BIRTHDAY;
     @Autowired
     UserService userService;
 
     @Autowired
     TelegramConfig telegramConfig;
-
-    @Override
-    public CallbackName getCallback(){
-        return callbackName;
-    }
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {

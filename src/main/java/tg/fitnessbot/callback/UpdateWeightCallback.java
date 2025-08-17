@@ -13,7 +13,7 @@ import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 
 @Component
-public class UpdateWeightCallback implements Callback {
+public class UpdateWeightCallback extends AbstractCallback implements Callback {
     CallbackName callbackName = CallbackName.UPDATE_WEIGHT;
 
     @Autowired
@@ -21,11 +21,6 @@ public class UpdateWeightCallback implements Callback {
 
     @Autowired
     UserService userService;
-
-    @Override
-    public CallbackName getCallback(){
-        return callbackName;
-    }
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {

@@ -14,7 +14,7 @@ import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 
 @Component
-public class UpdateHeightCallback implements Callback {
+public class UpdateHeightCallback extends AbstractCallback implements Callback {
     CallbackName callbackName = CallbackName.UPDATE_HEIGHT;
 
     @Autowired
@@ -22,11 +22,6 @@ public class UpdateHeightCallback implements Callback {
 
     @Autowired
     TelegramConfig telegramConfig;
-
-    @Override
-    public CallbackName getCallback(){
-        return callbackName;
-    }
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {

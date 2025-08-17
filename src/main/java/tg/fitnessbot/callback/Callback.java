@@ -9,5 +9,6 @@ public interface Callback {
     BotApiMethod<?> processCallback (CallbackQuery callbackQuery);
 
     BotApiMethod<?> answerMessage(Message message);
+
     CallbackName getCallback();
 }
