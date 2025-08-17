@@ -7,6 +7,7 @@ import tg.fitnessbot.callback.CallbackContainer;
 
 @Component
 public class CallbackQueryHandlerImpl implements CallbackQueryHandler {
+
     private final CallbackContainer callbackContainer;
 
     public CallbackQueryHandlerImpl(CallbackContainer callbackContainer) {
