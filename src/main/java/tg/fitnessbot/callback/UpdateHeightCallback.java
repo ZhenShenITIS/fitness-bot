@@ -11,8 +11,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
+import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.utils.MessageUtil;
 
 @Component
 public class UpdateHeightCallback implements Callback {
@@ -23,9 +25,6 @@ public class UpdateHeightCallback implements Callback {
 
     @Autowired
     TelegramConfig telegramConfig;
-
-    @Autowired
-    StartCommand startCommand;
 
     @Override
     public CallbackName getCallback(){
@@ -42,9 +41,7 @@ public class UpdateHeightCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        message.setText("/start");
-        BotApiMethod<?> msg = startCommand.handleCommand(message);
-        return msg;
+        return MessageUtil.getStartMessage(message);
     }
 
     @Override
