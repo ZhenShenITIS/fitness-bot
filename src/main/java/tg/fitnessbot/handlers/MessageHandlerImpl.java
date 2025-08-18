@@ -47,9 +47,6 @@ public class MessageHandlerImpl implements MessageHandler {
     private final TelegramConfig telegramConfig;
 
 
-    private final SpringWebhookBot springWebhookBot;
-
-
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
         if (message.hasText()) {
@@ -64,14 +61,6 @@ public class MessageHandlerImpl implements MessageHandler {
                 return calculateFood(message);
 
             } else if (!state.equals(CallbackName.NONE)) {
-//                SendMessage msg1 = (SendMessage) callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
-//                SendMessage msg2 = (SendMessage) commandContainer.retrieveCommand(CommandName.START.getCommandName()).handleCommand(message);
-//                try {
-//                    springWebhookBot.execute(msg1);
-//                    springWebhookBot.execute(msg2);
-//                } catch (TelegramApiException e) {
-//                    throw new RuntimeException(e);
-//                }
                 return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
             } else if (message.getChat().isUserChat()){
                 // TODO Реализовать логику работы сообщения, не содержащего команды

@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.dto.UserForm;
@@ -55,7 +56,13 @@ public class UpdateHandler extends SpringWebhookBot {
     private BotApiMethod<?> handleUpdate (Update update) {
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            return callbackQueryHandler.processCallbackQuery(callbackQuery);
+            BotApiMethod<?> msg1 =  callbackQueryHandler.processCallbackQuery(callbackQuery);
+            try {
+                this.execute(msg1);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
         } else {
             Message message = update.getMessage();
             if (message != null) {
