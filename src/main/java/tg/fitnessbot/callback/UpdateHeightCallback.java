@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.dto.UserForm;
@@ -23,6 +24,9 @@ public class UpdateHeightCallback implements Callback {
     @Autowired
     TelegramConfig telegramConfig;
 
+    @Autowired
+    StartCommand startCommand;
+
     @Override
     public CallbackName getCallback(){
         return callbackName;
@@ -37,12 +41,10 @@ public class UpdateHeightCallback implements Callback {
             return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введён рост!\nТребуется целое число").build();
         }
         userService.updateUser(user);
-        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.AFTER_CALLBACK);
-        return SendMessage
-                .builder()
-                .chatId(message.getChatId())
-                .text("Ваш рост успешно обновлен!")
-                .build();
+        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
+        message.setText("/start");
+        BotApiMethod<?> msg = startCommand.handleCommand(message);
+        return msg;
     }
 
     @Override

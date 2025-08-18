@@ -71,6 +71,9 @@ public class MessageHandlerImpl implements MessageHandler {
         return null;
     }
 
+    // TODO Вынести метод в отдельный класс
+    // Хочу убрать сервисы в этом (MessageHandler) классе
+    // и чтоб с сервисами взаимодействовали только классы команд
     public BotApiMethod<?> calculateFood (Message message) {
         String textToSend = "";
         String msgText = message.getText();
