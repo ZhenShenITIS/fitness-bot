@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
@@ -30,6 +31,9 @@ public class UpdateHandler extends SpringWebhookBot {
     String botPath;
     String botUsername;
     String botToken;
+
+    @Autowired
+    TelegramConfig telegramConfig;
 
     @Autowired
     MessageHandler messageHandler;
@@ -57,19 +61,22 @@ public class UpdateHandler extends SpringWebhookBot {
     private BotApiMethod<?> handleUpdate (Update update) {
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            BotApiMethod<?> msg1 = callbackQueryHandler.processCallbackQuery(callbackQuery);
-            Message message = update.getMessage();
-            message.setText(CommandName.START.getCommandName());
-            BotApiMethod<?> msg2 = messageHandler.answerMessage(message);
-            try {
-                this.execute(msg1);
-                this.execute(msg2);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
+            return callbackQueryHandler.processCallbackQuery(callbackQuery);
         } else {
             Message message = update.getMessage();
             if (message != null) {
+                if (telegramConfig.getUserStateMap().get(message.getFrom().getId()).equals(CallbackName.AFTER_CALLBACK)){
+                    BotApiMethod<?> msg1 = messageHandler.answerMessage(update.getMessage());
+                    message.setText(CommandName.START.getCommandName());
+                    BotApiMethod<?> msg2 = messageHandler.answerMessage(message);
+                    try {
+                        this.execute(msg1);
+                        this.execute(msg2);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return null;
+                }
                 return messageHandler.answerMessage(update.getMessage());
             }
         }

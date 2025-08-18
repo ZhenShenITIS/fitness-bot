@@ -37,7 +37,7 @@ public class UpdateHeightCallback implements Callback {
             return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введён рост!\nТребуется целое число").build();
         }
         userService.updateUser(user);
-        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
+        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.AFTER_CALLBACK);
         return SendMessage
                 .builder()
                 .chatId(message.getChatId())

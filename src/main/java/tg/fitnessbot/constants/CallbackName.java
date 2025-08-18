@@ -5,6 +5,7 @@ public enum CallbackName {
     UPDATE_HEIGHT("update_height"),
     UPDATE_BIRTHDAY("update_birthday"),
     UPDATE_GENDER("update_gender"),
+    AFTER_CALLBACK("after_callback"),
     NONE("none");
 
     private final String callbackName;
