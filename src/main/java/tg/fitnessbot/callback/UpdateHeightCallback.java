@@ -26,6 +26,9 @@ public class UpdateHeightCallback implements Callback {
     @Autowired
     TelegramConfig telegramConfig;
 
+    @Autowired
+    MessageUtil messageUtil;
+
     @Override
     public CallbackName getCallback(){
         return callbackName;
@@ -41,7 +44,7 @@ public class UpdateHeightCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return MessageUtil.getStartMessage(message);
+        return messageUtil.getProfileMessage(message);
     }
 
     @Override
