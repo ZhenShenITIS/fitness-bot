@@ -12,6 +12,7 @@ import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.utils.MessageUtil;
 
 @Component
 public class UpdateGenderCallback implements Callback {
@@ -22,6 +23,9 @@ public class UpdateGenderCallback implements Callback {
 
     @Autowired
     TelegramConfig telegramConfig;
+
+    @Autowired
+    MessageUtil messageUtil;
 
     @Override
     public CallbackName getCallback(){
@@ -40,7 +44,7 @@ public class UpdateGenderCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return SendMessage.builder().chatId(message.getChatId()).text("Ваш пол успешно обновлен!").build();
+        return messageUtil.getProfileMessage(message);
     }
 
     @Override

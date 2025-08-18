@@ -29,7 +29,7 @@ public class MessageUtil {
         String weight = user.getWeight() == null ? "не указан" : user.getWeight().toString();
         String birthday = user.getBirthday() == null ? "не указана" : String.valueOf(DateUtil.getAge(user.getBirthday()));
         String gender = user.getGender() == null ? "не указан" : user.getGender().getGenderName();
-        String textToSend = "Привет! Вот твои данные: \n" +
+        String textToSend = "Вот твои данные: \n\n" +
                 "Рост: " + height + "\n" +
                 "Вес: " + weight + "\n" +
                 "Возраст: " + birthday + "\n" +

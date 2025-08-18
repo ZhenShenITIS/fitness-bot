@@ -11,6 +11,7 @@ import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.utils.MessageUtil;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -23,6 +24,9 @@ public class UpdateBirthdayCallback implements Callback {
 
     @Autowired
     TelegramConfig telegramConfig;
+
+    @Autowired
+    MessageUtil messageUtil;
 
     @Override
     public CallbackName getCallback(){
@@ -39,7 +43,7 @@ public class UpdateBirthdayCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return SendMessage.builder().chatId(message.getChatId()).text("Ваша дата рождения успешно обновлена!").build();
+        return messageUtil.getProfileMessage(message);
     }
 
     @Override

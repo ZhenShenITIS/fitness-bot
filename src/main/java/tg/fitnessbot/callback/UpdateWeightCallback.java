@@ -11,6 +11,7 @@ import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.utils.MessageUtil;
 
 @Component
 public class UpdateWeightCallback implements Callback {
@@ -21,6 +22,9 @@ public class UpdateWeightCallback implements Callback {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MessageUtil messageUtil;
 
     @Override
     public CallbackName getCallback(){
@@ -37,7 +41,7 @@ public class UpdateWeightCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return SendMessage.builder().chatId(message.getChatId()).text("Ваш вес успешно обновлен!").build();
+        return messageUtil.getProfileMessage(message);
     }
 
     @Override
