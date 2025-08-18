@@ -1,0 +1,45 @@
+package tg.fitnessbot.constants;
+
+public enum MessageText {
+    WRONG_HEIGHT("Неправильно введён рост!\nТребуется целое число"),
+    REQUEST_HEIGHT("Введите ваш рост:"),
+    WRONG_GENDER("Неправильно введён пол!\nТребуется символ м или ж"),
+    REQUEST_GENDER("Введите ваш пол:\n\nПодсказка: пришлите одну букву м или ж"),
+    WRONG_WEIGHT("Неправильно введён вес!"),
+    REQUEST_WEIGHT("Введите ваш вес:"),
+    WRONG_BIRTHDAY("Неправильно введена дата рождения!\nТребуется строка в формате 2000-12-31"),
+    REQUEST_BIRTHDAY("Введите вашу дату рождения:\n\nПодсказка: если вы волнуетесь о сохранности ваших персональных данных, можете ввести примерную дату +- 3 года\n\nЭти данные нужны для правильного подсчета каллорий на тренировках"),
+    WRONG_FOOD_LINE_DB("Ошибка преобразования еды в объект, для добавления в базу данных из строки %s\n"),
+    SUCCESS_ADD_FOOD("Успешно добавлена в базу данных еда из строки %s\n"),
+    ALREADY_EXIST_FOOD("Еда с именем %s уже существует в базе данных\n"),
+    WRONG_INPUT("Некорректный ввод!"),
+    NOT_ADMIN("Вы не админ!"),
+    SUCCESS_REGISTRATION("Вы успешно зарегистрировались!"),
+    UNKNOWN_COMMAND("Прости, я не знаю такой команды :("),
+    PROFILE("Вот твои данные: \n\n" +
+            "Рост: %h\n" +
+            "Вес: %w\n" +
+            "Возраст: %b\n" +
+            "Пол: %g\n\n" +
+            "Хочешь их изменить?"),
+    FOOD_STAT("\nОбщая каллорийность введённых продуктов: %k\n"
+            +"Общее количество белка: %p\n"
+            +"Общее количество жиров: %f\n"
+            +"Общее количество углеводов: %c\n"),
+    SUCCESS_RECOGNIZE("Удалось распознать следующие продукты: \n"),
+    INLINE_BUTTON_HEIGHT("Рост"),
+    INLINE_BUTTON_WEIGHT("Вес"),
+    INLINE_BUTTON_BIRTHDAY("Возраст"),
+    INLINE_BUTTON_GENDER("Пол")
+    ;
+
+    private final String messageText;
+
+    MessageText(String messageText) {
+        this.messageText = messageText;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+}

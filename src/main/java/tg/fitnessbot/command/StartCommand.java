@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.CommandName;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
 import tg.fitnessbot.services.UserService;
@@ -46,7 +47,7 @@ public class StartCommand implements Command{
                 SendMessage messageToSend = SendMessage
                         .builder()
                         .chatId(message.getChatId())
-                        .text("Вы успешно зарегестрировались!")
+                        .text(MessageText.SUCCESS_REGISTRATION.getMessageText())
                         .build();
 
                 return messageToSend;

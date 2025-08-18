@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
@@ -37,7 +38,7 @@ public class UpdateWeightCallback implements Callback {
         try {
             user.setWeight(Double.parseDouble(message.getText().replaceAll(",",".")));
         } catch (NumberFormatException e) {
-            return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введён вес!").build();
+            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_WEIGHT.getMessageText()).build();
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
@@ -55,7 +56,7 @@ public class UpdateWeightCallback implements Callback {
                     .builder()
                     .messageId(messageId)
                     .chatId(chatId)
-                    .text("Введите ваш вес:")
+                    .text(MessageText.REQUEST_WEIGHT.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_WEIGHT);
             return editMessageText;

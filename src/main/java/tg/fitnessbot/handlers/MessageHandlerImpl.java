@@ -16,6 +16,7 @@ import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.CommandName;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.FoodServiceImpl;
@@ -95,17 +96,18 @@ public class MessageHandlerImpl implements MessageHandler {
         }
         HashMap<FoodForm, Double> foodForms = foodService.getFoodByName(foods);
         if (!foodForms.isEmpty()) {
-            textToSend = textToSend + "Удалось распознать следующие продукты: \n";
+            textToSend = textToSend + MessageText.SUCCESS_RECOGNIZE.getMessageText();
             for (FoodForm key : foodForms.keySet()) {
                 textToSend = textToSend + key.getName() + "\n";
             }
 
             FoodForm foodForm = foodService.calculateFood(foodForms);
 
-            textToSend = textToSend+"\nОбщая каллорийность введённых продуктов: " + decimalFormat.format(foodForm.getKcal()) + "\n"
-                    +"Общее количество белка: " + decimalFormat.format(foodForm.getProtein()) + "\n"
-                    +"Общее количество жиров: " + decimalFormat.format(foodForm.getFat()) + "\n"
-                    +"Общее количество углеводов: " + decimalFormat.format(foodForm.getCarbohydrates()) + "\n";
+            textToSend = textToSend+String.format(MessageText.FOOD_STAT.getMessageText(),
+                    decimalFormat.format(foodForm.getKcal()),
+                    decimalFormat.format(foodForm.getProtein()),
+                    decimalFormat.format(foodForm.getFat()),
+                    decimalFormat.format(foodForm.getCarbohydrates()));
         }
 
         return SendMessage

@@ -12,6 +12,7 @@ import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.CommandName;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
@@ -40,7 +41,7 @@ public class UpdateHeightCallback implements Callback {
         try {
             user.setHeight(Integer.parseInt(message.getText().replaceAll(",",".")));
         } catch (NumberFormatException e) {
-            return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введён рост!\nТребуется целое число").build();
+            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_HEIGHT.getMessageText()).build();
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
@@ -58,7 +59,7 @@ public class UpdateHeightCallback implements Callback {
                     .builder()
                     .messageId(messageId)
                     .chatId(chatId)
-                    .text("Введите ваш рост:")
+                    .text(MessageText.REQUEST_HEIGHT.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_HEIGHT);
             return editMessageText;

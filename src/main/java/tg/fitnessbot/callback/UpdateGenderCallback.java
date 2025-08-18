@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.Gender;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
@@ -40,7 +41,7 @@ public class UpdateGenderCallback implements Callback {
         } else if (message.getText().toLowerCase().equals("ж")) {
             user.setGender(Gender.FEMALE);
         } else {
-            return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введён пол!\nТребуется символ м или ж").build();
+            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_GENDER.getMessageText()).build();
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
@@ -58,7 +59,7 @@ public class UpdateGenderCallback implements Callback {
                     .builder()
                     .messageId(messageId)
                     .chatId(chatId)
-                    .text("Введите ваш пол:\n\nПодсказка: пришлите одну букву м или ж")
+                    .text(MessageText.REQUEST_GENDER.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_GENDER);
             return editMessageText;

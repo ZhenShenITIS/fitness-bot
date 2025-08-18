@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
@@ -39,7 +40,7 @@ public class UpdateBirthdayCallback implements Callback {
         try {
             user.setBirthday(LocalDate.parse(message.getText().replaceAll(",",".")));
         } catch (DateTimeParseException e) {
-            return SendMessage.builder().chatId(message.getChatId()).text("Неправильно введена дата рождения!\nТребуется строка в формате 2000-12-31").build();
+            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_BIRTHDAY.getMessageText()).build();
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
@@ -57,7 +58,7 @@ public class UpdateBirthdayCallback implements Callback {
                     .builder()
                     .messageId(messageId)
                     .chatId(chatId)
-                    .text("Введите вашу дату рождения:\n\nПодсказка: если вы волнуетесь о сохранности ваших персональных данных, можете ввести примерную дату +- 3 года\n\nЭти данные нужны для правильного подсчета каллорий на тренировках")
+                    .text(MessageText.REQUEST_BIRTHDAY.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_BIRTHDAY);
             return editMessageText;

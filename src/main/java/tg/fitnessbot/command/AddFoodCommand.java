@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CommandName;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.services.FoodServiceImpl;
 
@@ -60,13 +61,13 @@ public class AddFoodCommand implements Command{
                                 .carbohydrates(Double.parseDouble(food[len - 1]))
                                 .build();
                     } catch (NumberFormatException e) {
-                        textToSend = textToSend + "Ошибка преобразования еды в объект, для добавления в базу данных в строке №" + (i + 1) + "!\n";
+                        textToSend = textToSend + String.format(MessageText.WRONG_FOOD_LINE_DB.getMessageText(), lines[i]);
                         continue;
                     }
                     if (foodService.addFood(foodForm)) {
-                        textToSend = textToSend + "Успешно добавлена в базу данных еда в строке №" + (i + 1) + "\n";
+                        textToSend = textToSend + String.format(MessageText.SUCCESS_ADD_FOOD.getMessageText(), lines[i]);
                     } else {
-                        textToSend = textToSend + "Еда с именем " + foodName + " уже существует в базе данных\n";
+                        textToSend = textToSend + String.format(MessageText.ALREADY_EXIST_FOOD.getMessageText(), foodName);
                     }
 
                 }
@@ -75,7 +76,7 @@ public class AddFoodCommand implements Command{
                 return SendMessage
                         .builder()
                         .chatId(message.getChatId())
-                        .text("Некорректный ввод!")
+                        .text(MessageText.WRONG_INPUT.getMessageText())
                         .build();
             }
             SendMessage msgToSend = SendMessage
@@ -88,7 +89,7 @@ public class AddFoodCommand implements Command{
             SendMessage messageToSend = SendMessage
                     .builder()
                     .chatId(message.getChatId())
-                    .text("Вы не являетесь админом!")
+                    .text(MessageText.NOT_ADMIN.getMessageText())
                     .build();
             return messageToSend;
         }
