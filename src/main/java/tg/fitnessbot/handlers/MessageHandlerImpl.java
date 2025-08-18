@@ -35,24 +35,19 @@ public class MessageHandlerImpl implements MessageHandler {
     private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
 
 
-    CommandContainer commandContainer;
+    private final CommandContainer commandContainer;
 
 
-    CallbackContainer callbackContainer;
+    private final CallbackContainer callbackContainer;
 
-    public MessageHandlerImpl(CommandContainer commandContainer, CallbackContainer callbackContainer) {
-        this.commandContainer = commandContainer;
-        this.callbackContainer = callbackContainer;
-    }
 
-    @Autowired
-    FoodServiceImpl foodService;
+    private final FoodServiceImpl foodService;
 
-    @Autowired
-    TelegramConfig telegramConfig;
 
-//    @Autowired
-//    SpringWebhookBot springWebhookBot;
+    private final TelegramConfig telegramConfig;
+
+
+    private final SpringWebhookBot springWebhookBot;
 
 
     @Override
