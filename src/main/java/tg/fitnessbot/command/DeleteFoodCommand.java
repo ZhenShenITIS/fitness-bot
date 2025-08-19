@@ -45,6 +45,8 @@ public class DeleteFoodCommand implements Command{
                     textToSend = textToSend + MessageText.FOOD_NOT_FOUND.getMessageText();
                 }
             }
+
+            return SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
         } else {
             SendMessage messageToSend = SendMessage
                     .builder()
