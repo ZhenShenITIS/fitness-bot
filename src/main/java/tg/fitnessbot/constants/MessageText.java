@@ -12,6 +12,10 @@ public enum MessageText {
     WRONG_FOOD_LINE_DB("Ошибка преобразования еды в объект, для добавления в базу данных из строки %s\n"),
     SUCCESS_ADD_FOOD("Успешно добавлена в базу данных еда из строки %s\n"),
     ALREADY_EXIST_FOOD("Еда с именем %s уже существует в базе данных\n"),
+    SUCCESS_DELETE_FOOD("Успешно удалена из базы данных еда из строки %s\n"),
+    FOOD_NOT_FOUND("Еда из строки %s не найдена в базе данных\n"),
+    FOOD_NOT_FOUND_AND_ADD("Еда из строки %s не найдена в базе данных, будет добавлена\n"),
+    SUCCESS_UPDATE_FOOD("Успешно обновлена еда в базе данных из строки %s\n"),
     WRONG_INPUT("Некорректный ввод!"),
     NOT_ADMIN("Вы не админ!"),
     SUCCESS_REGISTRATION("Вы успешно зарегистрировались!"),
@@ -30,7 +34,8 @@ public enum MessageText {
     INLINE_BUTTON_HEIGHT("Рост"),
     INLINE_BUTTON_WEIGHT("Вес"),
     INLINE_BUTTON_BIRTHDAY("Возраст"),
-    INLINE_BUTTON_GENDER("Пол")
+    INLINE_BUTTON_GENDER("Пол"),
+    TO_BE_CONTINUED("...\n")
     ;
 
     private final String messageText;

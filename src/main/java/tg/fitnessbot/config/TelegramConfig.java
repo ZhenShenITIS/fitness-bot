@@ -24,14 +24,15 @@ public class TelegramConfig {
     @Value("${TELEGRAM_BOT_ADMINS_ID}")
     String adminsId;
 
+    // TODO возможно не стоит эту мапу тут хранить. Подумать над этим
     final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
 
-    public Long[] getAdmins() {
-        Long[] admins = new Long[adminsId.split(",").length];
-        for (int i = 0; i < admins.length; i++) {
-            admins[i] = Long.parseLong(adminsId.split(",")[i]);
-        }
-        return admins;
-    }
+//    public Long[] getAdmins() {
+//        Long[] admins = new Long[adminsId.split(",").length];
+//        for (int i = 0; i < admins.length; i++) {
+//            admins[i] = Long.parseLong(adminsId.split(",")[i]);
+//        }
+//        return admins;
+//    }
 
 }

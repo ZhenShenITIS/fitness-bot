@@ -1,11 +1,11 @@
 package tg.fitnessbot.constants;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import tg.fitnessbot.config.TelegramConfig;
-
 public enum CommandName {
 
-    START("/start"), ADD_FOOD("/add_food");
+    START("/start"),
+    DELETE_FOOD("/delete_food"),
+    UPDATE_FOOD("/update_food"),
+    ADD_FOOD("/add_food");
 
     private final String commandName;
 

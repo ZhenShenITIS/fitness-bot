@@ -84,4 +84,28 @@ public class FoodServiceImpl implements FoodService {
                 .carbohydrates(carbohydrates)
                 .build();
     }
+
+    @Override
+    public boolean deleteFood(FoodForm form) {
+        Food exFood = foodRepository.findByName(form.getName());
+        if (exFood != null) {
+            foodRepository.delete(exFood);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateFood(FoodForm form) {
+        Food exFood = foodRepository.findByName(form.getName());
+        if (exFood != null) {
+            exFood.setKcal(form.getKcal());
+            exFood.setProtein(form.getProtein());
+            exFood.setFat(form.getFat());
+            exFood.setCarbohydrates(form.getCarbohydrates());
+            foodRepository.save(exFood);
+            return true;
+        }
+        return false;
+    }
 }

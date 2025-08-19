@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tg.fitnessbot.callback.*;
-import tg.fitnessbot.command.AddFoodCommand;
-import tg.fitnessbot.command.Command;
-import tg.fitnessbot.command.CommandContainer;
-import tg.fitnessbot.command.StartCommand;
+import tg.fitnessbot.command.*;
 
 @Configuration
 public class ContainersConfig {
@@ -15,10 +12,14 @@ public class ContainersConfig {
     StartCommand startCommand;
     @Autowired
     AddFoodCommand addFoodCommand;
+    @Autowired
+    DeleteFoodCommand deleteFoodCommand;
+    @Autowired
+    UpdateFoodCommand updateFoodCommand;
     @Bean
     public CommandContainer commandContainer() {
         // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
-        return new CommandContainer(new Command[]{startCommand, addFoodCommand});
+        return new CommandContainer(new Command[]{startCommand, addFoodCommand, deleteFoodCommand, updateFoodCommand});
     }
 
 

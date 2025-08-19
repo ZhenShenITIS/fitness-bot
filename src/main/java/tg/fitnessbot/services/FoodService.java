@@ -12,4 +12,8 @@ public interface FoodService {
     HashMap<FoodForm, Double> getFoodByName (HashMap<String, Double> foods);
 
     FoodForm calculateFood (HashMap<FoodForm, Double> foods);
+
+    boolean deleteFood(FoodForm form);
+
+    boolean updateFood(FoodForm form);
 }
