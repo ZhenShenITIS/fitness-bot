@@ -22,14 +22,14 @@ public class AddFoodCommand implements Command{
 
     CommandName commandName = ADD_FOOD;
     @Autowired
-    TelegramConfig telegramConfig;
+    UserUtil userUtil;
 
     @Autowired
     FoodServiceImpl foodService;
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
-        if (UserUtil.isAdmin(message.getFrom().getId())){
+        if (userUtil.isAdmin(message.getFrom().getId())){
             String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
             String[] lines = cmdText.trim().split("\n");
             int counter = 0;

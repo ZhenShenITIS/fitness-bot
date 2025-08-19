@@ -21,6 +21,9 @@ public class DeleteFoodCommand implements Command{
     @Autowired
     FoodService foodService;
 
+    @Autowired
+    UserUtil userUtil;
+
     @Override
     public CommandName getCommand() {
         return commandName;
@@ -28,7 +31,7 @@ public class DeleteFoodCommand implements Command{
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
-        if (UserUtil.isAdmin(message.getFrom().getId())){
+        if (userUtil.isAdmin(message.getFrom().getId())){
             String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
             String[] lines = cmdText.split("\n");
             String textToSend = "";
