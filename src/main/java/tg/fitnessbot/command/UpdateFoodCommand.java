@@ -13,6 +13,7 @@ import tg.fitnessbot.services.FoodService;
 import tg.fitnessbot.utils.UserUtil;
 
 import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
+import static tg.fitnessbot.constants.CommandName.UPDATE_FOOD;
 
 @Component
 public class UpdateFoodCommand implements Command{
@@ -27,7 +28,7 @@ public class UpdateFoodCommand implements Command{
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
         if (userUtil.isAdmin(message.getFrom().getId())){
-            String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
+            String cmdText = message.getText().substring(UPDATE_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
             String[] lines = cmdText.split("\n");
             int counterOfUpdate = 0;
             int counterOfAdd = 0;
