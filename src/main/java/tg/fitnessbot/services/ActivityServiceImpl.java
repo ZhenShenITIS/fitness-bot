@@ -42,6 +42,7 @@ public class ActivityServiceImpl implements ActivityService {
             exActivity.setName(form.getName());
             exActivity.setMet(form.getMet());
             activityRepository.save(exActivity);
+            return true;
         }
         return false;
 
