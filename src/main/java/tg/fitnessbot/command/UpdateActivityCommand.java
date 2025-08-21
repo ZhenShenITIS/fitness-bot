@@ -68,6 +68,8 @@ public class UpdateActivityCommand implements Command {
                     // Из-за ограничений на размер сообщения
                     if (activityService.updateActivity(activityForm)) {
                         if (counterOfUpdate < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
+                            // TODO Убрать отладочный вывод
+                            System.out.println("Updated activity: " + activityForm.getName() + " with met: " + activityForm.getMet());
                             textToSend = textToSend + String.format(MessageText.SUCCESS_UPDATE_ACTIVITY.getMessageText(), line);
                             counterOfUpdate++;
                         } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counterOfUpdate)) {
