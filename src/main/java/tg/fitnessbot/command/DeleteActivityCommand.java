@@ -1,12 +1,30 @@
 package tg.fitnessbot.command;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.constants.CommandName;
+import tg.fitnessbot.constants.IntegerConstants;
+import tg.fitnessbot.constants.MessageText;
+import tg.fitnessbot.dto.ActivityForm;
+import tg.fitnessbot.dto.FoodForm;
+import tg.fitnessbot.services.ActivityService;
+import tg.fitnessbot.utils.UserUtil;
+
+import static tg.fitnessbot.constants.CommandName.DELETE_ACTIVITY;
+import static tg.fitnessbot.constants.CommandName.DELETE_FOOD;
+
 @Component
 public class DeleteActivityCommand implements Command {
     CommandName commandName = CommandName.DELETE_ACTIVITY;
+
+    @Autowired
+    UserUtil userUtil;
+
+    @Autowired
+    ActivityService activityService;
 
     @Override
     public CommandName getCommand() {
@@ -15,6 +33,32 @@ public class DeleteActivityCommand implements Command {
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
-        return null;
+        if (userUtil.isAdmin(message.getFrom().getId())){
+            String cmdText = message.getText().substring(DELETE_ACTIVITY.getCommandName().length()).trim().replaceAll(",", ".");
+            String[] lines = cmdText.split("\n");
+            String textToSend = "";
+            int counter = 0;
+            for (String line : lines) {
+                ActivityForm activity = ActivityForm.builder().name(line.trim().toLowerCase()).build();
+                if (activityService.deleteActivity(activity)) {
+                    if (counter < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
+                        textToSend = textToSend + String.format(MessageText.SUCCESS_DELETE_ACTIVITY.getMessageText(), line);
+                    } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counter)) {
+                        textToSend = textToSend + MessageText.TO_BE_CONTINUED;
+                    }
+                } else {
+                    textToSend = textToSend + String.format(MessageText.ACTIVITY_NOT_FOUND.getMessageText(), line);
+                }
+            }
+
+            return SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
+        } else {
+            SendMessage messageToSend = SendMessage
+                    .builder()
+                    .chatId(message.getChatId())
+                    .text(MessageText.NOT_ADMIN.getMessageText())
+                    .build();
+            return messageToSend;
+        }
     }
 }

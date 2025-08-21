@@ -45,7 +45,8 @@ public enum MessageText {
     INLINE_BUTTON_WEIGHT("Вес"),
     INLINE_BUTTON_BIRTHDAY("Возраст"),
     INLINE_BUTTON_GENDER("Пол"),
-    TO_BE_CONTINUED("...\n")
+    TO_BE_CONTINUED("...\n"),
+    HELP("Ну тут типа сообщение со всей справкой по боту, впадлу писать сейчас")
     ;
 
     private final String messageText;
