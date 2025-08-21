@@ -16,10 +16,30 @@ public class ContainersConfig {
     DeleteFoodCommand deleteFoodCommand;
     @Autowired
     UpdateFoodCommand updateFoodCommand;
+    @Autowired
+    AddActivityCommand addActivityCommand;
+    @Autowired
+    DeleteActivityCommand deleteActivityCommand;
+    @Autowired
+    UpdateActivityCommand updateActivityCommand;
+    @Autowired
+    CalculateActivityCommand calculateActivityCommand;
+    @Autowired
+    HelpCommand helpCommand;
     @Bean
     public CommandContainer commandContainer() {
         // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
-        return new CommandContainer(new Command[]{startCommand, addFoodCommand, deleteFoodCommand, updateFoodCommand});
+        return new CommandContainer(new Command[]{
+                startCommand,
+                addFoodCommand,
+                deleteFoodCommand,
+                updateFoodCommand,
+                addActivityCommand,
+                deleteActivityCommand,
+                updateActivityCommand,
+                calculateActivityCommand,
+                helpCommand
+        });
     }
 
 
