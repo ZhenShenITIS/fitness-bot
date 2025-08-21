@@ -34,7 +34,8 @@ public class MessageUtil {
         String gender = user.getGender() == null ? "не указан" : user.getGender().getGenderName();
         String lifeActivity = user.getLifeActivity() == null ? "не указана" : user.getLifeActivity().getActivityName();
         Double tdee = 0.0;
-        if (height != null && weight != null && birthday != null && gender != null && lifeActivity != null) {
+        // TODO Вынести эту логику в сервис
+        if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
             Double bmr;
             if (user.getGender().equals(Gender.MALE)) {
                 // BMR = 10 × вес (кг) + 6.25 × рост (см) – 5 × возраст (г) + 5
