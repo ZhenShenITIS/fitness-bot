@@ -56,6 +56,11 @@ public class ContainersConfig {
 
     @Bean
     public CallbackContainer callbackContainer() {
-        return new CallbackContainer(new Callback[]{updateBirthdayCallback, updateGenderCallback, updateHeightCallback, updateWeightCallback, noneCallback});
+        return new CallbackContainer(new Callback[]{
+                updateBirthdayCallback,
+                updateGenderCallback,
+                updateHeightCallback,
+                updateWeightCallback,
+                noneCallback});
     }
 }

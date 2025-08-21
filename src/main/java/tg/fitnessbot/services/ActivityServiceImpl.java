@@ -57,7 +57,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public HashMap<ActivityForm, Double> getFoodByName(HashMap<String, Double> activities) {
+    public HashMap<ActivityForm, Double> getActivityByName(HashMap<String, Double> activities) {
          HashMap<ActivityForm, Double> map = new HashMap<>();
          for (String nameOfActivity : activities.keySet()) {
              ActivityForm form = getActivityByName(nameOfActivity);

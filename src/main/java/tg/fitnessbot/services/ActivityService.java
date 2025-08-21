@@ -17,7 +17,7 @@ public interface ActivityService {
     ActivityForm getActivityByName(String name);
 
     // TODO Попробовать переписать на обычную мапу, как будто плохая идея использовать классы
-    HashMap<ActivityForm, Double> getFoodByName (HashMap<String, Double> activities);
+    HashMap<ActivityForm, Double> getActivityByName (HashMap<String, Double> activities);
 
     Double calculateActivity (HashMap<ActivityForm, Double> activities, double weight);
 

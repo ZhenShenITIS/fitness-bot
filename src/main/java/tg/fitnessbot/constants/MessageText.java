@@ -24,6 +24,7 @@ public enum MessageText {
     SUCCESS_UPDATE_FOOD("Успешно обновлена еда в базе данных из строки %s\n"),
     SUCCESS_UPDATE_ACTIVITY("Успешно обновлена активность в базе данных из строки %s\n"),
     WRONG_INPUT("Некорректный ввод!"),
+    NO_WEIGHT("Для использования данного функционала вам необходимо указать свой вес в профиле с помощью команды " + CommandName.START.getCommandName()),
     NOT_ADMIN("Вы не админ!"),
     SUCCESS_REGISTRATION("Вы успешно зарегистрировались!"),
     UNKNOWN_COMMAND("Прости, я не знаю такой команды :("),
@@ -37,7 +38,9 @@ public enum MessageText {
             +"Общее количество белка: %s\n"
             +"Общее количество жиров: %s\n"
             +"Общее количество углеводов: %s\n"),
-    SUCCESS_RECOGNIZE("Удалось распознать следующие продукты: \n"),
+    ACTIVITY_STAT("Общее количество сожжённых каллорий: %s\n"),
+    SUCCESS_RECOGNIZE_FOOD("Удалось распознать следующие продукты: \n"),
+    SUCCESS_RECOGNIZE_ACTIVITY("Удалось распознать следующие продукты: \n"),
     INLINE_BUTTON_HEIGHT("Рост"),
     INLINE_BUTTON_WEIGHT("Вес"),
     INLINE_BUTTON_BIRTHDAY("Возраст"),
