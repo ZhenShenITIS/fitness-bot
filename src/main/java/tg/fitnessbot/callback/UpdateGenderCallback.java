@@ -7,6 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.Gender;
@@ -14,6 +17,9 @@ import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UpdateGenderCallback implements Callback {
@@ -35,6 +41,7 @@ public class UpdateGenderCallback implements Callback {
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
+        // TODO Сделать реплей маркап
         UserForm user = userService.getUserByID(message.getFrom().getId());
         if (message.getText().toLowerCase().equals("м")) {
             user.setGender(Gender.MALE);
@@ -55,6 +62,7 @@ public class UpdateGenderCallback implements Callback {
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
+            List<KeyboardButton> list = new ArrayList<>();
             EditMessageText editMessageText = EditMessageText
                     .builder()
                     .messageId(messageId)
@@ -62,6 +70,7 @@ public class UpdateGenderCallback implements Callback {
                     .text(MessageText.REQUEST_GENDER.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_GENDER);
+
             return editMessageText;
         }
         return null;

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tg.fitnessbot.constants.Gender;
+import tg.fitnessbot.constants.LifeActivity;
 
 import java.time.LocalDate;
 
@@ -28,5 +29,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private LocalDate birthday;
+    // TODO Вопрос по новому полю у класса модели
+    // Такая ситуация: в ходе разработки понял, что
+    // нужно ещё такое поле как физическая активность
+    // человека, соответственно надо теперь во многих
+    // местах код менять где эти параметры использовались
+    // (банально сохранение в БД). Возможно есть
+    // какой-то подход в написании кода, который
+    // поможет этого избежать
+    private LifeActivity lifeActivity;
 
 }

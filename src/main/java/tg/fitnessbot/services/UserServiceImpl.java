@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
                 .firstName(userForm.getFirstName())
                 .lastName(userForm.getLastName())
                 .username(userForm.getUsername())
+                .lifeActivity(userForm.getLifeActivity())
                 .build();
         userRepository.save(user);
     }
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService {
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .username(user.getUsername())
+                    .lifeActivity(user.getLifeActivity())
                     .build();
         }
         return userForm;

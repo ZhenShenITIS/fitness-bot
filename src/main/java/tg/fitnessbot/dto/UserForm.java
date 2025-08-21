@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tg.fitnessbot.constants.Gender;
+import tg.fitnessbot.constants.LifeActivity;
 
 import java.time.LocalDate;
 
@@ -21,4 +22,5 @@ public class UserForm {
     private Integer height;
     private Gender gender;
     private LocalDate birthday;
+    private LifeActivity lifeActivity;
 }
