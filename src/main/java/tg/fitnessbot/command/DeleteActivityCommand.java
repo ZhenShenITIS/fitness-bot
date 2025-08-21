@@ -64,17 +64,17 @@ public class DeleteActivityCommand implements Command {
                     .chatId(message.getChatId())
                     .text(MessageText.NOT_ADMIN.getMessageText())
                     .build();
-            List<KeyboardButton> list = new ArrayList<>();
-            list.add(new KeyboardButton("м"));
-            list.add(new KeyboardButton("ж"));
-            messageToSend.setReplyMarkup(ReplyKeyboardMarkup
-                    .builder()
-                    .keyboardRow(new KeyboardRow(list))
-                    .keyboardRow(new KeyboardRow(list))
-                    .keyboardRow(new KeyboardRow(list))
-                    .keyboardRow(new KeyboardRow(list))
-                    .keyboardRow(new KeyboardRow(list))
-                    .build());
+//            List<KeyboardButton> list = new ArrayList<>();
+//            list.add(new KeyboardButton("м"));
+//            list.add(new KeyboardButton("ж"));
+//            messageToSend.setReplyMarkup(ReplyKeyboardMarkup
+//                    .builder()
+//                    .keyboardRow(new KeyboardRow(list))
+//                    .keyboardRow(new KeyboardRow(list))
+//                    .keyboardRow(new KeyboardRow(list))
+//                    .keyboardRow(new KeyboardRow(list))
+//                    .keyboardRow(new KeyboardRow(list))
+//                    .build());
             return messageToSend;
         }
     }
