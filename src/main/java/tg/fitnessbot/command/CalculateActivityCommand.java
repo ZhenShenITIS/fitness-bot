@@ -63,6 +63,8 @@ public class CalculateActivityCommand implements Command{
             }
         }
         HashMap<ActivityForm, Double> activityForms = activityService.getActivityByName(activities);
+        // TODO убрать отладочный вывод
+        System.out.println(activityForms);
         if (!activityForms.isEmpty()) {
             textToSend = textToSend + MessageText.SUCCESS_RECOGNIZE_ACTIVITY.getMessageText();
             for (ActivityForm key : activityForms.keySet()) {
