@@ -49,7 +49,7 @@ public class UpdateActivityCommand implements Command {
 
                     ActivityForm activityForm;
                     String activityName = "";
-                    for (int j = 0; j < len - 4; j++) {
+                    for (int j = 0; j < len - 1; j++) {
                         activityName = activityName + activity[j] + " ";
                     }
                     activityName = activityName.trim().toLowerCase();
