@@ -52,7 +52,7 @@ public class AddActivityCommand implements Command{
                         activityName =activityName + activity[j] + " ";
                     }
                     
-                    activityName = activityName.trim();
+                    activityName = activityName.trim().toLowerCase();
                     try {
                         activityForm = ActivityForm
                                 .builder()

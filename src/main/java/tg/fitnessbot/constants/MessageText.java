@@ -40,7 +40,7 @@ public enum MessageText {
             +"Общее количество углеводов: %s\n"),
     ACTIVITY_STAT("Общее количество сожжённых каллорий: %s\n"),
     SUCCESS_RECOGNIZE_FOOD("Удалось распознать следующие продукты: \n"),
-    SUCCESS_RECOGNIZE_ACTIVITY("Удалось распознать следующие продукты: \n"),
+    SUCCESS_RECOGNIZE_ACTIVITY("Удалось распознать следующие активности: \n"),
     INLINE_BUTTON_HEIGHT("Рост"),
     INLINE_BUTTON_WEIGHT("Вес"),
     INLINE_BUTTON_BIRTHDAY("Возраст"),
