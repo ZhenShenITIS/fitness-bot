@@ -38,7 +38,7 @@ public class DeleteFoodCommand implements Command{
             String textToSend = "";
             int counter = 0;
             for (String line : lines) {
-                FoodForm food = FoodForm.builder().name(line.trim()).build();
+                FoodForm food = FoodForm.builder().name(line.trim().toLowerCase()).build();
                 if (foodService.deleteFood(food)) {
                     if (counter < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
                         textToSend = textToSend + String.format(MessageText.SUCCESS_DELETE_FOOD.getMessageText(), line);

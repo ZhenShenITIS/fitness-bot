@@ -50,7 +50,7 @@ public class AddFoodCommand implements Command{
                     for (int j = 0; j < len - 4; j++) {
                         foodName = foodName + food[j] + " ";
                     }
-                    foodName = foodName.trim();
+                    foodName = foodName.trim().toLowerCase();
                     try {
                          foodForm = FoodForm
                                 .builder()
