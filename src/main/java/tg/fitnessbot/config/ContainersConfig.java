@@ -3,8 +3,8 @@ package tg.fitnessbot.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tg.fitnessbot.callback.*;
-import tg.fitnessbot.command.*;
+import tg.fitnessbot.telegram.callback.*;
+import tg.fitnessbot.telegram.command.*;
 
 @Configuration
 public class ContainersConfig {

@@ -2,9 +2,11 @@ package tg.fitnessbot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.models.User;
 import tg.fitnessbot.repositories.UserRepository;
+import tg.fitnessbot.utils.DateUtil;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -47,5 +49,18 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
         return userForm;
+    }
+
+    @Override
+    public Double calculateTdee(UserForm user) {
+        Double bmr;
+        if (user.getGender().equals(Gender.MALE)) {
+            // BMR = 10 × вес (кг) + 6.25 × рост (см) – 5 × возраст (г) + 5
+            bmr = 10 * user.getWeight() + 6.25 * user.getHeight() - 5 * DateUtil.getAge(user.getBirthday()) + 5;
+        } else {
+            // BMR = 10 × вес (кг) + 6.25 × рост (см) – 5 × возраст (г) – 161
+            bmr = 10 * user.getWeight() + 6.25 * user.getHeight() - 5 * DateUtil.getAge(user.getBirthday()) - 161;
+        }
+        return bmr * user.getLifeActivity().getRatio();
     }
 }

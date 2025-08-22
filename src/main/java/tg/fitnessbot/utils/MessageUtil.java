@@ -6,12 +6,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.MessageAutoDeleteTimerChanged;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.constants.CallbackName;
-import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
@@ -28,24 +25,15 @@ public class MessageUtil {
 
     public BotApiMethod<?> getProfileMessage(Message message) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
+        Double tdee = 0.0;
+        if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
+            tdee = userService.calculateTdee(user);
+        }
         String height = user.getHeight() == null ? "не указан" : user.getHeight().toString();
         String weight = user.getWeight() == null ? "не указан" : user.getWeight().toString();
         String birthday = user.getBirthday() == null ? "не указан" : String.valueOf(DateUtil.getAge(user.getBirthday()));
         String gender = user.getGender() == null ? "не указан" : user.getGender().getGenderName();
         String lifeActivity = user.getLifeActivity() == null ? "не указана" : user.getLifeActivity().getActivityName();
-        Double tdee = 0.0;
-        // TODO Вынести эту логику в сервис
-        if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
-            Double bmr;
-            if (user.getGender().equals(Gender.MALE)) {
-                // BMR = 10 × вес (кг) + 6.25 × рост (см) – 5 × возраст (г) + 5
-                bmr = 10 * user.getWeight() + 6.25 * user.getHeight() - 5 * DateUtil.getAge(user.getBirthday()) + 5;
-            } else {
-                // BMR = 10 × вес (кг) + 6.25 × рост (см) – 5 × возраст (г) – 161
-                bmr = 10 * user.getWeight() + 6.25 * user.getHeight() - 5 * DateUtil.getAge(user.getBirthday()) - 161;
-            }
-            tdee = bmr * user.getLifeActivity().getRatio();
-        }
         String tdeeStr = tdee.equals(0.0) ? "невозможно посчитать, заполнить профиль полностью" : tdee.toString();
         String textToSend = String.format(MessageText.PROFILE.getMessageText(), height, weight, birthday, gender, lifeActivity, tdeeStr);
         SendMessage messageToSend = SendMessage

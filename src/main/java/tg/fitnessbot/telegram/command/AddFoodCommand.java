@@ -1,4 +1,4 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,74 +8,72 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
-import tg.fitnessbot.dto.ActivityForm;
 import tg.fitnessbot.dto.FoodForm;
-import tg.fitnessbot.services.ActivityService;
+import tg.fitnessbot.services.FoodServiceImpl;
 import tg.fitnessbot.utils.UserUtil;
 
-import static tg.fitnessbot.constants.CommandName.ADD_ACTIVITY;
 import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
 
 @Component
-public class AddActivityCommand implements Command{
-    CommandName commandName = CommandName.ADD_ACTIVITY;
+public class AddFoodCommand implements Command{
 
+    CommandName commandName = ADD_FOOD;
     @Autowired
     UserUtil userUtil;
 
     @Autowired
-    ActivityService activityService;
-
-    @Override
-    public CommandName getCommand() {
-        return commandName;
-    }
+    FoodServiceImpl foodService;
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
         if (userUtil.isAdmin(message.getFrom().getId())){
-            String cmdText = message.getText().substring(ADD_ACTIVITY.getCommandName().length()).trim().replaceAll(",", ".");
+            String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
             String[] lines = cmdText.trim().split("\n");
             int counter = 0;
             String textToSend = "";
 
             if (lines.length > 0
-                    && (lines[0].split(" ").length >= 2)
+                    && (lines[0].split(" ").length >= 5)
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 4].charAt(0) <= '9' && lines[0].split(" ")[lines[0].split(" ").length - 4].charAt(0) >= '0')
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 3].charAt(0) <= '9' && lines[0].split(" ")[lines[0].split(" ").length - 3].charAt(0) >= '0')
+                    && (lines[0].split(" ")[lines[0].split(" ").length - 2].charAt(0) <= '9' && lines[0].split(" ")[lines[0].split(" ").length - 2].charAt(0) >= '0')
                     && (lines[0].split(" ")[lines[0].split(" ").length - 1].charAt(0) <= '9' && lines[0].split(" ")[lines[0].split(" ").length - 1].charAt(0) >= '0')) {
                 for (String line : lines) {
-                    String[] activity = line.trim().split(" ");
-                    int len = activity.length;
+                    String[] food = line.trim().split(" ");
+                    int len = food.length;
 
-                    ActivityForm activityForm;
-                    String activityName = "";
-                    for (int j = 0; j < len - 1; j++) {
-                        activityName =activityName + activity[j] + " ";
+                    FoodForm foodForm;
+                    String foodName = "";
+                    for (int j = 0; j < len - 4; j++) {
+                        foodName = foodName + food[j] + " ";
                     }
-                    
-                    activityName = activityName.trim().toLowerCase();
+                    foodName = foodName.trim().toLowerCase();
                     try {
-                        activityForm = ActivityForm
+                         foodForm = FoodForm
                                 .builder()
-                                .name(activityName)
-                                .met(Double.parseDouble(activity[len - 1]))
+                                .name(foodName)
+                                .kcal(Double.parseDouble(food[len - 4]))
+                                .protein(Double.parseDouble(food[len - 3]))
+                                .fat(Double.parseDouble(food[len - 2]))
+                                .carbohydrates(Double.parseDouble(food[len - 1]))
                                 .build();
                     } catch (NumberFormatException e) {
-                        textToSend = textToSend + String.format(MessageText.WRONG_ACTIVITY_LINE_DB.getMessageText(), line);
+                        textToSend = textToSend + String.format(MessageText.WRONG_FOOD_LINE_DB.getMessageText(), line);
                         continue;
                     }
 
                     // Добавлен счетчик, так как при добавлении большого количества еды, бот не может отправить какие продукты не были добавлены
                     // Из-за ограничений на размер сообщения
-                    if (activityService.addActivity(activityForm)) {
+                    if (foodService.addFood(foodForm)) {
                         if (counter < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
-                            textToSend = textToSend + String.format(MessageText.SUCCESS_ADD_ACTIVITY.getMessageText(), line);
+                            textToSend = textToSend + String.format(MessageText.SUCCESS_ADD_FOOD.getMessageText(), line);
                             counter++;
                         } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counter)) {
                             textToSend = textToSend + MessageText.TO_BE_CONTINUED.getMessageText();
                             counter++;
                         }
                     } else {
-                        textToSend = textToSend + String.format(MessageText.ALREADY_EXIST_ACTIVITY.getMessageText(), activityName);
+                        textToSend = textToSend + String.format(MessageText.ALREADY_EXIST_FOOD.getMessageText(), foodName);
                     }
 
                 }
@@ -101,5 +99,10 @@ public class AddActivityCommand implements Command{
                     .build();
             return messageToSend;
         }
+    }
+
+    @Override
+    public CommandName getCommand() {
+        return commandName;
     }
 }

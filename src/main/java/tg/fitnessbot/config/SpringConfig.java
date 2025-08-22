@@ -1,16 +1,10 @@
 package tg.fitnessbot.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
-import tg.fitnessbot.callback.*;
-import tg.fitnessbot.command.AddFoodCommand;
-import tg.fitnessbot.command.Command;
-import tg.fitnessbot.command.CommandContainer;
-import tg.fitnessbot.command.StartCommand;
-import tg.fitnessbot.handlers.UpdateHandler;
+import tg.fitnessbot.telegram.handlers.UpdateHandler;
 
 @Configuration
 @AllArgsConstructor

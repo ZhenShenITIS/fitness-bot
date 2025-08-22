@@ -1,4 +1,4 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,6 @@ import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.services.FoodService;
 import tg.fitnessbot.utils.UserUtil;
 
-import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
 import static tg.fitnessbot.constants.CommandName.DELETE_FOOD;
 
 @Component

@@ -1,4 +1,4 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

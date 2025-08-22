@@ -1,4 +1,4 @@
-package tg.fitnessbot.callback;
+package tg.fitnessbot.telegram.callback;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;

@@ -1,13 +1,9 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import com.google.common.collect.ImmutableMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-
-import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
-import static tg.fitnessbot.constants.CommandName.START;
 
 @Component
 public class CommandContainer {

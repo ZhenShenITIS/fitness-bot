@@ -1,38 +1,36 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
-import tg.fitnessbot.services.FoodServiceImpl;
+import tg.fitnessbot.services.FoodService;
 import tg.fitnessbot.utils.UserUtil;
 
-import java.util.Arrays;
-
-import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
+import static tg.fitnessbot.constants.CommandName.UPDATE_FOOD;
 
 @Component
-public class AddFoodCommand implements Command{
+public class UpdateFoodCommand implements Command{
+    CommandName commandName = CommandName.UPDATE_FOOD;
 
-    CommandName commandName = ADD_FOOD;
+    @Autowired
+    FoodService foodService;
+
     @Autowired
     UserUtil userUtil;
-
-    @Autowired
-    FoodServiceImpl foodService;
 
     @Override
     public BotApiMethod<?> handleCommand(Message message) {
         if (userUtil.isAdmin(message.getFrom().getId())){
-            String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
-            String[] lines = cmdText.trim().split("\n");
-            int counter = 0;
+            String cmdText = message.getText().substring(UPDATE_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
+            String[] lines = cmdText.split("\n");
+            int counterOfUpdate = 0;
+            int counterOfAdd = 0;
             String textToSend = "";
 
             if (lines.length > 0
@@ -52,7 +50,7 @@ public class AddFoodCommand implements Command{
                     }
                     foodName = foodName.trim().toLowerCase();
                     try {
-                         foodForm = FoodForm
+                        foodForm = FoodForm
                                 .builder()
                                 .name(foodName)
                                 .kcal(Double.parseDouble(food[len - 4]))
@@ -67,16 +65,25 @@ public class AddFoodCommand implements Command{
 
                     // Добавлен счетчик, так как при добавлении большого количества еды, бот не может отправить какие продукты не были добавлены
                     // Из-за ограничений на размер сообщения
-                    if (foodService.addFood(foodForm)) {
-                        if (counter < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
-                            textToSend = textToSend + String.format(MessageText.SUCCESS_ADD_FOOD.getMessageText(), line);
-                            counter++;
-                        } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counter)) {
+                    if (foodService.updateFood(foodForm)) {
+                        if (counterOfUpdate < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
+                            textToSend = textToSend + String.format(MessageText.SUCCESS_UPDATE_FOOD.getMessageText(), line);
+                            counterOfUpdate++;
+                        } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counterOfUpdate)) {
                             textToSend = textToSend + MessageText.TO_BE_CONTINUED.getMessageText();
-                            counter++;
+                            counterOfUpdate++;
                         }
                     } else {
-                        textToSend = textToSend + String.format(MessageText.ALREADY_EXIST_FOOD.getMessageText(), foodName);
+                        if (foodService.addFood(foodForm)) {
+                            if (counterOfAdd < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
+                                textToSend = textToSend + String.format(MessageText.FOOD_NOT_FOUND_AND_ADD.getMessageText(), foodName);
+                                counterOfAdd++;
+                            } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counterOfAdd)) {
+                                textToSend = textToSend + MessageText.TO_BE_CONTINUED.getMessageText();
+                                counterOfAdd++;
+                            }
+
+                        }
                     }
 
                 }

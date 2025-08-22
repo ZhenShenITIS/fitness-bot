@@ -1,6 +1,5 @@
-package tg.fitnessbot.callback;
+package tg.fitnessbot.telegram.callback;
 
-import jakarta.websocket.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -8,10 +7,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import tg.fitnessbot.command.StartCommand;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
-import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.UserService;

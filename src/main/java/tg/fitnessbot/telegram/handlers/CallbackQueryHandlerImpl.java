@@ -1,9 +1,9 @@
-package tg.fitnessbot.handlers;
+package tg.fitnessbot.telegram.handlers;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import tg.fitnessbot.callback.CallbackContainer;
+import tg.fitnessbot.telegram.callback.CallbackContainer;
 
 @Component
 public class CallbackQueryHandlerImpl implements CallbackQueryHandler {

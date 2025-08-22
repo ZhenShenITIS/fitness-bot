@@ -1,23 +1,15 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
-import tg.fitnessbot.services.UserService;
-import tg.fitnessbot.utils.DateUtil;
 import tg.fitnessbot.utils.MessageUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static tg.fitnessbot.constants.CommandName.START;
 

@@ -6,4 +6,6 @@ public interface UserService {
     void updateUser (UserForm userForm);
 
     UserForm getUserByID (Long id);
+
+    Double calculateTdee (UserForm userForm);
 }

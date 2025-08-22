@@ -1,4 +1,4 @@
-package tg.fitnessbot.handlers;
+package tg.fitnessbot.telegram.handlers;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,20 +7,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
-import tg.fitnessbot.constants.CallbackName;
-import tg.fitnessbot.constants.CommandName;
-import tg.fitnessbot.dto.UserForm;
-import tg.fitnessbot.services.SignUpService;
-
-import java.util.Arrays;
 
 @Getter
 @Setter

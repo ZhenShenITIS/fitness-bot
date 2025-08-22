@@ -1,4 +1,4 @@
-package tg.fitnessbot.callback;
+package tg.fitnessbot.telegram.callback;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

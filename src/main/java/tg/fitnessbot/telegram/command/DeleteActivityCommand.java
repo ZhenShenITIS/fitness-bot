@@ -1,26 +1,18 @@
-package tg.fitnessbot.command;
+package tg.fitnessbot.telegram.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.ActivityForm;
-import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.services.ActivityService;
 import tg.fitnessbot.utils.UserUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static tg.fitnessbot.constants.CommandName.DELETE_ACTIVITY;
-import static tg.fitnessbot.constants.CommandName.DELETE_FOOD;
 
 @Component
 public class DeleteActivityCommand implements Command {

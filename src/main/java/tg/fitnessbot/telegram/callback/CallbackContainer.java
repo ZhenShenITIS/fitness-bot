@@ -1,4 +1,4 @@
-package tg.fitnessbot.callback;
+package tg.fitnessbot.telegram.callback;
 
 import com.google.common.collect.ImmutableMap;
 import org.springframework.stereotype.Component;

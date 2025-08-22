@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
-import tg.fitnessbot.handlers.UpdateHandler;
 
 @RestController
 @AllArgsConstructor
