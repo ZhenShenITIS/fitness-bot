@@ -43,6 +43,9 @@ public class UpdateBirthdayCallback implements Callback {
         } catch (NumberFormatException e) {
             return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_BIRTHDAY.getMessageText()).build();
         }
+        if (year < 1925 || year > 2025) {
+            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_BIRTHDAY.getMessageText()).build();
+        }
 
         int month = LocalDate.now().getMonth().getValue();
         int day = LocalDate.now().getDayOfMonth();
