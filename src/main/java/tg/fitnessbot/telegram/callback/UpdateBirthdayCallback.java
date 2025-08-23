@@ -37,11 +37,18 @@ public class UpdateBirthdayCallback implements Callback {
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
+        int year;
         try {
-            user.setBirthday(LocalDate.parse(message.getText().replaceAll(",",".")));
-        } catch (DateTimeParseException e) {
+            year = LocalDate.now().getYear() - Integer.parseInt(message.getText());
+        } catch (NumberFormatException e) {
             return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_BIRTHDAY.getMessageText()).build();
         }
+
+        int month = LocalDate.now().getMonth().getValue();
+        int day = LocalDate.now().getDayOfMonth();
+        LocalDate date = LocalDate.of(year, month, day);
+        user.setBirthday(date);
+
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
         return messageUtil.getProfileMessage(message);
