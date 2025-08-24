@@ -55,6 +55,8 @@ public class MessageHandlerImpl implements MessageHandler {
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
 
             }
+        } else if (message.hasAudio()) {
+            return SendMessage.builder().chatId(message.getChatId()).text("Вы прислали голосовое сообщение").build();
         }
         return null;
     }
