@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -57,7 +58,13 @@ public class UpdateHandler extends SpringWebhookBot {
         } else {
             Message message = update.getMessage();
             if (message != null) {
-                return messageHandler.answerMessage(update.getMessage());
+                if (message.hasVoice()) {
+                    message.getVoice().getFileId();
+                    return SendMessage.builder().text(message.getDocument().getFileId()).chatId(message.getChatId()).build();
+                } else  {
+                    return messageHandler.answerMessage(update.getMessage());
+                }
+
             }
         }
         return null;

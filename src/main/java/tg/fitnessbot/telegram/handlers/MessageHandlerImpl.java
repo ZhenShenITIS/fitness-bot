@@ -34,6 +34,8 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private final TelegramConfig telegramConfig;
 
+    private final VoiceHandler voiceHandler;
+
 
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
@@ -55,8 +57,6 @@ public class MessageHandlerImpl implements MessageHandler {
                 return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
 
             }
-        } else if (message.hasVoice()) {
-            return SendMessage.builder().chatId(message.getChatId()).text("Вы прислали голосовое сообщение").build();
         }
         return null;
     }
