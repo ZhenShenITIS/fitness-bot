@@ -1,4 +1,4 @@
-package tg.fitnessbot.services;
+package tg.fitnessbot.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -6,6 +6,7 @@ import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.models.User;
 import tg.fitnessbot.repositories.UserRepository;
+import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.DateUtil;
 
 @Component

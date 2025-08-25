@@ -1,14 +1,13 @@
-package tg.fitnessbot.services;
+package tg.fitnessbot.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.models.Food;
 import tg.fitnessbot.repositories.FoodRepository;
+import tg.fitnessbot.services.FoodService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Component
 public class FoodServiceImpl implements FoodService {

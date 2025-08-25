@@ -11,7 +11,7 @@ import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
-import tg.fitnessbot.services.FoodServiceImpl;
+import tg.fitnessbot.services.impl.FoodServiceImpl;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -54,7 +54,7 @@ public class MessageHandlerImpl implements MessageHandler {
                 return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
             } else if (message.getChat().isUserChat()){
                 // TODO Реализовать логику работы сообщения, не содержащего команды
-                return SendMessage.builder().chatId(message.getChatId()).text("Вы не ввели никакой команды").build();
+                return SendMessage.builder().chatId(message.getChatId()).text(MessageText.NO_COMMAND_USER_CHAT.getMessageText()).build();
 
             }
         }

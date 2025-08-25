@@ -1,4 +1,4 @@
-package tg.fitnessbot.services;
+package tg.fitnessbot.services.impl;
 
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.models.User;
 import tg.fitnessbot.repositories.UserRepository;
-
-import java.sql.ResultSet;
+import tg.fitnessbot.services.SignUpService;
 
 @Component
 @Service

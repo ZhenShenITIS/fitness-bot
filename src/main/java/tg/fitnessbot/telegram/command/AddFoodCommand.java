@@ -9,7 +9,7 @@ import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
-import tg.fitnessbot.services.FoodServiceImpl;
+import tg.fitnessbot.services.impl.FoodServiceImpl;
 import tg.fitnessbot.utils.UserUtil;
 
 import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
