@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 @Component
 public class FileServiceImpl implements FileService {
@@ -56,8 +57,10 @@ public class FileServiceImpl implements FileService {
         // TODO Исправить метод, так как в данном случае он весь файл в оперативку загружает
         try (InputStream is = url.openStream()){
             // TODO убрать
-            System.out.println("Отладочный вывод 1");
-            return is.readAllBytes();
+
+            byte[] bytes = is.readAllBytes();
+            System.out.println("Отладочный вывод 1: " + Arrays.toString(bytes));
+            return bytes;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
