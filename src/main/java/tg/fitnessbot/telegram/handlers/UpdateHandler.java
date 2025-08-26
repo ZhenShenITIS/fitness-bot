@@ -65,7 +65,7 @@ public class UpdateHandler extends SpringWebhookBot {
             Message message = update.getMessage();
             if (message != null) {
                 if (message.hasVoice()) {
-                    return SendMessage.builder().text(Arrays.toString(fileService.getVoiceFile(message))).chatId(message.getChatId()).build();
+                    return SendMessage.builder().text(Byte.toString(fileService.getVoiceFile(message)[0])).chatId(message.getChatId()).build();
                 } else  {
                     return messageHandler.answerMessage(update.getMessage());
                 }
