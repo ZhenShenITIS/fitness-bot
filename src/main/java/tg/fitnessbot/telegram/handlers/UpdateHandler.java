@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.services.AI.AudioTranscriptionService;
 import tg.fitnessbot.services.FileService;
 
 import java.util.Arrays;
@@ -36,6 +37,9 @@ public class UpdateHandler extends SpringWebhookBot {
 
     @Autowired
     CallbackQueryHandler callbackQueryHandler;
+
+    @Autowired
+    AudioTranscriptionService audioTranscriptionService;
 
     @Autowired
     FileService fileService;
@@ -66,11 +70,8 @@ public class UpdateHandler extends SpringWebhookBot {
             if (message != null) {
                 if (message.hasVoice()) {
                     SendMessage msg;
-                    try {
-                        msg = SendMessage.builder().text(Byte.toString(fileService.getVoiceFile(message)[0])).chatId(message.getChatId()).build();
-                    } catch (RuntimeException e) {
-                        msg = SendMessage.builder().text(e.getMessage()).chatId(message.getChatId()).build();
-                    }
+                    String textToSend = audioTranscriptionService.transcribeAudio(fileService.getVoiceFile(message));
+                    msg = SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
                     return msg;
                 } else  {
                     return messageHandler.answerMessage(update.getMessage());
