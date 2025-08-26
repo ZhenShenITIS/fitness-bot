@@ -33,6 +33,8 @@ public class FileServiceImpl implements FileService {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<>(new HttpHeaders());
         String requestUri = telegramConfig.getServiceFileInfoUri().formatted(telegramConfig.getBotToken(), fileId);
+        // TODO убрать
+        System.out.println("Отладочный вывод 3: " + requestUri);
         ResponseEntity<String> response = restTemplate.exchange(requestUri, HttpMethod.GET, request, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());
@@ -42,6 +44,8 @@ public class FileServiceImpl implements FileService {
 
     private byte[] downloadFile (String filePah) {
         String requestUri = telegramConfig.getServiceFileStorageUri().formatted(telegramConfig.getBotToken(), filePah);
+        // TODO убрать
+        System.out.println("Отладочный вывод 2: "+requestUri);
         URL url = null;
         try {
             url = new URL(requestUri);
@@ -51,7 +55,10 @@ public class FileServiceImpl implements FileService {
 
         // TODO Исправить метод, так как в данном случае он весь файл в оперативку загружает
         try (InputStream is = url.openStream()){
+            // TODO убрать
+            System.out.println("Отладочный вывод 1");
             return is.readAllBytes();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
