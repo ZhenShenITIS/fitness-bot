@@ -36,12 +36,15 @@ public class FileServiceImpl implements FileService {
         String requestUri = telegramConfig.getServiceFileInfoUri().formatted(telegramConfig.getBotToken(), fileId);
         // TODO убрать
         System.out.println("Отладочный вывод 3: " + requestUri);
-        ResponseEntity<String> response = restTemplate.exchange(requestUri, HttpMethod.GET, request, String.class);
+        ResponseEntity<String> response;
+        try {
+            response = restTemplate.exchange(requestUri, HttpMethod.GET, request, String.class);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Файл слишком большой");
+        }
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());
             return String.valueOf(jsonObject.getJSONObject("result").getString("file_path"));
-        } else if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-            throw new RuntimeException("Файл слишком большой");
         }
         return null;
     }
