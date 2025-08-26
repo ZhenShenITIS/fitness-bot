@@ -2,13 +2,14 @@ package tg.fitnessbot.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import tg.fitnessbot.dto.ActivityForm;
 import tg.fitnessbot.models.Activity;
 import tg.fitnessbot.repositories.ActivityRepository;
 import tg.fitnessbot.services.ActivityService;
 
 import java.util.HashMap;
-@Component
+@Service
 public class ActivityServiceImpl implements ActivityService {
     @Autowired
     ActivityRepository activityRepository;

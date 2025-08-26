@@ -2,6 +2,7 @@ package tg.fitnessbot.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.models.Food;
 import tg.fitnessbot.repositories.FoodRepository;
@@ -9,7 +10,7 @@ import tg.fitnessbot.services.FoodService;
 
 import java.util.HashMap;
 
-@Component
+@Service
 public class FoodServiceImpl implements FoodService {
     @Autowired
     FoodRepository foodRepository;

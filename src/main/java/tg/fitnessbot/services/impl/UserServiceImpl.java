@@ -2,6 +2,7 @@ package tg.fitnessbot.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.models.User;
@@ -9,7 +10,7 @@ import tg.fitnessbot.repositories.UserRepository;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.DateUtil;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;

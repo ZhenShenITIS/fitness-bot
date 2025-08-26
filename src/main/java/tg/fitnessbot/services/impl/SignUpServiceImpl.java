@@ -1,14 +1,13 @@
 package tg.fitnessbot.services.impl;
 
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.models.User;
 import tg.fitnessbot.repositories.UserRepository;
 import tg.fitnessbot.services.SignUpService;
 
-@Component
+
 @Service
 public class SignUpServiceImpl implements SignUpService {
     @Autowired
