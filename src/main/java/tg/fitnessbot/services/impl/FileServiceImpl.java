@@ -40,7 +40,10 @@ public class FileServiceImpl implements FileService {
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());
             return String.valueOf(jsonObject.getJSONObject("result").getString("file_path"));
-        } return null;
+        } else if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
+            throw new RuntimeException("Файл слишком большой");
+        }
+        return null;
     }
 
     private byte[] downloadFile (String filePah) {
