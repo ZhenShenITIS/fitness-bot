@@ -32,7 +32,7 @@ public class FileServiceImpl implements FileService {
     private String getFilePath (String fileId) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<>(new HttpHeaders());
-        String requestUri = telegramConfig.getServiceFileInfoUri().formatted(fileId);
+        String requestUri = telegramConfig.getServiceFileInfoUri().formatted(telegramConfig.getBotToken(), fileId);
         ResponseEntity<String> response = restTemplate.exchange(requestUri, HttpMethod.GET, request, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());
@@ -41,7 +41,7 @@ public class FileServiceImpl implements FileService {
     }
 
     private byte[] downloadFile (String filePah) {
-        String requestUri = telegramConfig.getServiceFileStorageUri().formatted(filePah);
+        String requestUri = telegramConfig.getServiceFileStorageUri().formatted(telegramConfig.getBotToken(), filePah);
         URL url = null;
         try {
             url = new URL(requestUri);

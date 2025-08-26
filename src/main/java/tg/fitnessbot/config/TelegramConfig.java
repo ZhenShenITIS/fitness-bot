@@ -24,8 +24,8 @@ public class TelegramConfig {
     @Value("${TELEGRAM_BOT_ADMINS_ID}")
     String adminsId;
 
-    String serviceFileInfoUri = "https://api.telegram.org/bot" + "${TELEGRAM_BOT_TOKEN}" + "/getFile?file_id=%s";
-    String serviceFileStorageUri = "https://api.telegram.org/file/bot" + "${TELEGRAM_BOT_TOKEN}" + "/%s";
+    String serviceFileInfoUri = "https://api.telegram.org/bot%s/getFile?file_id=%s";
+    String serviceFileStorageUri = "https://api.telegram.org/file/bot%s/%s";
 
     // TODO возможно не стоит эту мапу тут хранить. Подумать над этим
     final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
