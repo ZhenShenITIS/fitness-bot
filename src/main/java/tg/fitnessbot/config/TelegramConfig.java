@@ -24,15 +24,11 @@ public class TelegramConfig {
     @Value("${TELEGRAM_BOT_ADMINS_ID}")
     String adminsId;
 
+    String serviceFileInfoUri = "https://api.telegram.org/bot" + botToken + "/getFile?file_id=%s";
+    String serviceFileStorageUri = "https://api.telegram.org/file/bot" + botToken + "/%s";
+
     // TODO возможно не стоит эту мапу тут хранить. Подумать над этим
     final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
 
-//    public Long[] getAdmins() {
-//        Long[] admins = new Long[adminsId.split(",").length];
-//        for (int i = 0; i < admins.length; i++) {
-//            admins[i] = Long.parseLong(adminsId.split(",")[i]);
-//        }
-//        return admins;
-//    }
 
 }

@@ -1,12 +1,59 @@
 package tg.fitnessbot.services.impl;
 
+import org.json.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.FileService;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+@Component
 public class FileServiceImpl implements FileService {
+
+    @Autowired
+    TelegramConfig telegramConfig;
+
     @Override
     public byte[] getVoiceFile(Message message) {
-        return new byte[0];
+        String fileId = message.getVoice().getFileId();
+        String filePath = getFilePath(fileId);
+        if (filePath != null) {
+            return downloadFile(filePath);
+        } return null;
+    }
 
+    private String getFilePath (String fileId) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> request = new HttpEntity<>(new HttpHeaders());
+        String requestUri = telegramConfig.getServiceFileInfoUri().formatted(fileId);
+        ResponseEntity<String> response = restTemplate.exchange(requestUri, HttpMethod.GET, request, String.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            JSONObject jsonObject = new JSONObject(response.getBody());
+            return String.valueOf(jsonObject.getJSONObject("result").getString("file_path"));
+        } return null;
+    }
+
+    private byte[] downloadFile (String filePah) {
+        String requestUri = telegramConfig.getServiceFileStorageUri().formatted(filePah);
+        URL url = null;
+        try {
+            url = new URL(requestUri);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // TODO Исправить метод, так как в данном случае он весь файл в оперативку загружает
+        try (InputStream is = url.openStream()){
+            return is.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
