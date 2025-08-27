@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class VoskClientImpl implements VoskClient {
-    final private String uri = "http://5.45.109.247:8086/stt";
+    final private String uri = "http://5.45.109.247:8087/stt";
     // 8086 - big
     // 8087 - small
 
