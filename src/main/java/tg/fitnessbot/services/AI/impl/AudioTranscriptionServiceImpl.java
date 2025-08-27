@@ -20,6 +20,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class AudioTranscriptionServiceImpl implements AudioTranscriptionService {
@@ -30,7 +34,20 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
     public String transcribeAudio(byte[] audio) {
         byte[] wavBytes = convert(audio);
         ResponseEntity<String> response = voskClient.getResponse(wavBytes);
-        return response.getBody();
+        String text = response.getBody();
+
+        Set<String> hexItems = new HashSet<>();
+
+        Matcher m = Pattern.compile("\\\\u[a-fA-f0-9]{4}").matcher(text);
+        while (m.find()) {
+            hexItems.add(m.group());
+        }
+
+        for (String unicodeHex : hexItems) {
+            int hexVal = Integer.parseInt(unicodeHex.substring(2), 16);
+            text = text.replace(unicodeHex, "" + ((char) hexVal));
+        }
+        return text;
     }
 
     // TODO Оптимизировать данный метод

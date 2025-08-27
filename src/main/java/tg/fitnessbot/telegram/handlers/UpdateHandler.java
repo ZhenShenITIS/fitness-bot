@@ -78,7 +78,6 @@ public class UpdateHandler extends SpringWebhookBot {
                     String textToSend = audioTranscriptionService.transcribeAudio(fileService.getAudioFile(message));
                     msg = SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
                     return msg;
-
                 } else  {
                     return messageHandler.answerMessage(update.getMessage());
                 }
