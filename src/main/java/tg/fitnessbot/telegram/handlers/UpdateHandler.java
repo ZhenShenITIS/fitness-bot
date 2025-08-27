@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.AI.AudioTranscriptionService;
+import tg.fitnessbot.services.AI.LLMService;
 import tg.fitnessbot.services.FileService;
 import ws.schild.jave.EncoderException;
 import ws.schild.jave.MultimediaObject;
@@ -34,6 +35,9 @@ public class UpdateHandler extends SpringWebhookBot {
 
     @Autowired
     TelegramConfig telegramConfig;
+
+    @Autowired
+    LLMService llmService;
 
     @Autowired
     MessageHandler messageHandler;
@@ -86,14 +90,15 @@ public class UpdateHandler extends SpringWebhookBot {
                         textToSend = "Слишком длинное аудио!";
                         file.delete();
                     } else {
-                        textToSend = audioTranscriptionService.transcribeAudio(file);
+                        textToSend = llmService.processAudio(audioTranscriptionService.transcribeAudio(file));
+
                     }
 
 
                     if (textToSend.length() > 4090) {
                         textToSend = textToSend.substring(0, 4000) + "...";
                     }
-                    msg = SendMessage.builder().text("Транскрипция: "+textToSend).chatId(message.getChatId()).build();
+                    msg = SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
                     return msg;
                 } else  {
                     return messageHandler.answerMessage(update.getMessage());
