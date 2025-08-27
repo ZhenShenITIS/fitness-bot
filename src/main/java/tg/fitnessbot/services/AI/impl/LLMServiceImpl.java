@@ -15,9 +15,10 @@ public class LLMServiceImpl implements LLMService {
     @Override
     public String processAudio(String audio) {
         ResponseEntity<String> response = openAIClient.getResponse(audio);
-        JSONObject json = new JSONObject(response.getBody());
-        JSONArray jsons = json.getJSONArray("output");
+        JSONObject mainJson = new JSONObject(response.getBody());
+        JSONArray jsons = mainJson.getJSONArray("output");
         // TODO Плохая практика, так делать нельзя!
+        // return jsons.getJSONObject(0).getJSONArray("content").getJSONObject(0).getString("text");
         // Выдержка из доков гптшки:
         /*
         The output array often has more than one
@@ -27,6 +28,20 @@ public class LLMServiceImpl implements LLMService {
         not safe to assume that the model's text
         output is present at output[0].content[0].text.
          */
-        return jsons.getJSONObject(0).getJSONArray("content").getJSONObject(0).getString("text");
+        for (int i = 0; i < jsons.length(); i++) {
+            JSONObject json = jsons.getJSONObject(i);
+            if (json.has("content")) {
+                JSONArray content = json.getJSONArray("content");
+                for (int j = 0; j < content.length(); j++) {
+                    JSONObject contentJson = content.getJSONObject(j);
+                    if (contentJson.has("text")) {
+                        return contentJson.getString("text");
+                    }
+                }
+            }
+        }
+
+
+
     }
 }
