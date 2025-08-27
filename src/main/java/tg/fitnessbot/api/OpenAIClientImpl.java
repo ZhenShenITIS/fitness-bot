@@ -370,7 +370,7 @@ public class OpenAIClientImpl implements OpenAIClient {
                 " танцы\n" +
                 " футбол";
         String prompt = prePrompt + tables + "\n\nТранскрипция:\n" + data;
-        OpenAIRequest body = new OpenAIRequest("gpt-5-nano", data);
+        OpenAIRequest body = new OpenAIRequest("gpt-5-nano", prompt);
         HttpEntity<OpenAIRequest> request = new HttpEntity<>(body, headers);
         return restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
     }
