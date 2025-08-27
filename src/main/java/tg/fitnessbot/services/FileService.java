@@ -2,8 +2,10 @@ package tg.fitnessbot.services;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-public interface FileService {
-    byte[] getVoiceFile(Message message);
+import java.io.File;
 
-    byte[] getAudioFile(Message message);
+public interface FileService {
+    File getVoiceFile(Message message);
+
+    File getAudioFile(Message message);
 }

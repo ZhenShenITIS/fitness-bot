@@ -1,5 +1,7 @@
 package tg.fitnessbot.services.AI;
 
+import java.io.File;
+
 public interface AudioTranscriptionService {
-    String transcribeAudio (byte[] audio);
+    String transcribeAudio (File audio);
 }

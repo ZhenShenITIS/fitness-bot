@@ -16,10 +16,7 @@ import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -31,7 +28,7 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
     VoskClient voskClient;
 
     @Override
-    public String transcribeAudio(byte[] audio) {
+    public String transcribeAudio(File audio) {
         byte[] wavBytes = convert(audio);
         ResponseEntity<String> response = voskClient.getResponse(wavBytes);
         String text = response.getBody();
@@ -51,8 +48,39 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
     }
 
     // TODO Оптимизировать данный метод
-    private byte[] convert(byte[] data) {
-        return data;
+    private byte[] convert(File source) {
+        MultimediaObject sourceFile = new MultimediaObject(source);
+        File target = null;
+        try {
+            target = File.createTempFile("convert", "wav");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        AudioAttributes audio = new AudioAttributes();
+        audio.setCodec("pcm_s16le");
+        audio.setBitRate(16000);
+        audio.setChannels(1);
+        audio.setSamplingRate(16000);
+        EncodingAttributes attrs = new EncodingAttributes();
+        attrs.setOutputFormat("wav");
+        attrs.setAudioAttributes(audio);
+        Encoder encoder = new Encoder();
+        try {
+            encoder.encode(sourceFile, target, attrs);
+        } catch (EncoderException e) {
+            throw new RuntimeException(e);
+        }
+
+        // В этом месте происходит загрузка оперативки
+        byte[] wavBytes;
+        try (FileInputStream fis = new FileInputStream(target)){
+            wavBytes = fis.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        source.delete();
+        target.delete();
+        return wavBytes;
 
     }
 }

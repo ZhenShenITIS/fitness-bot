@@ -1,5 +1,6 @@
 package tg.fitnessbot.services.impl;
 
+import org.apache.commons.io.IOUtils;
 import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -10,10 +11,14 @@ import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.FileService;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
 
 
 @Service
@@ -23,7 +28,7 @@ public class FileServiceImpl implements FileService {
     TelegramConfig telegramConfig;
 
     @Override
-    public byte[] getVoiceFile(Message message) {
+    public File getVoiceFile(Message message) {
         String fileId = message.getVoice().getFileId();
         String filePath = getFilePath(fileId);
         if (filePath != null) {
@@ -32,7 +37,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public byte[] getAudioFile(Message message) {
+    public File getAudioFile(Message message) {
         String fileId = message.getAudio().getFileId();
         String filePath = getFilePath(fileId);
         if (filePath != null) {
@@ -57,7 +62,7 @@ public class FileServiceImpl implements FileService {
         return null;
     }
 
-    private byte[] downloadFile (String filePah) {
+    private File downloadFile (String filePah) {
         String requestUri = telegramConfig.getServiceFileStorageUri().formatted(telegramConfig.getBotToken(), filePah);
         URL url = null;
         try {
@@ -65,15 +70,20 @@ public class FileServiceImpl implements FileService {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
-        // TODO Исправить метод, так как в данном случае он весь файл в оперативку загружает
-        try (InputStream is = url.openStream()){
-
-            byte[] bytes = is.readAllBytes();
-            return bytes;
-
+        File tempFile;
+        try {
+            tempFile = File.createTempFile("voice-", ".ogg");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        try (InputStream inputStream = url.openStream();
+             FileOutputStream fileOutputStream = new FileOutputStream(tempFile)
+        ) {
+            IOUtils.copy(inputStream, fileOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return tempFile;
     }
 }
