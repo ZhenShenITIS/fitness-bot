@@ -10,12 +10,15 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.AI.AudioTranscriptionService;
 import tg.fitnessbot.services.FileService;
+import ws.schild.jave.EncoderException;
+import ws.schild.jave.MultimediaObject;
 
 import java.util.Arrays;
 
@@ -70,19 +73,27 @@ public class UpdateHandler extends SpringWebhookBot {
             if (message != null) {
                 if (message.hasVoice()) {
                     SendMessage msg;
-                    String textToSend = audioTranscriptionService.transcribeAudio(fileService.getVoiceFile(message));
+                    String textToSend = "";
+                    java.io.File file = fileService.getVoiceFile(message);
+                    MultimediaObject object = new MultimediaObject(file);
+                    long duration;
+                    try {
+                        duration = object.getInfo().getDuration();
+                    } catch (EncoderException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (duration > 120) {
+                        textToSend = "Слишком длинное аудио!";
+                        file.delete();
+                    } else {
+                        textToSend = audioTranscriptionService.transcribeAudio(file);
+                    }
+
+
                     if (textToSend.length() > 4090) {
                         textToSend = textToSend.substring(0, 4000) + "...";
                     }
                     msg = SendMessage.builder().text("Транскрипция: "+textToSend).chatId(message.getChatId()).build();
-                    return msg;
-                } else if (message.hasAudio()) {
-                    SendMessage msg;
-                    String textToSend = audioTranscriptionService.transcribeAudio(fileService.getAudioFile(message));
-                    if (textToSend.length() > 4090) {
-                        textToSend = textToSend.substring(0, 4000) + "...";
-                    }
-                    msg = SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
                     return msg;
                 } else  {
                     return messageHandler.answerMessage(update.getMessage());
