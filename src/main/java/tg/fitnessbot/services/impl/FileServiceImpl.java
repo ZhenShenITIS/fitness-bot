@@ -3,18 +3,18 @@ package tg.fitnessbot.services.impl;
 import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.FileService;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
+
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -25,6 +25,15 @@ public class FileServiceImpl implements FileService {
     @Override
     public byte[] getVoiceFile(Message message) {
         String fileId = message.getVoice().getFileId();
+        String filePath = getFilePath(fileId);
+        if (filePath != null) {
+            return downloadFile(filePath);
+        } return null;
+    }
+
+    @Override
+    public byte[] getAudioFile(Message message) {
+        String fileId = message.getAudio().getFileId();
         String filePath = getFilePath(fileId);
         if (filePath != null) {
             return downloadFile(filePath);

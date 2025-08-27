@@ -4,4 +4,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 public interface FileService {
     byte[] getVoiceFile(Message message);
+
+    byte[] getAudioFile(Message message);
 }
