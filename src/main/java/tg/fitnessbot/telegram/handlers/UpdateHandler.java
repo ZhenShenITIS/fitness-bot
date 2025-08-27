@@ -82,7 +82,7 @@ public class UpdateHandler extends SpringWebhookBot {
                     } catch (EncoderException e) {
                         throw new RuntimeException(e);
                     }
-                    if (duration > 12000) {
+                    if (duration > 90000) {
                         textToSend = "Слишком длинное аудио!";
                         file.delete();
                     } else {
