@@ -1,6 +1,7 @@
 package tg.fitnessbot.services.AI.impl;
 
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,10 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
     public String transcribeAudio(File audio) {
         byte[] wavBytes = convert(audio);
         ResponseEntity<String> response = voskClient.getResponse(wavBytes);
-        String text = response.getBody();
+        String text;
+        JSONObject json = new JSONObject(response.getBody());
+        text = json.getString("text");
+
 
         Set<String> hexItems = new HashSet<>();
 
