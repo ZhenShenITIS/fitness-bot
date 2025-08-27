@@ -52,6 +52,25 @@
         </dependency>
 
         <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-nativebin-linux32</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-nativebin-linux64</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
