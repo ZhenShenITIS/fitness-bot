@@ -40,6 +40,7 @@ public class LLMServiceImpl implements LLMService {
                 }
             }
         }
+        return "не удалось получить данные от OpenAI";
 
 
 
