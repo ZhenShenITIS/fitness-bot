@@ -2,7 +2,6 @@ package tg.fitnessbot.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import tg.fitnessbot.dto.FoodNameForm;
 import tg.fitnessbot.models.Food;
 
 import java.util.List;
