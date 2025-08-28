@@ -84,6 +84,8 @@ public class LLMServiceImpl implements LLMService {
                 foodRepository.findAll() +
                 "\nТренировки: \n" +
                 activityRepository.findAll();
+        // TODO Убрать вывод
+        System.out.println(tables);
         return prePrompt + tables + "\n\nТранскрипция:\n" + audio;
     }
 }
