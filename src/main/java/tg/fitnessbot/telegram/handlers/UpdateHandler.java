@@ -75,34 +75,8 @@ public class UpdateHandler extends SpringWebhookBot {
         } else {
             Message message = update.getMessage();
             if (message != null) {
-                if (message.hasVoice()) {
-                    SendMessage msg;
-                    String textToSend = "";
-                    java.io.File file = fileService.getVoiceFile(message);
-                    MultimediaObject object = new MultimediaObject(file);
-                    long duration;
-                    try {
-                        duration = object.getInfo().getDuration();
-                    } catch (EncoderException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (duration > 90000) {
-                        textToSend = "Слишком длинное аудио!";
-                        file.delete();
-                    } else {
-                        textToSend = llmService.processAudio(audioTranscriptionService.transcribeAudio(file));
+                return messageHandler.answerMessage(update.getMessage());
 
-                    }
-
-
-                    if (textToSend.length() > 4090) {
-                        textToSend = textToSend.substring(0, 4000) + "...";
-                    }
-                    msg = SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
-                    return msg;
-                } else  {
-                    return messageHandler.answerMessage(update.getMessage());
-                }
 
             }
         }

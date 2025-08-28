@@ -3,7 +3,9 @@ package tg.fitnessbot.constants;
 
 
 public enum IntegerConstants {
-    NUMBER_OF_SUCCESS_LINES(5);
+    NUMBER_OF_SUCCESS_LINES(5),
+    MAX_VOICE_DURATION(90_000)
+    ;
 
     private final Integer value;
 

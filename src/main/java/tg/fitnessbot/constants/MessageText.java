@@ -56,7 +56,9 @@ public enum MessageText {
     INLINE_BUTTON_LIFE_ACTIVITY("Актив"),
     TO_BE_CONTINUED("...\n"),
     HELP("Ну тут типа сообщение со всей справкой по боту, впадлу писать сейчас"),
-    NO_COMMAND_USER_CHAT("Вы не ввели никакой команды")
+    NO_COMMAND_USER_CHAT("Вы не ввели никакой команды"),
+    VOICE_IS_TOO_LONG("Слишком длинное аудио!"),
+    NO_FOOD_OR_ACTIVITY_IN_VOICE("Не удалось распознать тренировку или еду в голосовом сообщении")
     ;
 
     private final String messageText;

@@ -3,6 +3,7 @@ package tg.fitnessbot.constants;
 public enum CommandName {
 
     START("/start"),
+    CALCULATE_FOOD("/food"),
     DELETE_FOOD("/delete_food"),
     UPDATE_FOOD("/update_food"),
     ADD_FOOD("/add_food"),

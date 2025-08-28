@@ -6,17 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tg.fitnessbot.api.OpenAIClient;
+import tg.fitnessbot.constants.StringConstants;
+import tg.fitnessbot.repositories.ActivityRepository;
+import tg.fitnessbot.repositories.FoodRepository;
 import tg.fitnessbot.services.AI.LLMService;
 @Service
 public class LLMServiceImpl implements LLMService {
     @Autowired
     OpenAIClient openAIClient;
 
+    @Autowired
+    ActivityRepository activityRepository;
+
+    @Autowired
+    FoodRepository foodRepository;
+
     @Override
     public String processAudio(String audio) {
-        ResponseEntity<String> response = openAIClient.getResponse(audio);
-        JSONObject mainJson = new JSONObject(response.getBody());
-        JSONArray jsons = mainJson.getJSONArray("output");
+        String prompt = getPromptForAudio(audio);
+        ResponseEntity<String> response = openAIClient.getResponse(prompt);
+        return getTextFromJSON(new JSONObject(response.getBody()));
+    }
+
+    private String getTextFromJSON (JSONObject object) {
+        JSONArray jsons = object.getJSONArray("output");
         // TODO Плохая практика, так делать нельзя!
         // return jsons.getJSONObject(0).getJSONArray("content").getJSONObject(0).getString("text");
         // Выдержка из доков гптшки:
@@ -41,8 +54,36 @@ public class LLMServiceImpl implements LLMService {
             }
         }
         return "не удалось получить данные от OpenAI";
+    }
 
-
-
+    private String getPromptForAudio (String audio) {
+        String prePrompt = "Ты часть фитнес-приложения, поэтому ты не должен добавлять от себя лишний текст, а иначе программа СЛОМАЕТСЯ. На вход подается транскрипция некоторого голосового сообщения, которое может содержать: \n" +
+                "1) список тренировок со временем\n" +
+                "2) список съеденной еды с граммами\n" +
+                "3) случайную речь\n" +
+                "Тебе нужно определить что конкретно содержится в транскрипции\n" +
+                "Транскрипция может быть неточная, попробуй угадать о чем в ней говорилось\n" +
+                "Также на вход подаются таблицы из базы данных с тренировками и едой\n" +
+                "\n" +
+                "Если 1), то найди максимально похожие тренировки в таблице с тренировками и выведи их вместе со временем (в минутах!!!, но пользователь может сказать <Бег полтора часа>, тогда ты переведи полтора часа в 90 минут), которое удалось узнать из транскрипции. Ты должен добавлять в ответ тренировки с названием 1 в 1 как в таблице, а иначе программа СЛОМАЕТСЯ! Если подходящей тренировки в таблице не нашлось - пропусти. Добавь заголовок \"тренировка\". Пример твоего ответа:\n" +
+                StringConstants.ACTIVITY.getValue()+ "\n" +
+                "бег (8 км/ч) 25\n" +
+                "велосипед 60\n" +
+                "\n" +
+                "Если 2), то найди максимально похожую еду в таблице с едой и выведи их вместе с граммами (но пользователь может сказать <Курица один килограмм>, тогда ты переведи один килограмм в 1000 грамм), которое удалось узнать из транскрипции. Ты должен добавлять в ответ еду с названием 1 в 1 как в таблице, а иначе программа СЛОМАЕТСЯ! Если подходящей еды в таблице не нашлось - пропусти. Добавь заголовок \"еда\". Пример твоего ответа:\n" +
+                StringConstants.FOOD.getValue() + "\n" +
+                "курица (грудка) 155\n" +
+                "рис (вареный) 200\n" +
+                "\n" +
+                "Если 3), то твой ответ должен быть нижнем подчёркиванием и только:\n" +
+                "_\n" +
+                "\n" +
+                "Таблицы с едой и тренировками:\n" +
+                "\n";
+        String tables = "Еда: \n" +
+                foodRepository.findAll() +
+                "\nТренировки: \n" +
+                activityRepository.findAll();
+        return prePrompt + tables + "\n\nТранскрипция:\n" + audio;
     }
 }
