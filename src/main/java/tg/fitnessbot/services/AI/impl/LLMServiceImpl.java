@@ -24,8 +24,12 @@ public class LLMServiceImpl implements LLMService {
     @Override
     public String processAudio(String audio) {
         String prompt = getPromptForAudio(audio);
+        // TODO Убрать выводы
+        System.out.println(prompt);
         ResponseEntity<String> response = openAIClient.getResponse(prompt);
-        return getTextFromJSON(new JSONObject(response.getBody()));
+        String text = getTextFromJSON(new JSONObject(response.getBody()));
+        System.out.println(text);
+        return text;
     }
 
     private String getTextFromJSON (JSONObject object) {
@@ -81,11 +85,9 @@ public class LLMServiceImpl implements LLMService {
                 "Таблицы с едой и тренировками:\n" +
                 "\n";
         String tables = "Еда: \n" +
-                foodRepository.findAll() +
+                foodRepository.findAll().stream().map(f -> f.getName() + "\n").toList() +
                 "\nТренировки: \n" +
-                activityRepository.findAll();
-        // TODO Убрать вывод
-        System.out.println(tables);
+                activityRepository.findAll().stream().map(a -> a.getName() + "\n").toList();
         return prePrompt + tables + "\n\nТранскрипция:\n" + audio;
     }
 }

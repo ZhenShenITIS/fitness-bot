@@ -26,6 +26,8 @@ public class ContainersConfig {
     CalculateActivityCommand calculateActivityCommand;
     @Autowired
     HelpCommand helpCommand;
+    @Autowired
+    CalculateFoodCommand calculateFoodCommand;
     @Bean
     public CommandContainer commandContainer() {
         // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
@@ -38,6 +40,7 @@ public class ContainersConfig {
                 deleteActivityCommand,
                 updateActivityCommand,
                 calculateActivityCommand,
+                calculateFoodCommand,
                 helpCommand
         });
     }
