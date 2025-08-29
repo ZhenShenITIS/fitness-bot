@@ -53,12 +53,18 @@ public class VoiceHandlerImpl implements VoiceHandler {
             file.delete();
         } else {
             textToSend = llmService.processAudio(audioTranscriptionService.transcribeAudio(file));
+
             String headOfAnswer = textToSend.split("\n")[0];
             if (headOfAnswer.equals(StringConstants.FOOD.getValue())) {
-                message.setText(CommandName.CALCULATE_FOOD.getCommandName() + textToSend.substring(StringConstants.FOOD.getValue().length()));
+                String msgt = CommandName.CALCULATE_FOOD.getCommandName() + textToSend.substring(StringConstants.FOOD.getValue().length());
+                System.out.println(msgt);
+                message.setText(msgt);
                 return calculateFoodCommand.handleCommand(message);
             } else if (headOfAnswer.equals(StringConstants.ACTIVITY.getValue())) {
-                message.setText(CommandName.CALCULATE_ACTIVITY.getCommandName() + textToSend.substring(StringConstants.ACTIVITY.getValue().length()));
+                String msgt = CommandName.CALCULATE_ACTIVITY.getCommandName() + textToSend.substring(StringConstants.ACTIVITY.getValue().length());
+                message.setText(msgt);
+                // TODO УБрать вывод
+                System.out.println(msgt);
                 return calculateActivityCommand.handleCommand(message);
             } else {
                 textToSend = MessageText.NO_FOOD_OR_ACTIVITY_IN_VOICE.getMessageText();
