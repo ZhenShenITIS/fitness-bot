@@ -58,7 +58,8 @@ public enum MessageText {
     HELP("Ну тут типа сообщение со всей справкой по боту, впадлу писать сейчас"),
     NO_COMMAND_USER_CHAT("Вы не ввели никакой команды"),
     VOICE_IS_TOO_LONG("Слишком длинное аудио!"),
-    NO_FOOD_OR_ACTIVITY_IN_VOICE("Не удалось распознать тренировку или еду в голосовом сообщении")
+    NO_FOOD_OR_ACTIVITY_IN_VOICE("Не удалось распознать тренировку или еду в голосовом сообщении"),
+    OPEN_AI_ERROR("не удалось получить данные от OpenAI")
     ;
 
     private final String messageText;
