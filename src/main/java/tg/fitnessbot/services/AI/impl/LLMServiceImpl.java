@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import tg.fitnessbot.api.OpenAIClient;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.constants.StringConstants;
+import tg.fitnessbot.models.Activity;
+import tg.fitnessbot.models.Food;
 import tg.fitnessbot.repositories.ActivityRepository;
 import tg.fitnessbot.repositories.FoodRepository;
 import tg.fitnessbot.services.AI.LLMService;
@@ -35,7 +37,7 @@ public class LLMServiceImpl implements LLMService {
 
     private String getTextFromJSON (JSONObject object) {
         JSONArray jsons = object.getJSONArray("output");
-        // TODO Плохая практика, так делать нельзя!
+        // Плохая практика, так делать нельзя!
         // return jsons.getJSONObject(0).getJSONArray("content").getJSONObject(0).getString("text");
         // Выдержка из доков гптшки:
         /*
@@ -64,9 +66,9 @@ public class LLMServiceImpl implements LLMService {
     private String getPromptForAudio (String audio) {
         String prePrompt = StringConstants.PRE_PROMPT.getValue();
         String tables = "Еда: \n" +
-                foodRepository.findAll().stream().map(f -> f.getName() + "\n").toList() +
+                foodRepository.findAll().stream().map(Food::getName).toList() +
                 "\nТренировки: \n" +
-                activityRepository.findAll().stream().map(a -> a.getName() + "\n").toList();
+                activityRepository.findAll().stream().map(Activity::getName).toList();
         return prePrompt + tables + "\n\nТранскрипция:\n" + audio;
     }
 }

@@ -61,13 +61,19 @@ public class MessageUtil {
                                         .build(),
                                 InlineKeyboardButton
                                         .builder()
+                                        .text(MessageText.INLINE_BUTTON_GENDER.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_GENDER.getCallbackName()+":"+user.getId())
+                                        .build()))
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
                                         .text(MessageText.INLINE_BUTTON_LIFE_ACTIVITY.getMessageText())
                                         .callbackData(CallbackName.UPDATE_LIFE_ACTIVITY.getCallbackName()+":"+user.getId())
                                         .build(),
                                 InlineKeyboardButton
                                         .builder()
-                                        .text(MessageText.INLINE_BUTTON_GENDER.getMessageText())
-                                        .callbackData(CallbackName.UPDATE_GENDER.getCallbackName()+":"+user.getId())
+                                        .text(MessageText.INLINE_BUTTON_PHOTO.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_PHOTO.getCallbackName()+":"+user.getId())
                                         .build()))
                         .build())
                 .build();

@@ -58,6 +58,8 @@ public class ContainersConfig {
     NoneCallback noneCallback;
     @Autowired
     UpdateLifeActivityCallback updateLifeActivityCallback;
+    @Autowired
+    UpdatePhotoCallback updatePhotoCallback;
 
     @Bean
     public CallbackContainer callbackContainer() {
@@ -67,7 +69,8 @@ public class ContainersConfig {
                 updateHeightCallback,
                 updateWeightCallback,
                 noneCallback,
-                updateLifeActivityCallback
+                updateLifeActivityCallback,
+                updatePhotoCallback
         });
     }
 }
