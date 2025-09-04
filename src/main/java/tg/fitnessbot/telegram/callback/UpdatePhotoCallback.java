@@ -2,6 +2,7 @@ package tg.fitnessbot.telegram.callback;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -12,6 +13,8 @@ import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
+import tg.fitnessbot.models.ProfilePhoto;
+import tg.fitnessbot.services.ProfilePhotoService;
 import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
 
@@ -25,9 +28,14 @@ public class UpdatePhotoCallback implements Callback {
     @Autowired
     TelegramConfig telegramConfig;
 
+    @Autowired
+    UserService userService;
 
     @Autowired
     MessageUtil messageUtil;
+
+    @Autowired
+    ProfilePhotoService profilePhotoService;
 
     @Override
     public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
@@ -54,16 +62,11 @@ public class UpdatePhotoCallback implements Callback {
     // TODO Доделать
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
-        UserForm user = userService.getUserByID(message.getFrom().getId());
-        try {
-            user.setHeight(Integer.parseInt(message.getText().replaceAll(",",".")));
-        } catch (NumberFormatException e) {
-            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_HEIGHT.getMessageText()).build();
+        if (!message.hasPhoto()) {
+            return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_PHOTO.getMessageText()).build();
         }
-        userService.updateUser(user);
-        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
+        profilePhotoService.setPhoto(message.getFrom().getId(), message.getPhoto().get(0).getFileId());
         return messageUtil.getProfileMessage(message);
-
     }
 
     @Override

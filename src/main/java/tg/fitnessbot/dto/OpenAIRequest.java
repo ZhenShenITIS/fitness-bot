@@ -1,7 +1,6 @@
-package tg.fitnessbot.api;
+package tg.fitnessbot.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
 
 
 public record OpenAIRequest(

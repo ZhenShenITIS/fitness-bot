@@ -8,16 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.File;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.AI.AudioTranscriptionService;
 import tg.fitnessbot.services.AI.LLMService;
 import tg.fitnessbot.services.FileService;
+import tg.fitnessbot.services.ProfilePhotoService;
 import ws.schild.jave.EncoderException;
 import ws.schild.jave.MultimediaObject;
 
@@ -46,10 +45,7 @@ public class UpdateHandler extends SpringWebhookBot {
     CallbackQueryHandler callbackQueryHandler;
 
     @Autowired
-    AudioTranscriptionService audioTranscriptionService;
-
-    @Autowired
-    FileService fileService;
+    ProfilePhotoService profilePhotoService;
 
     public UpdateHandler(SetWebhook setWebhook) {
         super(setWebhook);
@@ -73,8 +69,17 @@ public class UpdateHandler extends SpringWebhookBot {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             return callbackQueryHandler.processCallbackQuery(callbackQuery);
         } else {
+            // TODO Убрать это
             Message message = update.getMessage();
             if (message != null) {
+                if (message.hasText() && message.getText().equals("картинка")) {
+                    SendPhoto msg = SendPhoto
+                            .builder()
+                            .chatId(message.getChatId())
+                            .caption("Вот твое фото профиля")
+                            .photo(new InputFile(profilePhotoService.getPhotoFileId(message.getFrom().getId())))
+                            .build();
+                }
                 return messageHandler.answerMessage(update.getMessage());
 
 

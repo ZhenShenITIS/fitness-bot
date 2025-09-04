@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -12,6 +14,7 @@ import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
+import tg.fitnessbot.services.ProfilePhotoService;
 import tg.fitnessbot.services.UserService;
 
 import java.util.List;
@@ -22,6 +25,9 @@ public class MessageUtil {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ProfilePhotoService profilePhotoService;
 
     public BotApiMethod<?> getProfileMessage(Message message) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
@@ -76,6 +82,50 @@ public class MessageUtil {
                                         .callbackData(CallbackName.UPDATE_PHOTO.getCallbackName()+":"+user.getId())
                                         .build()))
                         .build())
+                .build();
+        // TODO Придумать как вернуть фотку юзеру
+        SendPhoto msg = SendPhoto
+                .builder()
+                .chatId(message.getChatId())
+                .caption(textToSend)
+                .photo(new InputFile(profilePhotoService.getPhotoFileId(message.getFrom().getId())))
+                .replyMarkup(InlineKeyboardMarkup
+                        .builder()
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_HEIGHT.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_HEIGHT.getCallbackName()+":"+user.getId())
+                                        .build(),
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_WEIGHT.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_WEIGHT.getCallbackName()+":"+user.getId())
+                                        .build()))
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_BIRTHDAY.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_BIRTHDAY.getCallbackName()+":"+user.getId())
+                                        .build(),
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_GENDER.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_GENDER.getCallbackName()+":"+user.getId())
+                                        .build()))
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_LIFE_ACTIVITY.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_LIFE_ACTIVITY.getCallbackName()+":"+user.getId())
+                                        .build(),
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_PHOTO.getMessageText())
+                                        .callbackData(CallbackName.UPDATE_PHOTO.getCallbackName()+":"+user.getId())
+                                        .build()))
+                        .build())
+
                 .build();
         return messageToSend;
     }
