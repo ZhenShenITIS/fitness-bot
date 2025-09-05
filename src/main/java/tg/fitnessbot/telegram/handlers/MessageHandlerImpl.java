@@ -33,7 +33,7 @@ public class MessageHandlerImpl implements MessageHandler {
     public BotApiMethod<?> answerMessage(Message message) {
         CallbackName state = telegramConfig.getUserStateMap().getOrDefault(message.getFrom().getId(), CallbackName.NONE);
 
-        if (!state.equals(CallbackName.NONE) {
+        if (!state.equals(CallbackName.NONE)) {
             return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
         }
 
