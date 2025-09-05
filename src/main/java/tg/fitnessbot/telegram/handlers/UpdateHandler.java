@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
@@ -76,7 +77,7 @@ public class UpdateHandler extends SpringWebhookBot {
             if (message != null) {
                 if (message.hasText() && message.getText().equals("картинка")) {
                     String fileId = profilePhotoService.getPhotoFileId(message.getFrom().getId());
-                    SendPhoto msg;
+                    PartialBotApiMethod msg;
                     if (fileId != null) {
                         msg = SendPhoto
                                 .builder()
@@ -85,10 +86,10 @@ public class UpdateHandler extends SpringWebhookBot {
                                 .photo(new InputFile(fileId))
                                 .build();
                     } else {
-                        msg = SendPhoto
+                        msg = SendMessage
                                 .builder()
                                 .chatId(message.getChatId())
-                                .caption("Фото профиля не установлено")
+                                .text("Фото профиля не установлено")
                                 .build();
                     }
                     try {
