@@ -28,11 +28,17 @@ public class MessageHandlerImpl implements MessageHandler {
 
     private final VoiceHandler voiceHandler;
 
-
+    // TODO Оптимизировать метод
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
+        CallbackName state = telegramConfig.getUserStateMap().getOrDefault(message.getFrom().getId(), CallbackName.NONE);
+
+        if (!state.equals(CallbackName.NONE) {
+            return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
+        }
+
+
         if (message.hasText()) {
-            CallbackName state = telegramConfig.getUserStateMap().getOrDefault(message.getFrom().getId(), CallbackName.NONE);
             String[] msgParts = message.getText().split(" ");
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].split(telegramConfig.getBotName())[0].toLowerCase();
@@ -45,6 +51,7 @@ public class MessageHandlerImpl implements MessageHandler {
         } else if (message.hasVoice()) {
             return voiceHandler.answerMessage(message);
         }
-        return null;
+        // TODO Убрать
+        return SendMessage.builder().chatId(message.getChatId()).text("Ответ отправлен из класса MessageHandlerImpl").build();
     }
 }
