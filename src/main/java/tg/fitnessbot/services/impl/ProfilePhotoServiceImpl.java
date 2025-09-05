@@ -23,7 +23,8 @@ public class ProfilePhotoServiceImpl implements ProfilePhotoService {
         if (user == null) {
             return false;
         }
-        ProfilePhoto photo = ProfilePhoto.builder().fileId(fileId).user(user).build();
+        // TODO Подумать над оптимизацией создания сущности
+        ProfilePhoto photo = ProfilePhoto.builder().id(userId).fileId(fileId).user(userRepository.findById(userId).orElse(null)).build();
         profilePhotoRepository.save(photo);
         return true;
     }

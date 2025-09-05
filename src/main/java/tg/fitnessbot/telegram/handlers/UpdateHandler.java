@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.models.ProfilePhoto;
 import tg.fitnessbot.services.AI.AudioTranscriptionService;
 import tg.fitnessbot.services.AI.LLMService;
 import tg.fitnessbot.services.FileService;
@@ -74,12 +75,22 @@ public class UpdateHandler extends SpringWebhookBot {
             Message message = update.getMessage();
             if (message != null) {
                 if (message.hasText() && message.getText().equals("картинка")) {
-                    SendPhoto msg = SendPhoto
-                            .builder()
-                            .chatId(message.getChatId())
-                            .caption("Вот твое фото профиля")
-                            .photo(new InputFile(profilePhotoService.getPhotoFileId(message.getFrom().getId())))
-                            .build();
+                    String fileId = profilePhotoService.getPhotoFileId(message.getFrom().getId());
+                    SendPhoto msg;
+                    if (fileId != null) {
+                        msg = SendPhoto
+                                .builder()
+                                .chatId(message.getChatId())
+                                .caption("Вот твое фото профиля")
+                                .photo(new InputFile(fileId))
+                                .build();
+                    } else {
+                        msg = SendPhoto
+                                .builder()
+                                .chatId(message.getChatId())
+                                .caption("Фото профиля не установлено")
+                                .build();
+                    }
                     try {
                         this.execute(msg);
                     } catch (TelegramApiException e) {

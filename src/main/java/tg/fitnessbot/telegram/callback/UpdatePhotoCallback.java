@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
@@ -19,6 +20,7 @@ import tg.fitnessbot.services.UserService;
 import tg.fitnessbot.utils.MessageUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -44,7 +46,6 @@ public class UpdatePhotoCallback implements Callback {
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
-            List<KeyboardButton> list = new ArrayList<>();
             EditMessageText editMessageText = EditMessageText
                     .builder()
                     .messageId(messageId)
@@ -65,7 +66,10 @@ public class UpdatePhotoCallback implements Callback {
         if (!message.hasPhoto()) {
             return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_PHOTO.getMessageText()).build();
         }
-        profilePhotoService.setPhoto(message.getFrom().getId(), message.getPhoto().get(0).getFileId());
+        List<PhotoSize> photos = message.getPhoto();
+        String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize)).map(PhotoSize::getFileId).orElse("");
+        profilePhotoService.setPhoto(message.getFrom().getId(),fileId);
+        telegramConfig.getUserStateMap().put(message.getFrom().getId(), CallbackName.NONE);
         return messageUtil.getProfileMessage(message);
     }
 
