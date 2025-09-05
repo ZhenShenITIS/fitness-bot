@@ -62,7 +62,9 @@ public class UpdatePhotoCallback implements Callback {
     // TODO Доделать
     @Override
     public BotApiMethod<?> answerMessage(Message message) {
+        if (message.hasPhoto()) {
             List<PhotoSize> photos = message.getPhoto();
+            System.out.println("Отладочный вывод списка фото: " + photos);
             String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize)).map(PhotoSize::getFileId).orElse("");
             System.out.println("Отладочный вывод 1: userID = " + message.getFrom().getId() + ", fileID = " + fileId);
             profilePhotoService.setPhoto(message.getFrom().getId(),fileId);
@@ -70,8 +72,9 @@ public class UpdatePhotoCallback implements Callback {
             telegramConfig.getUserStateMap().put(message.getFrom().getId(), CallbackName.NONE);
             return messageUtil.getProfileMessage(message);
 
-//        System.out.println("Отладочный вывод перед отправкой сообщения с неверным фото");
-//        return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_PHOTO.getMessageText()).build();
+        }
+        System.out.println("Отладочный вывод перед отправкой сообщения с неверным фото");
+        return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_PHOTO.getMessageText()).build();
 
     }
 
