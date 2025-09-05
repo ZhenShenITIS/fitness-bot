@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(User.class)
 public class ProfilePhoto {
-
-    private String fileId;
-
+    // TODO Не совсем понимаю как работает id в этом классе
     @Id
-    @OneToOne @JoinColumn(name = "bot_user_id")
+    private Long id;
+    private String fileId;
+    @OneToOne
+    @JoinColumn(name = "bot_user_id", referencedColumnName = "id")
     private User user;
 
 }
