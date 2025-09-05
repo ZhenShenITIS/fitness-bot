@@ -77,26 +77,32 @@ public class UpdateHandler extends SpringWebhookBot {
             if (message != null) {
                 if (message.hasText() && message.getText().equals("картинка")) {
                     String fileId = profilePhotoService.getPhotoFileId(message.getFrom().getId());
-                    PartialBotApiMethod msg;
+
                     if (fileId != null) {
-                        msg = SendPhoto
+                        SendPhoto msg = SendPhoto
                                 .builder()
                                 .chatId(message.getChatId())
                                 .caption("Вот твое фото профиля")
                                 .photo(new InputFile(fileId))
                                 .build();
+                        try {
+                            this.execute(msg);
+                        } catch (TelegramApiException e) {
+                            throw new RuntimeException(e);
+                        }
                     } else {
-                        msg = SendMessage
+                        SendMessage msg = SendMessage
                                 .builder()
                                 .chatId(message.getChatId())
                                 .text("Фото профиля не установлено")
                                 .build();
+                        try {
+                            this.execute(msg);
+                        } catch (TelegramApiException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                    try {
-                        this.execute(msg);
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
+
                 }
                 return messageHandler.answerMessage(update.getMessage());
 
