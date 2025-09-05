@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.services.AI.AudioTranscriptionService;
@@ -79,6 +80,11 @@ public class UpdateHandler extends SpringWebhookBot {
                             .caption("Вот твое фото профиля")
                             .photo(new InputFile(profilePhotoService.getPhotoFileId(message.getFrom().getId())))
                             .build();
+                    try {
+                        this.execute(msg);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 return messageHandler.answerMessage(update.getMessage());
 
