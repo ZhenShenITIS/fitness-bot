@@ -8,7 +8,4 @@ import java.util.List;
 
 public interface FoodRepository extends JpaRepository<Food, Long> {
     Food findByName(String name);
-
-    // TODO Узнать как правильно получать столбцы из бд
-    List<Food> findNamesByNameIsNot(String name);
 }

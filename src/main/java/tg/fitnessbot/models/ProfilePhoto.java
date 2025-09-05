@@ -15,9 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfilePhoto {
-
     private String fileId;
-
     @Id
     @OneToOne @JoinColumn(name = "bot_user_id")
     private User user;
