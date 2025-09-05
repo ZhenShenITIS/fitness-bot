@@ -68,7 +68,9 @@ public class UpdatePhotoCallback implements Callback {
         }
         List<PhotoSize> photos = message.getPhoto();
         String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize)).map(PhotoSize::getFileId).orElse("");
+        System.out.println("Отладочный вывод 1: userID = " + message.getFrom().getId() + ", fileID = " + fileId);
         profilePhotoService.setPhoto(message.getFrom().getId(),fileId);
+        System.out.println("Отладочный вывод 2");
         telegramConfig.getUserStateMap().put(message.getFrom().getId(), CallbackName.NONE);
         return messageUtil.getProfileMessage(message);
     }
