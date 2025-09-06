@@ -34,7 +34,7 @@ public class MessageUtil {
     ProfilePhotoService profilePhotoService;
 
     @Autowired
-    public void setSpringWebhookBot (SpringWebhookBot springWebhookBot) {
+    public MessageUtil (SpringWebhookBot springWebhookBot) {
         this.springWebhookBot = springWebhookBot;
     }
 
