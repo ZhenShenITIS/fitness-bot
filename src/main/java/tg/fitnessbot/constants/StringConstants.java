@@ -25,7 +25,8 @@ public enum StringConstants {
             "_\n" +
             "\n" +
             "Таблицы с едой и тренировками:\n" +
-            "\n")
+            "\n"),
+    BASE_PROFILE_PHOTO_FILE_ID("AgACAgIAAxkBAAIEUmi6z0QdP9Uq9rqmW4U4_gXWbvPKAAJxCzIbCaPYSVjCerN3K9vQAQADAgADeQADNgQ")
     ;
 
     private String value;

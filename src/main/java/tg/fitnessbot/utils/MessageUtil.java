@@ -10,9 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.constants.MessageText;
+import tg.fitnessbot.constants.StringConstants;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.ProfilePhotoService;
 import tg.fitnessbot.services.UserService;
@@ -22,12 +25,18 @@ import java.util.List;
 @Component
 @Data
 public class MessageUtil {
+    private SpringWebhookBot springWebhookBot;
 
     @Autowired
     UserService userService;
 
     @Autowired
     ProfilePhotoService profilePhotoService;
+
+    @Autowired
+    public void setSpringWebhookBot (SpringWebhookBot springWebhookBot) {
+        this.springWebhookBot = springWebhookBot;
+    }
 
     public BotApiMethod<?> getProfileMessage(Message message) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
@@ -84,11 +93,12 @@ public class MessageUtil {
                         .build())
                 .build();
         // TODO Придумать как вернуть фотку юзеру
+        String fileId = profilePhotoService.getPhotoFileId(message.getFrom().getId()) == null ? StringConstants.BASE_PROFILE_PHOTO_FILE_ID.getValue() : profilePhotoService.getPhotoFileId(message.getFrom().getId());
         SendPhoto msg = SendPhoto
                 .builder()
                 .chatId(message.getChatId())
                 .caption(textToSend)
-                .photo(new InputFile(profilePhotoService.getPhotoFileId(message.getFrom().getId())))
+                .photo(new InputFile(fileId))
                 .replyMarkup(InlineKeyboardMarkup
                         .builder()
                         .keyboardRow(List.of(
@@ -127,6 +137,11 @@ public class MessageUtil {
                         .build())
 
                 .build();
-        return messageToSend;
+        try {
+            springWebhookBot.execute(msg);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }
