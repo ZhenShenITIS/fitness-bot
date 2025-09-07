@@ -45,7 +45,7 @@ public class MessageHandlerImpl implements MessageHandler {
                 return SendMessage.builder().chatId(message.getChatId()).text(MessageText.NO_COMMAND_USER_CHAT.getMessageText()).build();
             }
         } else if (message.hasVoice()) {
-            return voiceHandler.answerMessage(message);
+            return voiceHandler.answerMessage(message, springWebhookBot);
         }
 
         return null;
