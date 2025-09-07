@@ -25,18 +25,12 @@ import java.util.List;
 @Component
 @Data
 public class MessageUtil {
-    private SpringWebhookBot springWebhookBot;
 
     @Autowired
     UserService userService;
 
     @Autowired
     ProfilePhotoService profilePhotoService;
-
-    @Autowired
-    public MessageUtil (SpringWebhookBot springWebhookBot) {
-        this.springWebhookBot = springWebhookBot;
-    }
 
     public BotApiMethod<?> getProfileMessage(Message message) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
@@ -137,11 +131,11 @@ public class MessageUtil {
                         .build())
 
                 .build();
-        try {
-            springWebhookBot.execute(msg);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+//        try {
+//            springWebhookBot.execute(msg);
+//        } catch (TelegramApiException e) {
+//            throw new RuntimeException(e);
+//        }
+        return messageToSend;
     }
 }
