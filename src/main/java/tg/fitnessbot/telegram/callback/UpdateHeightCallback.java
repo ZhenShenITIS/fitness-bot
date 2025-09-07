@@ -60,12 +60,6 @@ public class UpdateHeightCallback implements Callback {
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
-            DeleteMessage deleteMessage = DeleteMessage.builder().messageId(callbackQuery.getMessage().getMessageId()).build();
-            try {
-                springWebhookBot.execute(deleteMessage);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
             SendMessage message = SendMessage
                     .builder()
                     .chatId(chatId)

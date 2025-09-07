@@ -63,7 +63,9 @@ public enum MessageText {
     NO_COMMAND_USER_CHAT("Вы не ввели никакой команды"),
     VOICE_IS_TOO_LONG("Слишком длинное аудио!"),
     NO_FOOD_OR_ACTIVITY_IN_VOICE("Не удалось распознать тренировку или еду в голосовом сообщении"),
-    OPEN_AI_ERROR("не удалось получить данные от OpenAI")
+    OPEN_AI_ERROR("не удалось получить данные от OpenAI"),
+    EDIT_PROFILE("Изменить данные"),
+    REQUEST_FIELD("Выберите поле, которое хотите изменить")
     ;
 
     private final String messageText;

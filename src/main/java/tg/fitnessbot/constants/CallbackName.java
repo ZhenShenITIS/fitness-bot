@@ -7,6 +7,7 @@ public enum CallbackName {
     UPDATE_GENDER("update_gender"),
     UPDATE_LIFE_ACTIVITY("update_activity"),
     UPDATE_PHOTO("update_photo"),
+    EDIT_PROFILE("edit_profile"),
     AFTER_CALLBACK("after_callback"),
     NONE("none");
 

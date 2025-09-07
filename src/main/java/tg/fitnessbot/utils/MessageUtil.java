@@ -88,7 +88,7 @@ public class MessageUtil {
                 .build();
         // TODO Придумать как вернуть фотку юзеру
         String fileId = profilePhotoService.getPhotoFileId(message.getFrom().getId()) == null ? StringConstants.BASE_PROFILE_PHOTO_FILE_ID.getValue() : profilePhotoService.getPhotoFileId(message.getFrom().getId());
-        SendPhoto msg = SendPhoto
+        SendPhoto msg1 = SendPhoto
                 .builder()
                 .chatId(message.getChatId())
                 .caption(textToSend)
@@ -127,6 +127,23 @@ public class MessageUtil {
                                         .builder()
                                         .text(MessageText.INLINE_BUTTON_PHOTO.getMessageText())
                                         .callbackData(CallbackName.UPDATE_PHOTO.getCallbackName()+":"+user.getId())
+                                        .build()))
+                        .build())
+
+                .build();
+
+        SendPhoto msg = SendPhoto
+                .builder()
+                .chatId(message.getChatId())
+                .caption(textToSend)
+                .photo(new InputFile(fileId))
+                .replyMarkup(InlineKeyboardMarkup
+                        .builder()
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.EDIT_PROFILE.getMessageText())
+                                        .callbackData(CallbackName.EDIT_PROFILE.getCallbackName()+":"+user.getId())
                                         .build()))
                         .build())
 
