@@ -55,7 +55,7 @@ public class UpdateBirthdayCallback implements Callback {
 
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return messageUtil.getProfileMessage(message, springWebhookBot);
+        return messageUtil.getEditProfileMessage(message, springWebhookBot);
     }
 
     @Override

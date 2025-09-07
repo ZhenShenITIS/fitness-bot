@@ -50,7 +50,7 @@ public class UpdateHeightCallback implements Callback {
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
-        return messageUtil.getProfileMessage(message, springWebhookBot);
+        return messageUtil.getEditProfileMessage(message, springWebhookBot);
     }
 
     @Override
@@ -60,9 +60,10 @@ public class UpdateHeightCallback implements Callback {
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
-            SendMessage message = SendMessage
+            EditMessageText message = EditMessageText
                     .builder()
                     .chatId(chatId)
+                    .messageId(messageId)
                     .text(MessageText.REQUEST_HEIGHT.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_HEIGHT);

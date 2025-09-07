@@ -72,7 +72,7 @@ public class UpdatePhotoCallback implements Callback {
             profilePhotoService.setPhoto(message.getFrom().getId(),fileId);
 
             telegramConfig.getUserStateMap().put(message.getFrom().getId(), CallbackName.NONE);
-            return messageUtil.getProfileMessage(message, springWebhookBot);
+            return messageUtil.getEditProfileMessage(message, springWebhookBot);
         } else {
 
             return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_PHOTO.getMessageText()).build();
