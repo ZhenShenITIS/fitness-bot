@@ -3,6 +3,7 @@ package tg.fitnessbot.constants;
 public enum MessageText {
     WRONG_HEIGHT("Неправильно введён рост!\nТребуется целое число"),
     REQUEST_HEIGHT("Введите ваш рост:"),
+    SUCCESS_EDIT_HEIGHT("Ваш рост успешно обновлен!"),
     WRONG_GENDER("Неправильно введён пол!\nТребуется символ м или ж"),
     REQUEST_GENDER("Введите ваш пол:\n\nПодсказка: пришлите одну букву м или ж"),
     WRONG_WEIGHT("Неправильно введён вес!"),

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
@@ -43,6 +45,11 @@ public class UpdateHeightCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
+        try {
+            springWebhookBot.execute(SendMessage.builder().chatId(message.getChatId()).text(MessageText.SUCCESS_EDIT_HEIGHT.getMessageText()).build());
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
         return messageUtil.getProfileMessage(message, springWebhookBot);
     }
 
@@ -53,14 +60,19 @@ public class UpdateHeightCallback implements Callback {
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
-            EditMessageText editMessageText = EditMessageText
+            DeleteMessage deleteMessage = DeleteMessage.builder().messageId(callbackQuery.getMessage().getMessageId()).build();
+            try {
+                springWebhookBot.execute(deleteMessage);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+            SendMessage message = SendMessage
                     .builder()
-                    .messageId(messageId)
                     .chatId(chatId)
                     .text(MessageText.REQUEST_HEIGHT.getMessageText())
                     .build();
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.UPDATE_HEIGHT);
-            return editMessageText;
+            return message;
         }
         return null;
     }
