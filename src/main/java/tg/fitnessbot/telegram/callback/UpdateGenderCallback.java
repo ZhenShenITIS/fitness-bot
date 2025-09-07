@@ -61,7 +61,7 @@ public class UpdateGenderCallback implements Callback {
                     .builder()
                             .text(MessageText.SUCCESS_EDIT_GENDER.getMessageText())
                             .chatId(message.getChatId())
-                            .replyMarkup(new ReplyKeyboardRemove())
+                            .replyMarkup(new ReplyKeyboardRemove(true))
                     .build());
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
