@@ -32,7 +32,7 @@ public class MessageUtil {
     @Autowired
     ProfilePhotoService profilePhotoService;
 
-    public BotApiMethod<?> getProfileMessage(Message message) {
+    public BotApiMethod<?> getProfileMessage(Message message, SpringWebhookBot springWebhookBot) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
         Double tdee = 0.0;
         if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
@@ -131,11 +131,11 @@ public class MessageUtil {
                         .build())
 
                 .build();
-//        try {
-//            springWebhookBot.execute(msg);
-//        } catch (TelegramApiException e) {
-//            throw new RuntimeException(e);
-//        }
-        return messageToSend;
+        try {
+            springWebhookBot.execute(msg);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

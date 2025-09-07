@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
@@ -30,7 +31,7 @@ public class CalculateFoodCommand implements Command {
     }
 
     @Override
-    public BotApiMethod<?> handleCommand(Message message) {
+    public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
         String msgText = message.getText().substring(CALCULATE_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
         String textToSend = "";
         String[] lines = msgText.split("\n");

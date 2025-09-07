@@ -70,7 +70,7 @@ public class UpdateHandler extends SpringWebhookBot {
     private BotApiMethod<?> handleUpdate (Update update) {
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            return callbackQueryHandler.processCallbackQuery(callbackQuery);
+            return callbackQueryHandler.processCallbackQuery(callbackQuery, this);
         } else {
             // TODO Убрать это
             Message message = update.getMessage();
@@ -104,7 +104,7 @@ public class UpdateHandler extends SpringWebhookBot {
                     }
 
                 }
-                return messageHandler.answerMessage(update.getMessage());
+                return messageHandler.answerMessage(update.getMessage(), this);
 
 
             }

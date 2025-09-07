@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
@@ -29,7 +30,7 @@ public class StartCommand implements Command{
     }
 
     @Override
-    public BotApiMethod<?> handleCommand(Message message) {
+    public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
             UserForm user = new UserForm();
             user.setFirstName(message.getFrom().getFirstName());
             user.setLastName(message.getFrom().getLastName());
@@ -44,7 +45,7 @@ public class StartCommand implements Command{
 
                 return messageToSend;
             } else {
-                return messageUtil.getProfileMessage(message);
+                return messageUtil.getProfileMessage(message, springWebhookBot);
             }
     }
 

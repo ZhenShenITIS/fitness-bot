@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
@@ -25,7 +26,7 @@ public class AddFoodCommand implements Command{
     FoodServiceImpl foodService;
 
     @Override
-    public BotApiMethod<?> handleCommand(Message message) {
+    public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
         if (userUtil.isAdmin(message.getFrom().getId())){
             String cmdText = message.getText().substring(ADD_FOOD.getCommandName().length()).trim().replaceAll(",", ".");
             String[] lines = cmdText.trim().split("\n");

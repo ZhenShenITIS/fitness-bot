@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.MessageText;
@@ -33,7 +34,7 @@ public class UpdateWeightCallback implements Callback {
     }
 
     @Override
-    public BotApiMethod<?> answerMessage(Message message) {
+    public BotApiMethod<?> answerMessage(Message message, SpringWebhookBot springWebhookBot) {
         UserForm user = userService.getUserByID(message.getFrom().getId());
         try {
             user.setWeight(Double.parseDouble(message.getText().replaceAll(",",".")));
@@ -42,11 +43,11 @@ public class UpdateWeightCallback implements Callback {
         }
         userService.updateUser(user);
         telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
-        return messageUtil.getProfileMessage(message);
+        return messageUtil.getProfileMessage(message, springWebhookBot);
     }
 
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, SpringWebhookBot springWebhookBot) {
         int messageId = callbackQuery.getMessage().getMessageId();
         long chatId = callbackQuery.getMessage().getChatId();
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);

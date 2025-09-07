@@ -3,6 +3,7 @@ package tg.fitnessbot.telegram.handlers;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.telegram.callback.CallbackContainer;
 
 @Component
@@ -15,8 +16,8 @@ public class CallbackQueryHandlerImpl implements CallbackQueryHandler {
     }
 
     @Override
-    public BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery, SpringWebhookBot springWebhookBot) {
         String callbackIdentifier = callbackQuery.getData().split(":")[0];
-        return callbackContainer.retrieveCallback(callbackIdentifier).processCallback(callbackQuery);
+        return callbackContainer.retrieveCallback(callbackIdentifier).processCallback(callbackQuery, springWebhookBot);
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.telegram.callback.CallbackContainer;
 import tg.fitnessbot.telegram.command.CommandContainer;
 import tg.fitnessbot.config.TelegramConfig;
@@ -30,28 +31,23 @@ public class MessageHandlerImpl implements MessageHandler {
 
     // TODO Оптимизировать метод
     @Override
-    public BotApiMethod<?> answerMessage(Message message) {
+    public BotApiMethod<?> answerMessage(Message message, SpringWebhookBot springWebhookBot) {
         CallbackName state = telegramConfig.getUserStateMap().getOrDefault(message.getFrom().getId(), CallbackName.NONE);
 
         if (!state.equals(CallbackName.NONE)) {
-            return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
-        }
-
-
-        if (message.hasText()) {
+            return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message, springWebhookBot);
+        } else if (message.hasText()) {
             String[] msgParts = message.getText().split(" ");
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].split(telegramConfig.getBotName())[0].toLowerCase();
-                return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message);
-            }  else if (!state.equals(CallbackName.NONE)) {
-                return callbackContainer.retrieveCallback(state.getCallbackName()).answerMessage(message);
+                return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message, springWebhookBot);
             } else if (message.getChat().isUserChat()){
                 return SendMessage.builder().chatId(message.getChatId()).text(MessageText.NO_COMMAND_USER_CHAT.getMessageText()).build();
             }
         } else if (message.hasVoice()) {
             return voiceHandler.answerMessage(message);
         }
-        // TODO Убрать
-        return SendMessage.builder().chatId(message.getChatId()).text("Ответ отправлен из класса MessageHandlerImpl").build();
+
+        return null;
     }
 }

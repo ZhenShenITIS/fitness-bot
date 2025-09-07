@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.ActivityForm;
@@ -34,7 +35,7 @@ public class CalculateActivityCommand implements Command{
     }
 
     @Override
-    public BotApiMethod<?> handleCommand(Message message) {
+    public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
         Double weight = userService.getUserByID(message.getFrom().getId()).getWeight();
         if (weight == null) {
             // TODO добавить реплей маркап с кнопкой /start

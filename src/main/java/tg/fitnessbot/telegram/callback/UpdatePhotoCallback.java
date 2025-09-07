@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.MessageText;
@@ -40,7 +41,7 @@ public class UpdatePhotoCallback implements Callback {
     ProfilePhotoService profilePhotoService;
 
     @Override
-    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery) {
+    public BotApiMethod<?> processCallback(CallbackQuery callbackQuery, SpringWebhookBot springWebhookBot) {
         int messageId = callbackQuery.getMessage().getMessageId();
         long chatId = callbackQuery.getMessage().getChatId();
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
@@ -61,19 +62,19 @@ public class UpdatePhotoCallback implements Callback {
 
     // TODO Доделать
     @Override
-    public BotApiMethod<?> answerMessage(Message message) {
+    public BotApiMethod<?> answerMessage(Message message, SpringWebhookBot springWebhookBot) {
         if (message.hasPhoto()) {
-            System.out.println("Отладочный вывод: зашли в условие message.hasPhoto()");
+
             List<PhotoSize> photos = message.getPhoto();
-            System.out.println("Отладочный вывод списка фото: " + photos);
+
             String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize)).map(PhotoSize::getFileId).orElse("");
-            System.out.println("Отладочный вывод 1: userID = " + message.getFrom().getId() + ", fileID = " + fileId);
+
             profilePhotoService.setPhoto(message.getFrom().getId(),fileId);
-            System.out.println("Отладочный вывод 2");
+
             telegramConfig.getUserStateMap().put(message.getFrom().getId(), CallbackName.NONE);
-            return messageUtil.getProfileMessage(message);
+            return messageUtil.getProfileMessage(message, springWebhookBot);
         } else {
-            System.out.println("Отладочный вывод перед отправкой сообщения с неверным фото");
+
             return SendMessage.builder().chatId(message.getChatId()).text(MessageText.WRONG_PHOTO.getMessageText()).build();
         }
 
