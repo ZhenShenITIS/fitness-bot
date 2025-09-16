@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
@@ -42,8 +43,12 @@ public class StartCommand implements Command{
                         .chatId(message.getChatId())
                         .text(MessageText.SUCCESS_REGISTRATION.getMessageText())
                         .build();
-
-                return messageToSend;
+                try {
+                    springWebhookBot.execute(messageToSend);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
+                return null;
             } else {
                 return messageUtil.getProfileMessage(message, springWebhookBot);
             }

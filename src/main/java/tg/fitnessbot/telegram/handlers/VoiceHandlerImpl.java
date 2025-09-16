@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Voice;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.IntegerConstants;
@@ -58,14 +59,11 @@ public class VoiceHandlerImpl implements VoiceHandler {
             String headOfAnswer = textToSend.split("\n")[0];
             if (headOfAnswer.equals(StringConstants.FOOD.getValue())) {
                 String msgt = CommandName.CALCULATE_FOOD.getCommandName() + textToSend.substring(StringConstants.FOOD.getValue().length());
-                System.out.println(msgt);
                 message.setText(msgt);
                 return calculateFoodCommand.handleCommand(message, springWebhookBot);
             } else if (headOfAnswer.equals(StringConstants.ACTIVITY.getValue())) {
                 String msgt = CommandName.CALCULATE_ACTIVITY.getCommandName() + textToSend.substring(StringConstants.ACTIVITY.getValue().length());
                 message.setText(msgt);
-                // TODO УБрать вывод
-                System.out.println(msgt);
                 return calculateActivityCommand.handleCommand(message, springWebhookBot);
             } else {
                 textToSend = MessageText.NO_FOOD_OR_ACTIVITY_IN_VOICE.getMessageText();
@@ -76,6 +74,12 @@ public class VoiceHandlerImpl implements VoiceHandler {
             textToSend = textToSend.substring(0, 4000) + "...";
         }
 
-        return SendMessage.builder().text(textToSend).chatId(message.getChatId()).build();
+        try {
+            springWebhookBot.execute(SendMessage.builder().text(textToSend).chatId(message.getChatId()).build());
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
     }
 }
