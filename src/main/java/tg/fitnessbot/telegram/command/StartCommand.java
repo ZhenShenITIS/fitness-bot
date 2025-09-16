@@ -46,7 +46,7 @@ public class StartCommand implements Command{
                 try {
                     springWebhookBot.execute(messageToSend);
                 } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
+                    System.out.println(e.getMessage());
                 }
                 return null;
             } else {

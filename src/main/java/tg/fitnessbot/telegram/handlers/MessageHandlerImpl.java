@@ -43,8 +43,9 @@ public class MessageHandlerImpl implements MessageHandler {
                 //return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message, springWebhookBot);
                 try {
                     springWebhookBot.execute(commandContainer.retrieveCommand(commandIdentifier).handleCommand(message, springWebhookBot));
-                } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
+                }
+                catch (TelegramApiException e) {
+                    System.out.println("TelegramApiException: " + e.getMessage());
                 }
                 return null;
             } else if (message.getChat().isUserChat()){
