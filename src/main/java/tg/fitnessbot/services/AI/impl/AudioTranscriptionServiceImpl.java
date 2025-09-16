@@ -53,6 +53,8 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
 
     // TODO Оптимизировать данный метод
     private byte[] convert(File source) {
+        // TODO Убрать вывод
+        System.out.println("Зашел в метод AudioTranscriptionServiceImpl.convert");
         MultimediaObject sourceFile = new MultimediaObject(source);
         File target = null;
         try {
@@ -74,6 +76,8 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
         } catch (EncoderException e) {
             throw new RuntimeException(e);
         }
+        // TODO Убрать вывод
+        System.out.println("Завершил энкодинг");
 
         // В этом месте происходит загрузка оперативки
         byte[] wavBytes;
