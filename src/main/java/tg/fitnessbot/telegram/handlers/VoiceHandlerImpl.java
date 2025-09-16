@@ -40,7 +40,6 @@ public class VoiceHandlerImpl implements VoiceHandler {
 
     @Override
     public BotApiMethod<?> answerMessage(Message message, SpringWebhookBot springWebhookBot) {
-        SendMessage msg;
         String textToSend = "";
         java.io.File file = fileService.getVoiceFile(message);
         MultimediaObject object = new MultimediaObject(file);
@@ -54,7 +53,12 @@ public class VoiceHandlerImpl implements VoiceHandler {
             textToSend = MessageText.VOICE_IS_TOO_LONG.getMessageText();
             file.delete();
         } else {
-            textToSend = llmService.processAudio(audioTranscriptionService.transcribeAudio(file));
+            // TODO Убрать тестовый вывод
+            System.out.println(file.getAbsolutePath());
+            String transcription = audioTranscriptionService.transcribeAudio(file);
+            // TODO Убрать тестовый вывод
+            System.out.println(transcription);
+            textToSend = llmService.processAudio(transcription);
 
             String headOfAnswer = textToSend.split("\n")[0];
             if (headOfAnswer.equals(StringConstants.FOOD.getValue())) {
@@ -77,7 +81,7 @@ public class VoiceHandlerImpl implements VoiceHandler {
         try {
             springWebhookBot.execute(SendMessage.builder().text(textToSend).chatId(message.getChatId()).build());
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
         return null;

@@ -84,6 +84,8 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
         }
         source.delete();
         target.delete();
+        // TODO Убрать тестовый вывод
+        System.out.println(wavBytes);
         return wavBytes;
 
     }
