@@ -59,7 +59,7 @@ public class CalculateActivityCommand implements Command{
                 }
                 activityName = activityName.trim().toLowerCase();
                 try {
-                    activities.put(activityName, Double.parseDouble(lineParts[lineParts.length - 1]));
+                    activities.put(activityName, (Double) Double.parseDouble(lineParts[lineParts.length - 1]) );
                 } catch (NumberFormatException ignored){}
             }
         }

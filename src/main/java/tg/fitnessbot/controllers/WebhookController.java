@@ -17,6 +17,9 @@ public class WebhookController {
 
     @PostMapping("/webhook")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-        return springWebhookBot.onWebhookUpdateReceived(update);
+        Thread.startVirtualThread(() -> {
+            springWebhookBot.onWebhookUpdateReceived(update);
+        });
+        return null;
     }
 }

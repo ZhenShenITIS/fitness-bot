@@ -38,13 +38,6 @@ public class EditProfileCallback implements Callback {
 
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
-            DeleteMessage deleteMessage = DeleteMessage.builder().chatId(chatId).messageId(messageId).build();
-
-            try {
-                springWebhookBot.execute(deleteMessage);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
 
             telegramConfig.getUserStateMap().put(callbackQuery.getFrom().getId(), CallbackName.EDIT_PROFILE);
 
