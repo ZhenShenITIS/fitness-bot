@@ -19,6 +19,8 @@ public class VoskClientImpl implements VoskClient {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "audio/x-wav");
+        // TODO Убрать вывод
+        System.out.println(data.length);
         HttpEntity<byte[]> request = new HttpEntity<>(data, headers);
         return restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
     }
