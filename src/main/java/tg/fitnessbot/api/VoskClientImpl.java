@@ -22,6 +22,10 @@ public class VoskClientImpl implements VoskClient {
         // TODO Убрать вывод
         System.out.println(data.length);
         HttpEntity<byte[]> request = new HttpEntity<>(data, headers);
-        return restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
+
+        var answer = restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
+        // TODO Убрать вывод
+        System.out.println("Получил ответ от клиента");
+        return answer;
     }
 }
