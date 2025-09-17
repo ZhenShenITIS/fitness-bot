@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import tg.fitnessbot.api.OpenAIClient;
 import tg.fitnessbot.constants.MessageText;
@@ -26,7 +25,6 @@ public class LLMServiceImpl implements LLMService {
     FoodRepository foodRepository;
 
     @Override
-    @Async
     public String processAudio(String audio) {
         String prompt = getPromptForAudio(audio);
         // TODO Убрать выводы
