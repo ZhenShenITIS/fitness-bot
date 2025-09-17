@@ -1,5 +1,6 @@
 package tg.fitnessbot.telegram.callback.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -11,9 +12,10 @@ import tg.fitnessbot.telegram.callback.Callback;
 import tg.fitnessbot.utils.MessageUtil;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class BackToProfileCallback implements Callback {
-    CallbackName callbackName = CallbackName.BACK_TO_PROFILE;
+
+    final CallbackName callbackName = CallbackName.BACK_TO_PROFILE;
 
     MessageUtil messageUtil;
 
