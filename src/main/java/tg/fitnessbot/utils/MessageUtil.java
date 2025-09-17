@@ -35,11 +35,11 @@ public class MessageUtil {
     ProfilePhotoService profilePhotoService;
 
     public BotApiMethod<?> getProfileMessage(Message message, SpringWebhookBot springWebhookBot) {
-        return getProfileMessage(message.getFrom().getId(), message.getChatId(), springWebhookBot);
+        return getProfileMessage(message.getChatId(), message.getFrom().getId(), springWebhookBot);
     }
 
     public BotApiMethod<?> getProfileMessage(CallbackQuery callbackQuery, SpringWebhookBot springWebhookBot) {
-        return getProfileMessage(callbackQuery.getFrom().getId(), callbackQuery.getMessage().getChatId(), springWebhookBot);
+        return getProfileMessage(callbackQuery.getMessage().getChatId(), callbackQuery.getFrom().getId(), springWebhookBot);
     }
 
     public BotApiMethod<?> getEditProfileMessage(Message message, SpringWebhookBot springWebhookBot) {
