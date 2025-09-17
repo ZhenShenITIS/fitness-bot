@@ -70,11 +70,21 @@ public class UpdateHandler extends SpringWebhookBot {
     private BotApiMethod<?> handleUpdate(Update update) {
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            return callbackQueryHandler.processCallbackQuery(callbackQuery, this);
+            try {
+                this.execute(callbackQueryHandler.processCallbackQuery(callbackQuery, this));
+            } catch (TelegramApiException e) {
+                System.out.println("TelegramApiException: " + e.getMessage());
+            }
+            return null;
         } else {
             Message message = update.getMessage();
             if (message != null) {
-                return messageHandler.answerMessage(update.getMessage(), this);
+                try {
+                    this.execute(messageHandler.answerMessage(update.getMessage(), this));
+                } catch (TelegramApiException e) {
+                    System.out.println("TelegramApiException: " + e.getMessage());
+                }
+                return null;
             }
         }
         return null;

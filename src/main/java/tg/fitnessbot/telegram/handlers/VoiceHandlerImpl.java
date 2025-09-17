@@ -57,7 +57,7 @@ public class VoiceHandlerImpl implements VoiceHandler {
             System.out.println(file.getAbsolutePath());
             String transcription = audioTranscriptionService.transcribeAudio(file);
             // TODO Убрать тестовый вывод
-            System.out.println(transcription);
+            System.out.println(this.getClass() + ": " + transcription);
             textToSend = llmService.processAudio(transcription);
 
             String headOfAnswer = textToSend.split("\n")[0];

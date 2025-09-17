@@ -40,14 +40,7 @@ public class MessageHandlerImpl implements MessageHandler {
         } else if (message.hasText()) {
             if (message.getText().startsWith("/")) {
                 String commandIdentifier = message.getText().split(" ")[0].split("\n")[0].split(telegramConfig.getBotName())[0].toLowerCase();
-                //return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message, springWebhookBot);
-                try {
-                    springWebhookBot.execute(commandContainer.retrieveCommand(commandIdentifier).handleCommand(message, springWebhookBot));
-                }
-                catch (TelegramApiException e) {
-                    System.out.println("TelegramApiException: " + e.getMessage());
-                }
-                return null;
+                return commandContainer.retrieveCommand(commandIdentifier).handleCommand(message, springWebhookBot);
             } else if (message.getChat().isUserChat()){
                 return SendMessage.builder().chatId(message.getChatId()).text(MessageText.NO_COMMAND_USER_CHAT.getMessageText()).build();
             }
