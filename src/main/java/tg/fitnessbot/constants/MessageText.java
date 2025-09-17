@@ -69,7 +69,9 @@ public enum MessageText {
     EDIT_PROFILE("Изменить данные"),
     REQUEST_FIELD("Выберите поле, которое хотите изменить"),
     NOT_FILLED("не заполнено"),
-    REQUIRE_FILLED_PROFILE("невозможно посчитать, заполнить профиль полностью")
+    REQUIRE_FILLED_PROFILE("невозможно посчитать, заполнить профиль полностью"),
+    FILE_TOO_BIG("Файл слишком большой"),
+    NULL_POINTER("Ошибка нулевого указателя!")
     ;
 
     private final String messageText;

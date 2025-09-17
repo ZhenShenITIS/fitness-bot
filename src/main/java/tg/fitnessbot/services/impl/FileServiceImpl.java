@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import tg.fitnessbot.config.TelegramConfig;
+import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.services.FileService;
 
 
@@ -53,7 +54,7 @@ public class FileServiceImpl implements FileService {
         try {
             response = restTemplate.exchange(requestUri, HttpMethod.GET, request, String.class);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Файл слишком большой");
+            throw new RuntimeException(MessageText.FILE_TOO_BIG.getMessageText());
         }
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());

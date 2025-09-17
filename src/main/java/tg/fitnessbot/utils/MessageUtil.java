@@ -107,6 +107,9 @@ public class MessageUtil {
     private BotApiMethod<?> getProfileMessage (long chatId, long userId, SpringWebhookBot springWebhookBot) {
         UserForm user = userService.getUserByID(userId);
         Double tdee = 0.0;
+        if (user == null) {
+            return SendMessage.builder().chatId(chatId).text(MessageText.NULL_POINTER.getMessageText()).build();
+        }
         if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
             tdee = userService.calculateTdee(user);
         }
