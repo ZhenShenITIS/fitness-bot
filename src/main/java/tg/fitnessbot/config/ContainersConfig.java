@@ -1,32 +1,25 @@
 package tg.fitnessbot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tg.fitnessbot.telegram.callback.*;
+import tg.fitnessbot.telegram.callback.impl.*;
 import tg.fitnessbot.telegram.command.*;
+import tg.fitnessbot.telegram.command.impl.*;
 
+@AllArgsConstructor
 @Configuration
 public class ContainersConfig {
-    @Autowired
     StartCommand startCommand;
-    @Autowired
     AddFoodCommand addFoodCommand;
-    @Autowired
     DeleteFoodCommand deleteFoodCommand;
-    @Autowired
     UpdateFoodCommand updateFoodCommand;
-    @Autowired
     AddActivityCommand addActivityCommand;
-    @Autowired
     DeleteActivityCommand deleteActivityCommand;
-    @Autowired
     UpdateActivityCommand updateActivityCommand;
-    @Autowired
     CalculateActivityCommand calculateActivityCommand;
-    @Autowired
     HelpCommand helpCommand;
-    @Autowired
     CalculateFoodCommand calculateFoodCommand;
     @Bean
     public CommandContainer commandContainer() {
@@ -46,23 +39,15 @@ public class ContainersConfig {
     }
 
 
-    @Autowired
     UpdateBirthdayCallback updateBirthdayCallback;
-    @Autowired
     UpdateGenderCallback updateGenderCallback;
-    @Autowired
     UpdateHeightCallback updateHeightCallback;
-    @Autowired
     UpdateWeightCallback updateWeightCallback;
-    @Autowired
     NoneCallback noneCallback;
-    @Autowired
     UpdateLifeActivityCallback updateLifeActivityCallback;
-    @Autowired
     UpdatePhotoCallback updatePhotoCallback;
-    @Autowired
     EditProfileCallback editProfileCallback;
-
+    BackToProfileCallback backToProfileCallback;
     @Bean
     public CallbackContainer callbackContainer() {
         return new CallbackContainer(new Callback[]{
@@ -73,7 +58,8 @@ public class ContainersConfig {
                 noneCallback,
                 updateLifeActivityCallback,
                 updatePhotoCallback,
-                editProfileCallback
+                editProfileCallback,
+                backToProfileCallback
         });
     }
 }

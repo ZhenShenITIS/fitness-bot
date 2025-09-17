@@ -6,6 +6,7 @@ public enum CallbackName {
     UPDATE_BIRTHDAY("update_birthday"),
     UPDATE_GENDER("update_gender"),
     UPDATE_LIFE_ACTIVITY("update_activity"),
+    BACK_TO_PROFILE("back_to_profile"),
     UPDATE_PHOTO("update_photo"),
     EDIT_PROFILE("edit_profile"),
     AFTER_CALLBACK("after_callback"),

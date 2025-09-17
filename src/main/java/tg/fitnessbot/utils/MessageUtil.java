@@ -35,42 +35,11 @@ public class MessageUtil {
     ProfilePhotoService profilePhotoService;
 
     public BotApiMethod<?> getProfileMessage(Message message, SpringWebhookBot springWebhookBot) {
-        UserForm user = userService.getUserByID(message.getFrom().getId());
-        Double tdee = 0.0;
-        if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
-            tdee = userService.calculateTdee(user);
-        }
-        String height = user.getHeight() == null ? "не указан" : user.getHeight().toString();
-        String weight = user.getWeight() == null ? "не указан" : user.getWeight().toString();
-        String birthday = user.getBirthday() == null ? "не указан" : String.valueOf(DateUtil.getAge(user.getBirthday()));
-        String gender = user.getGender() == null ? "не указан" : user.getGender().getGenderName();
-        String lifeActivity = user.getLifeActivity() == null ? "не указана" : user.getLifeActivity().getActivityName();
-        String tdeeStr = tdee.equals(0.0) ? "невозможно посчитать, заполнить профиль полностью" : tdee.toString();
-        String textToSend = String.format(MessageText.PROFILE.getMessageText(), height, weight, birthday, gender, lifeActivity, tdeeStr);
+        return getProfileMessage(message.getFrom().getId(), message.getChatId(), springWebhookBot);
+    }
 
-        String fileId = profilePhotoService.getPhotoFileId(message.getFrom().getId()) == null ? StringConstants.BASE_PROFILE_PHOTO_FILE_ID.getValue() : profilePhotoService.getPhotoFileId(message.getFrom().getId());
-        SendPhoto msg = SendPhoto
-                .builder()
-                .chatId(message.getChatId())
-                .caption(textToSend)
-                .photo(new InputFile(fileId))
-                .replyMarkup(InlineKeyboardMarkup
-                        .builder()
-                        .keyboardRow(List.of(
-                                InlineKeyboardButton
-                                        .builder()
-                                        .text(MessageText.EDIT_PROFILE.getMessageText())
-                                        .callbackData(CallbackName.EDIT_PROFILE.getCallbackName()+":"+user.getId())
-                                        .build()))
-                        .build())
-
-                .build();
-        try {
-            springWebhookBot.execute(msg);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+    public BotApiMethod<?> getProfileMessage(CallbackQuery callbackQuery, SpringWebhookBot springWebhookBot) {
+        return getProfileMessage(callbackQuery.getFrom().getId(), callbackQuery.getMessage().getChatId(), springWebhookBot);
     }
 
     public BotApiMethod<?> getEditProfileMessage(Message message, SpringWebhookBot springWebhookBot) {
@@ -125,7 +94,52 @@ public class MessageUtil {
                                         .text(MessageText.INLINE_BUTTON_PHOTO.getMessageText())
                                         .callbackData(CallbackName.UPDATE_PHOTO.getCallbackName()+":"+user.getId())
                                         .build()))
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.INLINE_BUTTON_BACK_TO_PROFILE.getMessageText())
+                                        .callbackData(CallbackName.BACK_TO_PROFILE.getCallbackName()+":"+user.getId())
+                                        .build()))
                         .build())
                 .build();
+    }
+
+    private BotApiMethod<?> getProfileMessage (long chatId, long userId, SpringWebhookBot springWebhookBot) {
+        UserForm user = userService.getUserByID(userId);
+        Double tdee = 0.0;
+        if (user.getHeight() != null && user.getWeight() != null && user.getBirthday() != null && user.getGender() != null && user.getLifeActivity() != null) {
+            tdee = userService.calculateTdee(user);
+        }
+        String height = user.getHeight() == null ? MessageText.NOT_FILLED.getMessageText() : user.getHeight().toString();
+        String weight = user.getWeight() == null ? MessageText.NOT_FILLED.getMessageText() : user.getWeight().toString();
+        String birthday = user.getBirthday() == null ? MessageText.NOT_FILLED.getMessageText() : String.valueOf(DateUtil.getAge(user.getBirthday()));
+        String gender = user.getGender() == null ? MessageText.NOT_FILLED.getMessageText() : user.getGender().getGenderName();
+        String lifeActivity = user.getLifeActivity() == null ? MessageText.NOT_FILLED.getMessageText() : user.getLifeActivity().getActivityName();
+        String tdeeStr = tdee.equals(0.0) ? MessageText.REQUIRE_FILLED_PROFILE.getMessageText() : tdee.toString();
+        String textToSend = String.format(MessageText.PROFILE.getMessageText(), height, weight, birthday, gender, lifeActivity, tdeeStr);
+
+        String fileId = profilePhotoService.getPhotoFileId(userId) == null ? StringConstants.BASE_PROFILE_PHOTO_FILE_ID.getValue() : profilePhotoService.getPhotoFileId(userId);
+        SendPhoto msg = SendPhoto
+                .builder()
+                .chatId(chatId)
+                .caption(textToSend)
+                .photo(new InputFile(fileId))
+                .replyMarkup(InlineKeyboardMarkup
+                        .builder()
+                        .keyboardRow(List.of(
+                                InlineKeyboardButton
+                                        .builder()
+                                        .text(MessageText.EDIT_PROFILE.getMessageText())
+                                        .callbackData(CallbackName.EDIT_PROFILE.getCallbackName()+":"+user.getId())
+                                        .build()))
+                        .build())
+
+                .build();
+        try {
+            springWebhookBot.execute(msg);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

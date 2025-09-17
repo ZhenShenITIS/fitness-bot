@@ -59,6 +59,7 @@ public enum MessageText {
     INLINE_BUTTON_GENDER("Пол"),
     INLINE_BUTTON_LIFE_ACTIVITY("Актив"),
     INLINE_BUTTON_PHOTO("Фото"),
+    INLINE_BUTTON_BACK_TO_PROFILE("Назад"),
     TO_BE_CONTINUED("...\n"),
     HELP("Ну тут типа сообщение со всей справкой по боту, впадлу писать сейчас"),
     NO_COMMAND_USER_CHAT("Вы не ввели никакой команды"),
@@ -66,7 +67,9 @@ public enum MessageText {
     NO_FOOD_OR_ACTIVITY_IN_VOICE("Не удалось распознать тренировку или еду в голосовом сообщении"),
     OPEN_AI_ERROR("не удалось получить данные от OpenAI"),
     EDIT_PROFILE("Изменить данные"),
-    REQUEST_FIELD("Выберите поле, которое хотите изменить")
+    REQUEST_FIELD("Выберите поле, которое хотите изменить"),
+    NOT_FILLED("не заполнено"),
+    REQUIRE_FILLED_PROFILE("невозможно посчитать, заполнить профиль полностью")
     ;
 
     private final String messageText;

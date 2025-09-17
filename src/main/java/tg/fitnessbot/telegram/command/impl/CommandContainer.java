@@ -1,7 +1,8 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import com.google.common.collect.ImmutableMap;
 import org.springframework.stereotype.Component;
+import tg.fitnessbot.telegram.command.Command;
 
 import java.util.HashMap;
 

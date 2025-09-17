@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,12 +11,13 @@ import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.UserForm;
 import tg.fitnessbot.services.SignUpService;
+import tg.fitnessbot.telegram.command.Command;
 import tg.fitnessbot.utils.MessageUtil;
 
 import static tg.fitnessbot.constants.CommandName.START;
 
 @Component
-public class StartCommand implements Command{
+public class StartCommand implements Command {
     CommandName commandName = START;
 
     @Autowired

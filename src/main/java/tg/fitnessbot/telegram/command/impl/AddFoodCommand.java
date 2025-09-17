@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,12 +11,13 @@ import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.FoodForm;
 import tg.fitnessbot.services.impl.FoodServiceImpl;
+import tg.fitnessbot.telegram.command.Command;
 import tg.fitnessbot.utils.UserUtil;
 
 import static tg.fitnessbot.constants.CommandName.ADD_FOOD;
 
 @Component
-public class AddFoodCommand implements Command{
+public class AddFoodCommand implements Command {
 
     CommandName commandName = ADD_FOOD;
     @Autowired

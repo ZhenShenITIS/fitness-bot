@@ -1,22 +1,18 @@
-package tg.fitnessbot.telegram.handlers;
+package tg.fitnessbot.telegram.handlers.impl;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
-import tg.fitnessbot.telegram.callback.CallbackContainer;
-import tg.fitnessbot.telegram.command.CommandContainer;
+import tg.fitnessbot.telegram.callback.impl.CallbackContainer;
+import tg.fitnessbot.telegram.command.impl.CommandContainer;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.MessageText;
-import tg.fitnessbot.dto.FoodForm;
-import tg.fitnessbot.services.impl.FoodServiceImpl;
-
-import java.text.DecimalFormat;
-import java.util.HashMap;
+import tg.fitnessbot.telegram.handlers.MessageHandler;
+import tg.fitnessbot.telegram.handlers.VoiceHandler;
 
 @Data
 @Component

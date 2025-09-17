@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,13 +11,14 @@ import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.ActivityForm;
 import tg.fitnessbot.services.ActivityService;
+import tg.fitnessbot.telegram.command.Command;
 import tg.fitnessbot.utils.UserUtil;
 
-import static tg.fitnessbot.constants.CommandName.UPDATE_ACTIVITY;
+import static tg.fitnessbot.constants.CommandName.ADD_ACTIVITY;
 
 @Component
-public class UpdateActivityCommand implements Command {
-    CommandName commandName = CommandName.UPDATE_ACTIVITY;
+public class AddActivityCommand implements Command {
+    CommandName commandName = CommandName.ADD_ACTIVITY;
 
     @Autowired
     UserUtil userUtil;
@@ -33,10 +34,9 @@ public class UpdateActivityCommand implements Command {
     @Override
     public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
         if (userUtil.isAdmin(message.getFrom().getId())){
-            String cmdText = message.getText().substring(UPDATE_ACTIVITY.getCommandName().length()).trim().replaceAll(",", ".");
-            String[] lines = cmdText.split("\n");
-            int counterOfUpdate = 0;
-            int counterOfAdd = 0;
+            String cmdText = message.getText().substring(ADD_ACTIVITY.getCommandName().length()).trim().replaceAll(",", ".");
+            String[] lines = cmdText.trim().split("\n");
+            int counter = 0;
             String textToSend = "";
 
             if (lines.length > 0
@@ -49,8 +49,9 @@ public class UpdateActivityCommand implements Command {
                     ActivityForm activityForm;
                     String activityName = "";
                     for (int j = 0; j < len - 1; j++) {
-                        activityName = activityName + activity[j] + " ";
+                        activityName =activityName + activity[j] + " ";
                     }
+                    
                     activityName = activityName.trim().toLowerCase();
                     try {
                         activityForm = ActivityForm
@@ -65,25 +66,16 @@ public class UpdateActivityCommand implements Command {
 
                     // Добавлен счетчик, так как при добавлении большого количества еды, бот не может отправить какие продукты не были добавлены
                     // Из-за ограничений на размер сообщения
-                    if (activityService.updateActivity(activityForm)) {
-                        if (counterOfUpdate < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
-                            textToSend = textToSend + String.format(MessageText.SUCCESS_UPDATE_ACTIVITY.getMessageText(), line);
-                            counterOfUpdate++;
-                        } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counterOfUpdate)) {
+                    if (activityService.addActivity(activityForm)) {
+                        if (counter < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
+                            textToSend = textToSend + String.format(MessageText.SUCCESS_ADD_ACTIVITY.getMessageText(), line);
+                            counter++;
+                        } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counter)) {
                             textToSend = textToSend + MessageText.TO_BE_CONTINUED.getMessageText();
-                            counterOfUpdate++;
+                            counter++;
                         }
                     } else {
-                        if (activityService.addActivity(activityForm)) {
-                            if (counterOfAdd < IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue()) {
-                                textToSend = textToSend + String.format(MessageText.ACTIVITY_NOT_FOUND_AND_ADD.getMessageText(), activityName);
-                                counterOfAdd++;
-                            } else if (IntegerConstants.NUMBER_OF_SUCCESS_LINES.getValue().equals(counterOfAdd)) {
-                                textToSend = textToSend + MessageText.TO_BE_CONTINUED.getMessageText();
-                                counterOfAdd++;
-                            }
-
-                        }
+                        textToSend = textToSend + String.format(MessageText.ALREADY_EXIST_ACTIVITY.getMessageText(), activityName);
                     }
 
                 }

@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.callback;
+package tg.fitnessbot.telegram.callback.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,18 +9,15 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.MessageText;
-import tg.fitnessbot.dto.UserForm;
-import tg.fitnessbot.models.ProfilePhoto;
 import tg.fitnessbot.services.ProfilePhotoService;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.telegram.callback.Callback;
 import tg.fitnessbot.utils.MessageUtil;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 

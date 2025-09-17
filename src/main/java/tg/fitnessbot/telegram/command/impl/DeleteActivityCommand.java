@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +11,7 @@ import tg.fitnessbot.constants.IntegerConstants;
 import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.ActivityForm;
 import tg.fitnessbot.services.ActivityService;
+import tg.fitnessbot.telegram.command.Command;
 import tg.fitnessbot.utils.UserUtil;
 
 import static tg.fitnessbot.constants.CommandName.DELETE_ACTIVITY;

@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.callback;
+package tg.fitnessbot.telegram.callback.impl;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CallbackName;
+import tg.fitnessbot.telegram.callback.Callback;
 
 @Component
 public class NoneCallback implements Callback {

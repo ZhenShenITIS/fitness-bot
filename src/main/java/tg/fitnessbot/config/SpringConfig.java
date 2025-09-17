@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
-import tg.fitnessbot.telegram.handlers.UpdateHandler;
+import tg.fitnessbot.telegram.handlers.bot.UpdateHandler;
 
 @Configuration
 @AllArgsConstructor

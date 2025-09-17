@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -7,9 +7,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CommandName;
 import tg.fitnessbot.constants.MessageText;
+import tg.fitnessbot.telegram.command.Command;
 
 @Component
-public class HelpCommand implements Command{
+public class HelpCommand implements Command {
     CommandName commandName = CommandName.HELP;
 
     @Override

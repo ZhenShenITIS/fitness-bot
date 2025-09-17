@@ -1,4 +1,4 @@
-package tg.fitnessbot.telegram.command;
+package tg.fitnessbot.telegram.command.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +11,7 @@ import tg.fitnessbot.constants.MessageText;
 import tg.fitnessbot.dto.ActivityForm;
 import tg.fitnessbot.services.ActivityService;
 import tg.fitnessbot.services.UserService;
+import tg.fitnessbot.telegram.command.Command;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import static tg.fitnessbot.constants.CommandName.CALCULATE_ACTIVITY;
 
 @Component
-public class CalculateActivityCommand implements Command{
+public class CalculateActivityCommand implements Command {
     CommandName commandName = CommandName.CALCULATE_ACTIVITY;
 
     private final DecimalFormat decimalFormat = new DecimalFormat( "#.#" );
