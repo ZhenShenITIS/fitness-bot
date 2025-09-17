@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.telegram.callback.Callback;
@@ -24,6 +26,15 @@ public class BackToProfileCallback implements Callback {
         long allowId = Long.parseLong(callbackQuery.getData().split(":")[1]);
         long userId = callbackQuery.getFrom().getId();
         if (allowId == userId) {
+            DeleteMessage deleteMessage = DeleteMessage
+                    .builder()
+                    .messageId(callbackQuery.getMessage().getMessageId())
+                    .build();
+            try {
+                springWebhookBot.execute(deleteMessage);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
             return messageUtil.getProfileMessage(callbackQuery, springWebhookBot);
         }
         return null;
