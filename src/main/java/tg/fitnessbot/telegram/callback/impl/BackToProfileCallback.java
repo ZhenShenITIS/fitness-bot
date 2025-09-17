@@ -29,6 +29,7 @@ public class BackToProfileCallback implements Callback {
             DeleteMessage deleteMessage = DeleteMessage
                     .builder()
                     .messageId(callbackQuery.getMessage().getMessageId())
+                    .chatId(callbackQuery.getMessage().getChatId())
                     .build();
             try {
                 springWebhookBot.execute(deleteMessage);
