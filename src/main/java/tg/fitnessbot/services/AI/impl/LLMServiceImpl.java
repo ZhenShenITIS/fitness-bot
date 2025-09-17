@@ -27,11 +27,8 @@ public class LLMServiceImpl implements LLMService {
     @Override
     public String processAudio(String audio) {
         String prompt = getPromptForAudio(audio);
-        // TODO Убрать выводы
-        System.out.println(prompt);
         ResponseEntity<String> response = openAIClient.getResponse(prompt);
         String text = getTextFromJSON(new JSONObject(response.getBody()));
-        System.out.println(text);
         return text;
     }
 

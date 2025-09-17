@@ -53,11 +53,7 @@ public class VoiceHandlerImpl implements VoiceHandler {
             textToSend = MessageText.VOICE_IS_TOO_LONG.getMessageText();
             file.delete();
         } else {
-            // TODO Убрать тестовый вывод
-            System.out.println(file.getAbsolutePath());
             String transcription = audioTranscriptionService.transcribeAudio(file);
-            // TODO Убрать тестовый вывод
-            System.out.println(this.getClass() + ": " + transcription);
             textToSend = llmService.processAudio(transcription);
 
             String headOfAnswer = textToSend.split("\n")[0];

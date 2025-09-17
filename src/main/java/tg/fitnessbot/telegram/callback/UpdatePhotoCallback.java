@@ -60,7 +60,6 @@ public class UpdatePhotoCallback implements Callback {
     }
 
 
-    // TODO Доделать
     @Override
     public BotApiMethod<?> answerMessage(Message message, SpringWebhookBot springWebhookBot) {
         if (message.hasPhoto()) {
