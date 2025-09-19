@@ -11,9 +11,11 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
+import tg.fitnessbot.config.TelegramConfig;
 import tg.fitnessbot.constants.CallbackName;
 import tg.fitnessbot.constants.Gender;
 import tg.fitnessbot.constants.MessageText;
@@ -33,6 +35,9 @@ public class MessageUtil {
 
     @Autowired
     ProfilePhotoService profilePhotoService;
+
+    @Autowired
+    TelegramConfig telegramConfig;
 
     public BotApiMethod<?> getProfileMessage(Message message, SpringWebhookBot springWebhookBot) {
         return getProfileMessage(message.getChatId(), message.getFrom().getId(), springWebhookBot);
@@ -136,13 +141,14 @@ public class MessageUtil {
                                         .callbackData(CallbackName.EDIT_PROFILE.getCallbackName()+":"+user.getId())
                                         .build()))
                         .build())
-
+                .replyMarkup(new ReplyKeyboardRemove(true))
                 .build();
         try {
             springWebhookBot.execute(msg);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
+        telegramConfig.getUserStateMap().put(user.getId(), CallbackName.NONE);
         return null;
     }
 }
