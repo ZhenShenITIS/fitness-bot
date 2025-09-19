@@ -1,4 +1,4 @@
-package tg.fitnessbot.api;
+package tg.fitnessbot.api.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import tg.fitnessbot.api.OpenAIClient;
 import tg.fitnessbot.dto.OpenAIRequest;
 
 @Component

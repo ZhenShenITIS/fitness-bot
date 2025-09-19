@@ -30,29 +30,15 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
 
     @Override
     public String transcribeAudio(File audio) {
-        byte[] wavBytes = convert(audio);
-        ResponseEntity<String> response = voskClient.getResponse(wavBytes);
+        File wavFile = convert(audio);
+        ResponseEntity<String> response = voskClient.getResponse(wavFile);
         String text;
         JSONObject json = new JSONObject(response.getBody());
         text = json.getString("text");
-
-
-        Set<String> hexItems = new HashSet<>();
-
-        Matcher m = Pattern.compile("\\\\u[a-fA-f0-9]{4}").matcher(text);
-        while (m.find()) {
-            hexItems.add(m.group());
-        }
-
-        for (String unicodeHex : hexItems) {
-            int hexVal = Integer.parseInt(unicodeHex.substring(2), 16);
-            text = text.replace(unicodeHex, "" + ((char) hexVal));
-        }
-        return text;
+        return convertText(text);
     }
 
-    // TODO Оптимизировать данный метод
-    private byte[] convert(File source) {
+    private File convert(File source) {
         MultimediaObject sourceFile = new MultimediaObject(source);
         File target = null;
         try {
@@ -74,17 +60,23 @@ public class AudioTranscriptionServiceImpl implements AudioTranscriptionService 
         } catch (EncoderException e) {
             throw new RuntimeException(e);
         }
-
-        // В этом месте происходит загрузка оперативки
-        byte[] wavBytes;
-        try (FileInputStream fis = new FileInputStream(target)){
-            wavBytes = fis.readAllBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         source.delete();
-        target.delete();
-        return wavBytes;
+        return target;
 
+    }
+
+    private String convertText(String text) {
+        Set<String> hexItems = new HashSet<>();
+
+        Matcher m = Pattern.compile("\\\\u[a-fA-f0-9]{4}").matcher(text);
+        while (m.find()) {
+            hexItems.add(m.group());
+        }
+
+        for (String unicodeHex : hexItems) {
+            int hexVal = Integer.parseInt(unicodeHex.substring(2), 16);
+            text = text.replace(unicodeHex, "" + ((char) hexVal));
+        }
+        return text;
     }
 }

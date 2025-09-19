@@ -81,6 +81,7 @@ public class FileServiceImpl implements FileService {
         try (InputStream inputStream = url.openStream();
              FileOutputStream fileOutputStream = new FileOutputStream(tempFile)
         ) {
+            // Это хороший метод, скачивание происходит в потоке и не грузит оперативку
             IOUtils.copy(inputStream, fileOutputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
