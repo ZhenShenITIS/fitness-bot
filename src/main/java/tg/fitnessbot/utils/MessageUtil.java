@@ -141,7 +141,6 @@ public class MessageUtil {
                                         .callbackData(CallbackName.EDIT_PROFILE.getCallbackName()+":"+user.getId())
                                         .build()))
                         .build())
-                .replyMarkup(new ReplyKeyboardRemove(true))
                 .build();
         try {
             springWebhookBot.execute(msg);
