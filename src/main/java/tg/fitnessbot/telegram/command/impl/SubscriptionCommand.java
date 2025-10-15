@@ -16,8 +16,14 @@ import tg.fitnessbot.telegram.command.Command;
 
 import java.util.List;
 @Component
+
 public class SubscriptionCommand implements Command {
     CommandName commandName = CommandName.SUBSCRIPTION;
+
+    public SubscriptionCommand(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+    }
+
     SubscriptionService subscriptionService;
     @Override
     public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
