@@ -28,6 +28,7 @@ public class TelegramConfig {
     String serviceFileStorageUri = "https://api.telegram.org/file/bot%s/%s";
 
     // TODO возможно не стоит эту мапу тут хранить. Подумать над этим
+    //  Решение: Использовать Redis или базу данных для хранения состояний:
     final Map<Long, CallbackName> userStateMap = new ConcurrentHashMap<>();
 
 

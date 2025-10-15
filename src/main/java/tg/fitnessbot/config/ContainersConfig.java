@@ -7,6 +7,8 @@ import tg.fitnessbot.telegram.callback.*;
 import tg.fitnessbot.telegram.callback.impl.*;
 import tg.fitnessbot.telegram.command.*;
 import tg.fitnessbot.telegram.command.impl.*;
+import tg.fitnessbot.telegram.containers.CallbackContainer;
+import tg.fitnessbot.telegram.containers.CommandContainer;
 
 @AllArgsConstructor
 @Configuration

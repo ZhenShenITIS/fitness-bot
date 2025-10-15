@@ -11,6 +11,7 @@ public enum CommandName {
     ADD_ACTIVITY("/add_activity"),
     UPDATE_ACTIVITY("/update_activity"),
     DELETE_ACTIVITY("/delete_activity"),
+    SUBSCRIPTION("/subscription"),
     HELP("/help");
 
 

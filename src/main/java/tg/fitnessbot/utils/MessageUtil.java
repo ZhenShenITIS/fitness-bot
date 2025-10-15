@@ -110,6 +110,9 @@ public class MessageUtil {
     }
 
     private BotApiMethod<?> getProfileMessage (long chatId, long userId, SpringWebhookBot springWebhookBot) {
+        // TODO Вынести эти подсчеты и форму отображения в отдельный класс.
+        //  Например ProfileCalculationService и создать класс UserStringForm,
+        //  куда забивать значения по алгоритму ниже и передавать его уже
         UserForm user = userService.getUserByID(userId);
         Double tdee = 0.0;
         if (user == null) {

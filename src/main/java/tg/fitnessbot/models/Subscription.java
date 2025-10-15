@@ -1,6 +1,11 @@
 package tg.fitnessbot.models;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +19,12 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfilePhoto {
+public class Subscription {
     @Id
     private Long id;
-    private String fileId;
-    @OneToOne
-    @JoinColumn(name = "bot_user_id", referencedColumnName = "id")
+    private LocalDate startDay;
+    private int countOfSubscriptionDays;
+    @ManyToOne
+    @JoinColumn(name = "bot_user_id")
     private User user;
-
 }

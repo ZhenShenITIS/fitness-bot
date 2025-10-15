@@ -71,7 +71,12 @@ public enum MessageText {
     NOT_FILLED("не заполнено"),
     REQUIRE_FILLED_PROFILE("невозможно посчитать, заполнить профиль полностью"),
     FILE_TOO_BIG("Файл слишком большой"),
-    NULL_POINTER("Ошибка нулевого указателя!")
+    NULL_POINTER("Ошибка нулевого указателя!"),
+    SUBSCRIPTION_COMMAND_MESSAGE_PREMIUM("Премиум подписка\n\nОсталось дней: %s\n\nЖелаете продлить подписку?"),
+    SUBSCRIPTION_COMMAND_MESSAGE_TRIAL("Пробный период\n\nПробные попытки: %s\n\nЖелаете приобрести подписку?"),
+    INLINE_BUTTON_BASIC_SUBSCRIPTION("30 дней")
+
+
     ;
 
     private final String messageText;

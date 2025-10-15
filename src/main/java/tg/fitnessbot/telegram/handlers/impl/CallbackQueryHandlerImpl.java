@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
-import tg.fitnessbot.telegram.callback.impl.CallbackContainer;
+import tg.fitnessbot.telegram.containers.CallbackContainer;
 import tg.fitnessbot.telegram.handlers.CallbackQueryHandler;
 
 @Component

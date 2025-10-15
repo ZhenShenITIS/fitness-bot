@@ -10,6 +10,7 @@ public enum CallbackName {
     UPDATE_PHOTO("update_photo"),
     EDIT_PROFILE("edit_profile"),
     AFTER_CALLBACK("after_callback"),
+    BASIC_SUBSCRIPTION("basic_subscription"),
     NONE("none");
 
     private final String callbackName;
