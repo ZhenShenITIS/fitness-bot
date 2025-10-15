@@ -23,6 +23,8 @@ public class ContainersConfig {
     CalculateActivityCommand calculateActivityCommand;
     HelpCommand helpCommand;
     CalculateFoodCommand calculateFoodCommand;
+    SubscriptionCommand subscriptionCommand;
+
     @Bean
     public CommandContainer commandContainer() {
         // TODO Подумать над тем, как можно сделать более красивое создание экземпляра контейнера
@@ -36,7 +38,8 @@ public class ContainersConfig {
                 updateActivityCommand,
                 calculateActivityCommand,
                 calculateFoodCommand,
-                helpCommand
+                helpCommand,
+                subscriptionCommand
         });
     }
 
@@ -50,6 +53,7 @@ public class ContainersConfig {
     UpdatePhotoCallback updatePhotoCallback;
     EditProfileCallback editProfileCallback;
     BackToProfileCallback backToProfileCallback;
+    BasicSubscriptionCallback basicSubscriptionCallback;
     @Bean
     public CallbackContainer callbackContainer() {
         return new CallbackContainer(new Callback[]{
@@ -61,7 +65,8 @@ public class ContainersConfig {
                 updateLifeActivityCallback,
                 updatePhotoCallback,
                 editProfileCallback,
-                backToProfileCallback
+                backToProfileCallback,
+                basicSubscriptionCallback
         });
     }
 }

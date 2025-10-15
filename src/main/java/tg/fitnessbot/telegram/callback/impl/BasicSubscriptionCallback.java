@@ -1,5 +1,6 @@
 package tg.fitnessbot.telegram.callback.impl;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.invoices.SendInvoice;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -13,7 +14,7 @@ import tg.fitnessbot.constants.Payments;
 import tg.fitnessbot.telegram.callback.Callback;
 
 import java.util.List;
-
+@Component
 public class BasicSubscriptionCallback implements Callback {
     CallbackName callbackName = CallbackName.BASIC_SUBSCRIPTION;
     @Override

@@ -1,5 +1,6 @@
 package tg.fitnessbot.telegram.command.impl;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -14,7 +15,7 @@ import tg.fitnessbot.services.SubscriptionService;
 import tg.fitnessbot.telegram.command.Command;
 
 import java.util.List;
-
+@Component
 public class SubscriptionCommand implements Command {
     CommandName commandName = CommandName.SUBSCRIPTION;
     SubscriptionService subscriptionService;
