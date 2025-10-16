@@ -27,7 +27,7 @@ public class BasicSubscriptionCallback implements Callback {
                 .description(payments.getDescription())
                 .payload(payments.getName())
                 .currency("XTR")
-                .providerToken("")
+                .providerToken("a")
                 .startParameter(payments.getName())
                 .prices(List.of(new LabeledPrice(payments.getLabel(), IntegerConstants.BASE_SUBSCRIPTION_COST.getValue())))
                 .needEmail(false)

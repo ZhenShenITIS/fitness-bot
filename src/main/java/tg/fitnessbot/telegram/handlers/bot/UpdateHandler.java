@@ -6,9 +6,11 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.AnswerPreCheckoutQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.api.objects.payments.PreCheckoutQuery;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import tg.fitnessbot.config.TelegramConfig;
@@ -68,7 +70,7 @@ public class UpdateHandler extends SpringWebhookBot {
                 System.out.println("TelegramApiException: " + e.getMessage());
             }
             return null;
-        } else {
+        } else if (update.hasMessage()){
             Message message = update.getMessage();
             if (message != null) {
                 try {
@@ -77,6 +79,19 @@ public class UpdateHandler extends SpringWebhookBot {
                     System.out.println("TelegramApiException: " + e.getMessage());
                 }
                 return null;
+            }
+        } else if (update.hasPreCheckoutQuery()) {
+            PreCheckoutQuery preCheckoutQuery = update.getPreCheckoutQuery();
+
+            AnswerPreCheckoutQuery answer = AnswerPreCheckoutQuery.builder()
+                    .preCheckoutQueryId(preCheckoutQuery.getId())
+                    .ok(true)
+                    .build();
+
+            try {
+                execute(answer);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
             }
         }
         return null;
