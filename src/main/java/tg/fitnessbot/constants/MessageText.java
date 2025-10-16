@@ -75,7 +75,7 @@ public enum MessageText {
     SUBSCRIPTION_COMMAND_MESSAGE_PREMIUM("Премиум подписка\n\nОсталось дней: %s\n\nЖелаете продлить подписку?"),
     SUBSCRIPTION_COMMAND_MESSAGE_TRIAL("Пробный период\n\nПробные попытки: %s\n\nЖелаете приобрести подписку?"),
     INLINE_BUTTON_BASIC_SUBSCRIPTION("30 дней"),
-    NO_SUBSCRIPTION("Для доступа к данному функционалу необходимо приобрести подписку\n"+CommandName.SUBSCRIPTION)
+    NO_SUBSCRIPTION("Для доступа к данному функционалу необходимо приобрести подписку\n"+CommandName.SUBSCRIPTION.getCommandName())
 
 
     ;
