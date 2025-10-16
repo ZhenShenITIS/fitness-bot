@@ -27,14 +27,14 @@ public class SubscriptionCommand implements Command {
     SubscriptionService subscriptionService;
     @Override
     public BotApiMethod<?> handleCommand(Message message, SpringWebhookBot springWebhookBot) {
-        String textToSend = "";
+        String textToSend;
         Long userId = message.getFrom().getId();
         int dayOfPremium = subscriptionService.getDayOfPremium(userId);
         if (dayOfPremium == 0) {
-            textToSend = MessageText.SUBSCRIPTION_COMMAND_MESSAGE_TRIAL.getMessageText().formatted(dayOfPremium);
-        } else {
             int trialAttempts = subscriptionService.getTrialAttempts(userId);
-            textToSend = MessageText.SUBSCRIPTION_COMMAND_MESSAGE_PREMIUM.getMessageText().formatted(trialAttempts);
+            textToSend = MessageText.SUBSCRIPTION_COMMAND_MESSAGE_TRIAL.getMessageText().formatted(trialAttempts);
+        } else {
+            textToSend = MessageText.SUBSCRIPTION_COMMAND_MESSAGE_PREMIUM.getMessageText().formatted(dayOfPremium);
         }
         SendMessage sendMessage = SendMessage
                 .builder()
