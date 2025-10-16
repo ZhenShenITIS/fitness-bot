@@ -1,5 +1,6 @@
 package tg.fitnessbot.telegram.handlers.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -14,32 +15,54 @@ import tg.fitnessbot.constants.StringConstants;
 import tg.fitnessbot.services.AI.AudioTranscriptionService;
 import tg.fitnessbot.services.AI.LLMService;
 import tg.fitnessbot.services.FileService;
+import tg.fitnessbot.services.SubscriptionService;
 import tg.fitnessbot.telegram.command.impl.CalculateActivityCommand;
 import tg.fitnessbot.telegram.command.impl.CalculateFoodCommand;
 import tg.fitnessbot.telegram.handlers.VoiceHandler;
 import ws.schild.jave.EncoderException;
 import ws.schild.jave.MultimediaObject;
-
+@AllArgsConstructor
 @Component
 public class VoiceHandlerImpl implements VoiceHandler {
-    @Autowired
+
     FileService fileService;
 
-    @Autowired
+
     LLMService llmService;
 
-    @Autowired
+
     AudioTranscriptionService audioTranscriptionService;
 
-    @Autowired
+
     CalculateFoodCommand calculateFoodCommand;
 
-    @Autowired
+
     CalculateActivityCommand calculateActivityCommand;
+
+    SubscriptionService subscriptionService;
+
+
 
     @Override
     public BotApiMethod<?> answerMessage(Message message, SpringWebhookBot springWebhookBot) {
-        String textToSend = "";
+        Long userId = message.getFrom().getId();
+        if (!subscriptionService.canUserUseBasicPremiumOption(userId)) {
+            try {
+                springWebhookBot.execute(SendMessage
+                        .builder()
+                                .text(MessageText.NO_SUBSCRIPTION.getMessageText())
+                                .chatId(message.getChatId())
+                        .build());
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        } else {
+            subscriptionService.useTrialIfNotSubscribed(userId);
+        }
+
+
+        String textToSend;
         java.io.File file = fileService.getVoiceFile(message);
         MultimediaObject object = new MultimediaObject(file);
         long duration;
