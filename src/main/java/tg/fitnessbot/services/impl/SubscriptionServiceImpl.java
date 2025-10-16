@@ -132,6 +132,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (trialAttempts == null) {
             TrialAttempts newTrialAttempts = TrialAttempts
                     .builder()
+                    .id(user.getId())
                     .remainingAttempts(IntegerConstants.COUNT_OF_TRIAL_ATTEMPTS.getValue())
                     .user(user)
                     .build();
