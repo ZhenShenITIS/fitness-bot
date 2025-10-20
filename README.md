@@ -3,6 +3,7 @@
 ## Функционал
 
 ### Профиль
+[[README.md#Профиль]]
 ![img.png](readme-materials/img.png)
 
 Реализовано удобное меню для редактирования каждого из параметров
@@ -42,3 +43,19 @@
 ![img_9.png](readme-materials/img_9.png)
 
 ![img_10.png](readme-materials/img_10.png)
+
+## Реализация
+
+### Используемые технологии
+- Spring Framework
+- Telegram Bots (библиотека для работы с Telegram API на Java)
+- PostgresSQL
+- OpenAI API
+- Vosk (технология распознавания голоса)
+
+### Общая архитектура
+Проект поделен на слои абстракции для удобства разработки и дальнейшей поддержки
+
+![img_11.png](readme-materials/img_11.png) 
+
+### Профиль
